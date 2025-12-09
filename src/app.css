@@ -1,0 +1,5 @@
+@import 'tailwindcss';
+
+/* Typography plugin for Ghost content */
+@plugin '@tailwindcss/typography';
+
