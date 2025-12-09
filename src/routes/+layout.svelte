@@ -26,9 +26,6 @@
 				<a href="/" class="text-sm text-stone-600 transition-colors hover:text-stone-900">
 					Home
 				</a>
-				<a href="/about" class="text-sm text-stone-600 transition-colors hover:text-stone-900">
-					About
-				</a>
 			</div>
 		</nav>
 	</header>
