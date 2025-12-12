@@ -3,7 +3,7 @@
 /* Typography plugin for Ghost content */
 @plugin '@tailwindcss/typography';
 
-/* Dark mode theme - v2 */
+/* Dark mode theme - v4 */
 :root {
 	--bg-primary: #0f0f0f;
 	--bg-secondary: #1a1a1a;
