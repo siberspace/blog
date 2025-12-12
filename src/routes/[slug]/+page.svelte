@@ -4,12 +4,14 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<article>
-	<h1>{data.post.title}</h1>
+<main class="max-w-3xl mx-auto px-6 py-12">
+	<article class="prose prose-lg max-w-none">
+		<h1 class="text-4xl font-bold mb-8">{data.post.title}</h1>
 
-	<div>
-		{@html data.post.html}
-	</div>
+		<div>
+			{@html data.post.html}
+		</div>
+	</article>
 
-	<a href="/">← Back</a>
-</article>
+	<a href="/" class="inline-block mt-12 text-lg">← Back</a>
+</main>
