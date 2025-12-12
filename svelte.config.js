@@ -7,9 +7,11 @@ const config = {
 
 	kit: {
 		adapter: adapter({
-			// Use static generation for all pages by default
 			runtime: 'nodejs22.x'
-		})
+		}),
+		prerender: {
+			handleMissingId: 'ignore'
+		}
 	}
 };
 
