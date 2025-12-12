@@ -3,3 +3,53 @@
 /* Typography plugin for Ghost content */
 @plugin '@tailwindcss/typography';
 
+/* Dark mode theme */
+:root {
+	--bg-primary: #0f0f0f;
+	--bg-secondary: #1a1a1a;
+	--text-primary: #e5e5e5;
+	--text-secondary: #a3a3a3;
+	--accent: #60a5fa;
+	--accent-hover: #93c5fd;
+}
+
+html {
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
+}
+
+body {
+	background-color: var(--bg-primary);
+	min-height: 100vh;
+}
+
+/* Links */
+a {
+	color: var(--accent);
+	transition: color 0.2s ease;
+}
+
+a:hover {
+	color: var(--accent-hover);
+}
+
+/* Typography overrides for dark mode */
+.prose {
+	--tw-prose-body: var(--text-primary);
+	--tw-prose-headings: var(--text-primary);
+	--tw-prose-lead: var(--text-secondary);
+	--tw-prose-links: var(--accent);
+	--tw-prose-bold: var(--text-primary);
+	--tw-prose-counters: var(--text-secondary);
+	--tw-prose-bullets: var(--text-secondary);
+	--tw-prose-hr: #333;
+	--tw-prose-quotes: var(--text-primary);
+	--tw-prose-quote-borders: #333;
+	--tw-prose-captions: var(--text-secondary);
+	--tw-prose-code: var(--text-primary);
+	--tw-prose-pre-code: var(--text-primary);
+	--tw-prose-pre-bg: var(--bg-secondary);
+	--tw-prose-th-borders: #333;
+	--tw-prose-td-borders: #262626;
+}
+
