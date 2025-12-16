@@ -1,55 +1,137 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Delicious+Handrawn&family=Inter:wght@300;400;700&display=swap");
 
 /* Typography plugin for Ghost content */
 @plugin '@tailwindcss/typography';
 
-/* Dark mode theme - last try hopefully it works */
+/* Light mode theme */
 :root {
-	--bg-primary: #0f0f0f;
-	--bg-secondary: #1a1a1a;
-	--text-primary: #e5e5e5;
-	--text-secondary: #a3a3a3;
-	--accent: #60a5fa;
-	--accent-hover: #93c5fd;
+  --bg-primary: #e1e1e1;
+  --bg-hero: #000000;
+  --text-primary: #1a1a1a;
+  --text-secondary: #525252;
+  --text-light: #ffffff;
+  --accent: #0e8b3e;
+  --accent-hover: #0a6b2e;
+
+  /* Tag colors */
+  --tag-orange: #e59d50;
+  --tag-green: #9ecf5a;
+  --tag-blue: #4590b3;
+  --tag-purple: #9d7bdd;
 }
 
 html {
-	background-color: var(--bg-primary);
-	color: var(--text-primary);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 body {
-	background-color: var(--bg-primary);
-	min-height: 100vh;
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+/* Serif font for article content */
+.font-serif {
+  font-family: "Libre Caslon Text", "Georgia", serif;
+}
+
+/* Handwritten font for tags */
+.font-handwritten {
+  font-family: "Delicious Handrawn", cursive;
 }
 
 /* Links */
 a {
-	color: var(--accent);
-	transition: color 0.2s ease;
+  color: inherit;
+  transition: color 0.2s ease;
 }
 
 a:hover {
-	color: var(--accent-hover);
+  opacity: 0.8;
 }
 
-/* Typography overrides for dark mode */
+/* Drop cap styling */
+.drop-cap::first-letter {
+  float: left;
+  font-size: 3.5em;
+  line-height: 0.8;
+  padding-right: 0.1em;
+  font-family: "Libre Caslon Text", "Georgia", serif;
+}
+
+/* Typography overrides for light mode */
 .prose {
-	--tw-prose-body: var(--text-primary);
-	--tw-prose-headings: var(--text-primary);
-	--tw-prose-lead: var(--text-secondary);
-	--tw-prose-links: var(--accent);
-	--tw-prose-bold: var(--text-primary);
-	--tw-prose-counters: var(--text-secondary);
-	--tw-prose-bullets: var(--text-secondary);
-	--tw-prose-hr: #333;
-	--tw-prose-quotes: var(--text-primary);
-	--tw-prose-quote-borders: #333;
-	--tw-prose-captions: var(--text-secondary);
-	--tw-prose-code: var(--text-primary);
-	--tw-prose-pre-code: var(--text-primary);
-	--tw-prose-pre-bg: var(--bg-secondary);
-	--tw-prose-th-borders: #333;
-	--tw-prose-td-borders: #262626;
+  --tw-prose-body: var(--text-primary);
+  --tw-prose-headings: var(--text-primary);
+  --tw-prose-lead: var(--text-secondary);
+  --tw-prose-links: var(--accent);
+  --tw-prose-bold: var(--text-primary);
+  --tw-prose-counters: var(--text-secondary);
+  --tw-prose-bullets: var(--text-secondary);
+  --tw-prose-hr: #ccc;
+  --tw-prose-quotes: var(--text-primary);
+  --tw-prose-quote-borders: #ccc;
+  --tw-prose-captions: var(--text-secondary);
+  --tw-prose-code: var(--text-primary);
+  --tw-prose-pre-code: var(--text-primary);
+  --tw-prose-pre-bg: #f5f5f5;
+  --tw-prose-th-borders: #ccc;
+  --tw-prose-td-borders: #e5e5e5;
 }
 
+/* Article body text styling */
+.article-body {
+  font-family: "Libre Caslon Text", "Georgia", serif;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: var(--text-primary);
+}
+
+.article-body p {
+  margin-bottom: 1.5em;
+}
+
+.article-body a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.article-body a:hover {
+  color: var(--accent-hover);
+}
+
+/* Mix blend mode for hero text */
+.mix-blend-text {
+  mix-blend-mode: difference;
+}
+
+/* Sketch-style tag pill styling */
+.tag-pill {
+  position: relative;
+  padding: 0.5rem 1.25rem;
+  font-family: "Delicious Handrawn", cursive;
+  font-size: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tag-pill svg {
+  position: absolute;
+  inset: -4px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  overflow: visible;
+}
+
+.tag-pill .sketch-outline {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
