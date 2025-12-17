@@ -1,47 +1,33 @@
 @import "tailwindcss";
 
+/* Design System Tokens */
+@import "./lib/design-system/tokens.css";
+
 /* Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Delicious+Handrawn&family=Inter:wght@300;400;700&display=swap");
 
 /* Typography plugin for Ghost content */
 @plugin '@tailwindcss/typography';
 
-/* Light mode theme */
-:root {
-  --bg-primary: #e1e1e1;
-  --bg-hero: #000000;
-  --text-primary: #1a1a1a;
-  --text-secondary: #525252;
-  --text-light: #ffffff;
-  --accent: #0e8b3e;
-  --accent-hover: #0a6b2e;
-
-  /* Tag colors */
-  --tag-orange: #e59d50;
-  --tag-green: #9ecf5a;
-  --tag-blue: #4590b3;
-  --tag-purple: #9d7bdd;
-}
-
 html {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
 }
 
 body {
-  background-color: var(--bg-primary);
+  background-color: var(--color-bg-primary);
   min-height: 100vh;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-sans);
 }
 
 /* Serif font for article content */
 .font-serif {
-  font-family: "Libre Caslon Text", "Georgia", serif;
+  font-family: var(--font-serif);
 }
 
 /* Handwritten font for tags */
 .font-handwritten {
-  font-family: "Delicious Handrawn", cursive;
+  font-family: var(--font-handwritten);
 }
 
 /* Links */
@@ -65,19 +51,19 @@ a:hover {
 
 /* Typography overrides for light mode */
 .prose {
-  --tw-prose-body: var(--text-primary);
-  --tw-prose-headings: var(--text-primary);
-  --tw-prose-lead: var(--text-secondary);
-  --tw-prose-links: var(--accent);
-  --tw-prose-bold: var(--text-primary);
-  --tw-prose-counters: var(--text-secondary);
-  --tw-prose-bullets: var(--text-secondary);
+  --tw-prose-body: var(--color-text-primary);
+  --tw-prose-headings: var(--color-text-primary);
+  --tw-prose-lead: var(--color-text-secondary);
+  --tw-prose-links: var(--color-accent);
+  --tw-prose-bold: var(--color-text-primary);
+  --tw-prose-counters: var(--color-text-secondary);
+  --tw-prose-bullets: var(--color-text-secondary);
   --tw-prose-hr: #ccc;
-  --tw-prose-quotes: var(--text-primary);
+  --tw-prose-quotes: var(--color-text-primary);
   --tw-prose-quote-borders: #ccc;
-  --tw-prose-captions: var(--text-secondary);
-  --tw-prose-code: var(--text-primary);
-  --tw-prose-pre-code: var(--text-primary);
+  --tw-prose-captions: var(--color-text-secondary);
+  --tw-prose-code: var(--color-text-primary);
+  --tw-prose-pre-code: var(--color-text-primary);
   --tw-prose-pre-bg: #f5f5f5;
   --tw-prose-th-borders: #ccc;
   --tw-prose-td-borders: #e5e5e5;
@@ -85,10 +71,10 @@ a:hover {
 
 /* Article body text styling */
 .article-body {
-  font-family: "Libre Caslon Text", "Georgia", serif;
-  font-size: 1.125rem;
-  line-height: 1.75;
-  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  line-height: var(--spacing-2xl);
+  color: var(--color-text-primary);
 }
 
 .article-body p {
@@ -96,12 +82,12 @@ a:hover {
 }
 
 .article-body a {
-  color: var(--accent);
+  color: var(--color-accent);
   text-decoration: underline;
 }
 
 .article-body a:hover {
-  color: var(--accent-hover);
+  color: var(--color-accent-hover);
 }
 
 /* Mix blend mode for hero text */
@@ -109,29 +95,5 @@ a:hover {
   mix-blend-mode: difference;
 }
 
-/* Sketch-style tag pill styling */
-.tag-pill {
-  position: relative;
-  padding: 0.5rem 1.25rem;
-  font-family: "Delicious Handrawn", cursive;
-  font-size: 1.25rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tag-pill svg {
-  position: absolute;
-  inset: -4px;
-  width: calc(100% + 8px);
-  height: calc(100% + 8px);
-  overflow: visible;
-}
-
-.tag-pill .sketch-outline {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
+/* Note: Tag pill styles are now in the TagPill component */
+/* This section kept for backward compatibility if needed */
