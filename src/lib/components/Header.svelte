@@ -1,23 +1,19 @@
 <script lang="ts">
 	interface Props {
 		siteName?: string;
-		indexLink?: string;
-		indexLabel?: string;
+		siteTagline?: string;
 	}
 
 	let { 
 		siteName = 'saberspace',
-		indexLink = '/',
-		indexLabel = 'Quick Index'
+		siteTagline = 'internet zone'
 	}: Props = $props();
 </script>
 
 <header class="header">
 	<a href="/" class="header__logo">
-		{siteName}
-	</a>
-	<a href={indexLink} class="header__index">
-		{indexLabel}
+		<span class="header__logo-name">{siteName}</span>
+		<span class="header__logo-tagline">{siteTagline}</span>
 	</a>
 </header>
 
@@ -25,17 +21,15 @@
 	.header {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		padding: 1.25rem 1.5rem;
+		justify-content: flex-start;
+		padding: 1.25rem 2rem;
 		background-color: var(--color-bg-primary);
 	}
 
 	.header__logo {
-		font-size: 1.5rem;
-		font-weight: 700;
+		font-size: 1.25rem;
 		color: var(--color-text-primary);
 		font-family: var(--font-sans);
-		letter-spacing: -0.025em;
 		text-decoration: none;
 		transition: opacity var(--transition-base);
 	}
@@ -44,16 +38,13 @@
 		opacity: 0.8;
 	}
 
-	.header__index {
-		font-size: 1.5rem;
-		font-weight: 300;
-		color: var(--color-text-primary);
-		font-family: var(--font-sans);
-		text-decoration: none;
-		transition: opacity var(--transition-base);
+	.header__logo-name {
+		font-weight: 700;
 	}
 
-	.header__index:hover {
-		opacity: 0.8;
+	.header__logo-tagline {
+		font-weight: 400;
+		margin-left: 0.35em;
 	}
 </style>
+

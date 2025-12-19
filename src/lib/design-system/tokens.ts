@@ -11,7 +11,7 @@ export const tokens = {
 		bg: {
 			primary: '#e1e1e1',
 			hero: '#000000',
-			content: '#000000',
+			content: '#302522',
 		},
 		// Text
 		text: {
@@ -46,6 +46,7 @@ export const tokens = {
 		fonts: {
 			sans: '"Inter", sans-serif',
 			serif: '"Libre Caslon Text", "Georgia", serif',
+			display: '"Big Caslon", "Libre Caslon Display", "Libre Caslon Text", "Georgia", serif',
 			handwritten: '"Delicious Handrawn", cursive',
 		},
 		sizes: {

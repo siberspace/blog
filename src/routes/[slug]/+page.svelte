@@ -67,13 +67,14 @@
 	/* Hero Image Section */
 	.hero-image-section {
 		padding: 0 1rem;
+		margin-bottom: 0.625rem;
 	}
 
 	.hero-image-container {
 		width: 100%;
 		max-height: 600px;
 		overflow: hidden;
-		border-radius: 24px 24px 0 0;
+		border-radius: 24px;
 	}
 
 	.hero-image {
@@ -87,7 +88,7 @@
 	.content-section {
 		background-color: var(--color-bg-content);
 		padding: 3rem 5rem;
-		border-radius: 0 0 24px 24px;
+		border-radius: 24px;
 		margin: 0 1rem;
 		display: flex;
 		flex-direction: column;
@@ -97,7 +98,7 @@
 
 	/* Post Title */
 	.post-title {
-		font-family: var(--font-serif);
+		font-family: var(--font-display);
 		font-size: clamp(2.5rem, 6vw, 6.75rem);
 		color: var(--color-text-on-dark);
 		text-align: center;
@@ -126,6 +127,17 @@
 
 	.article-body-dark :global(p) {
 		margin-bottom: 1.5em;
+	}
+
+	/* Drop cap for first paragraph */
+	.article-body-dark :global(p:first-of-type::first-letter) {
+		float: left;
+		font-family: var(--font-display);
+		font-size: 3.75em;
+		line-height: 0.8;
+		padding-right: 0.08em;
+		padding-top: 0.05em;
+		color: var(--color-text-on-dark);
 	}
 
 	.article-body-dark :global(a) {

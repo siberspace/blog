@@ -9,7 +9,7 @@
 	/* Colors - Backgrounds */
 	--color-bg-primary: #e1e1e1;
 	--color-bg-hero: #000000;
-	--color-bg-content: #000000;
+	--color-bg-content: #302522;
 	
 	/* Colors - Text on Dark */
 	--color-text-on-dark: #F3F2F1;
@@ -33,6 +33,7 @@
 	/* Typography - Font Families */
 	--font-sans: "Inter", sans-serif;
 	--font-serif: "Libre Caslon Text", "Georgia", serif;
+	--font-display: "Big Caslon", "Libre Caslon Display", "Libre Caslon Text", "Georgia", serif;
 	--font-handwritten: "Delicious Handrawn", cursive;
 	
 	/* Typography - Sizes */
