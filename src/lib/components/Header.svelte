@@ -5,8 +5,8 @@
 	}
 
 	let { 
-		siteName = 'saberspace',
-		siteTagline = 'internet zone'
+		siteName = 'siberspace',
+		siteTagline = 'poetic incite'
 	}: Props = $props();
 </script>
 
@@ -23,15 +23,20 @@
 		align-items: center;
 		justify-content: flex-start;
 		padding: 1.25rem 2rem;
-		background-color: var(--color-bg-primary);
+		background-color: var(--color-bg-content-green);
+		border-bottom-left-radius: 24px;
+		border-bottom-right-radius: 24px;
+		margin-left: 1rem;
+		margin-right: 1rem;
 	}
 
 	.header__logo {
 		font-size: 1.25rem;
-		color: var(--color-text-primary);
+		color: var(--color-text-on-green);
 		font-family: var(--font-sans);
 		text-decoration: none;
 		transition: opacity var(--transition-base);
+		font-style: italic;
 	}
 
 	.header__logo:hover {

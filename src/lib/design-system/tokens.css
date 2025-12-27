@@ -7,13 +7,19 @@
 
 :root {
 	/* Colors - Backgrounds */
-	--color-bg-primary: #e1e1e1;
+	--color-bg-primary: #2E2522;
 	--color-bg-hero: #000000;
 	--color-bg-content: #302522;
+	--color-bg-content-green: #9ecf5a;
+	--color-bg-photo: #487b4e;
 	
 	/* Colors - Text on Dark */
 	--color-text-on-dark: #F3F2F1;
 	--color-text-body-dark: #E0DDD9;
+	
+	/* Colors - Text on Green */
+	--color-text-on-green: #385c35;
+	--color-text-body-green: #2c4f30;
 	
 	/* Colors - Text */
 	--color-text-primary: #1a1a1a;

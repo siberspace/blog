@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { TagPill, BackLink } from '$lib/components';
-	import { tagColors, sketchPaths } from '$lib/design-system';
+	import { sketchPaths } from '$lib/design-system';
 
 	let { data }: { data: PageData } = $props();
 
@@ -10,6 +10,9 @@
 	
 	// Get author name
 	const authorName = $derived(data.post.primary_author?.name || data.post.authors?.[0]?.name || 'siber');
+
+	// Tag color for green theme
+	const tagColor = '#385c35';
 </script>
 
 <main>
@@ -36,22 +39,25 @@
 		<!-- Centered Tags -->
 		<div class="tags-container">
 			<!-- Author tag -->
-			<TagPill label="by {authorName}" color={tagColors[3]} pathIndex={0} />
+			<TagPill label="by {authorName}" color={tagColor} pathIndex={0} />
 			
 			<!-- Year tag -->
-			<TagPill label={String(publishedYear)} color={tagColors[1]} pathIndex={1} />
+			<TagPill label={String(publishedYear)} color={tagColor} pathIndex={1} />
 
 			<!-- Post tags from Ghost -->
 			{#if data.post.tags && data.post.tags.length > 0}
 				{#each data.post.tags as tag, i}
 					<TagPill 
 						label={tag.name} 
-						color={tagColors[i % tagColors.length]} 
+						color={tagColor} 
 						pathIndex={(i + 2) % sketchPaths.length}
 					/>
 				{/each}
 			{/if}
 		</div>
+
+		<!-- Divider Line -->
+		<hr class="divider-line" />
 
 		<!-- Article Body -->
 		<article class="article-body-dark">
@@ -66,8 +72,10 @@
 <style>
 	/* Hero Image Section */
 	.hero-image-section {
-		padding: 0 1rem;
+		margin-top: 0.625rem;
 		margin-bottom: 0.625rem;
+		margin-left: 1rem;
+		margin-right: 1rem;
 	}
 
 	.hero-image-container {
@@ -75,6 +83,7 @@
 		max-height: 600px;
 		overflow: hidden;
 		border-radius: 24px;
+		border: 5px solid var(--color-bg-content-green);
 	}
 
 	.hero-image {
@@ -86,7 +95,7 @@
 
 	/* Content Section */
 	.content-section {
-		background-color: var(--color-bg-content);
+		background-color: var(--color-bg-content-green);
 		padding: 3rem 5rem;
 		border-radius: 24px;
 		margin: 0 1rem;
@@ -100,7 +109,7 @@
 	.post-title {
 		font-family: var(--font-display);
 		font-size: clamp(2.5rem, 6vw, 6.75rem);
-		color: var(--color-text-on-dark);
+		color: var(--color-text-on-green);
 		text-align: center;
 		line-height: 1.1;
 		margin: 0;
@@ -114,15 +123,26 @@
 		gap: 0.625rem;
 	}
 
-	/* Article Body - Dark Theme */
+	/* Divider Line */
+	.divider-line {
+		width: 100%;
+		max-width: 65ch;
+		border: none;
+		border-top: 2px solid var(--color-text-on-green);
+		opacity: 0.3;
+		margin: 0;
+	}
+
+	/* Article Body - Green Theme */
 	.article-body-dark {
 		font-family: var(--font-serif);
 		font-size: 1.125rem;
 		line-height: 1.8;
-		color: var(--color-text-body-dark);
+		color: var(--color-text-body-green);
 		max-width: 65ch;
 		width: 100%;
 		text-align: justify;
+		opacity: 0.9;
 	}
 
 	.article-body-dark :global(p) {
@@ -137,11 +157,11 @@
 		line-height: 0.8;
 		padding-right: 0.08em;
 		padding-top: 0.05em;
-		color: var(--color-text-on-dark);
+		color: var(--color-text-on-green);
 	}
 
 	.article-body-dark :global(a) {
-		color: var(--color-text-on-dark);
+		color: var(--color-text-body-green);
 		text-decoration: underline;
 	}
 
@@ -152,7 +172,7 @@
 	.article-body-dark :global(h2),
 	.article-body-dark :global(h3) {
 		font-family: var(--font-serif);
-		color: var(--color-text-on-dark);
+		color: var(--color-text-on-green);
 		margin-top: 2em;
 		margin-bottom: 1em;
 	}
@@ -163,17 +183,66 @@
 		border-left: none;
 		padding-left: 0;
 		font-style: normal;
-		color: var(--color-text-on-dark);
+		color: var(--color-text-on-green);
 	}
 
 	.article-body-dark :global(strong) {
-		color: var(--color-text-on-dark);
+		color: var(--color-text-on-green);
+	}
+
+	/* Inline images with card background */
+	.article-body-dark :global(figure:not(.kg-embed-card)),
+	.article-body-dark :global(.kg-image-card) {
+		background-color: var(--color-bg-photo);
+		border-radius: 15px;
+		padding: 1.5rem;
+		margin: 2rem 0;
+		opacity: 0.9;
+	}
+
+	.article-body-dark :global(figure:not(.kg-embed-card) img),
+	.article-body-dark :global(.kg-image-card img) {
+		border-radius: 15px;
+		width: 100%;
+		height: auto;
+		display: block;
+	}
+
+	.article-body-dark :global(figcaption) {
+		font-family: var(--font-sans);
+		font-size: 0.9375rem;
+		color: var(--color-tag-green);
+		text-align: center;
+		margin-top: 1rem;
+	}
+
+	/* Standalone images (not in figure) */
+	.article-body-dark :global(p > img) {
+		background-color: var(--color-bg-photo);
+		border-radius: 15px;
+		padding: 1.5rem;
+		width: calc(100% - 3rem);
+		opacity: 0.9;
+	}
+
+	/* YouTube/Video embeds - full width, no background */
+	.article-body-dark :global(.kg-embed-card) {
+		margin: 2rem 0;
+		width: 100%;
+	}
+
+	.article-body-dark :global(.kg-embed-card iframe) {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		height: auto;
+		border-radius: 15px;
 	}
 
 	/* Responsive */
 	@media (max-width: 768px) {
 		.hero-image-section {
-			padding: 0 0.5rem;
+			margin-left: 0.5rem;
+			margin-right: 0.5rem;
 		}
 
 		.content-section {
