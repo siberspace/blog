@@ -96,7 +96,7 @@
 	/* Content Section */
 	.content-section {
 		background-color: var(--color-bg-content-green);
-		padding: 3rem 5rem;
+		padding: 4rem 5rem 3rem;
 		border-radius: 12px;
 		margin: 0 1rem;
 		display: flex;
@@ -114,6 +114,7 @@
 		text-align: center;
 		line-height: 1.1;
 		margin: 0;
+		margin-bottom: 1rem;
 		text-shadow: 
 			1px 1px 0 #2d5a27,
 			2px 2px 0 #2d5a27,
