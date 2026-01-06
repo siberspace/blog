@@ -24,8 +24,8 @@
 		justify-content: flex-start;
 		padding: 1.25rem 2rem;
 		background-color: var(--color-bg-content-green);
-		border-bottom-left-radius: 24px;
-		border-bottom-right-radius: 24px;
+		border-bottom-left-radius: 12px;
+		border-bottom-right-radius: 12px;
 		margin-left: 1rem;
 		margin-right: 1rem;
 	}
@@ -50,6 +50,13 @@
 	.header__logo-tagline {
 		font-weight: 400;
 		margin-left: 0.35em;
+	}
+
+	@media (max-width: 768px) {
+		.header {
+			margin-left: 0.5rem;
+			margin-right: 0.5rem;
+		}
 	}
 </style>
 

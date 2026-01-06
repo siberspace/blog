@@ -9,7 +9,7 @@
 	let { src, alt = '', caption, credit }: Props = $props();
 </script>
 
-<figure class="inline-photo">
+<figure class="inline-photo" class:has-caption={caption || credit}>
 	<div class="photo-wrapper">
 		<img {src} {alt} />
 	</div>
@@ -29,14 +29,18 @@
 <style>
 	.inline-photo {
 		background-color: var(--color-bg-photo);
-		border-radius: 15px;
-		padding: 1.5rem;
+		border-radius: 8px;
+		padding: 0.375rem;
+	}
+
+	.inline-photo.has-caption {
+		padding-bottom: 1.5rem;
 		margin: 2rem 0;
 		opacity: 0.9;
 	}
 
 	.photo-wrapper {
-		border-radius: 15px;
+		border-radius: 8px;
 		overflow: hidden;
 	}
 
@@ -77,3 +81,4 @@
 		margin: 0;
 	}
 </style>
+
