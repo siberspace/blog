@@ -1,12 +1,10 @@
 <script lang="ts">
 	import '../app.css';
-	import { Header } from '$lib/components';
+	import { page } from '$app/stores';
 
 	let { children } = $props();
 </script>
 
-<div class="min-h-screen bg-[var(--color-bg-primary)]">
-	<Header />
-
+<div class="min-h-screen">
 	{@render children()}
 </div>

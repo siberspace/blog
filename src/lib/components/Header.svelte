@@ -1,40 +1,60 @@
 <script lang="ts">
 	interface Props {
 		siteName?: string;
+		variant?: 'default' | 'landing';
 	}
 
 	let { 
-		siteName = 'siberspace'
+		siteName = 'siberspace',
+		variant = 'default'
 	}: Props = $props();
-
-	let email = $state('');
-
-	function handleSubscribe(e: Event) {
-		e.preventDefault();
-		if (email) {
-			// TODO: Connect to newsletter service
-			console.log('Subscribe:', email);
-			email = '';
-		}
-	}
 </script>
 
-<header class="header">
-	<a href="/" class="header__logo">
-		<span class="header__logo-name">{siteName}</span>
-	</a>
-	<img src="/site.png" alt="" class="header__avatar" />
-	<form class="header__subscribe" onsubmit={handleSubscribe}>
-		<input 
-			type="email" 
-			placeholder="email" 
-			bind:value={email}
-			class="header__input"
-		/>
-	</form>
-</header>
+{#if variant === 'landing'}
+	<header class="header-landing">
+		<a href="/" class="header-landing__logo">{siteName}</a>
+		<a href="#subscribe" class="header-landing__subscribe">subscribe</a>
+	</header>
+{:else}
+	<header class="header">
+		<a href="/" class="header__logo">
+			<span class="header__logo-name">{siteName}</span>
+		</a>
+		<a href="#subscribe" class="header__subscribe-link">subscribe</a>
+	</header>
+{/if}
 
 <style>
+	/* Landing variant - floating over hero */
+	.header-landing {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1.5rem;
+		z-index: 100;
+		pointer-events: none;
+	}
+
+	.header-landing__logo,
+	.header-landing__subscribe {
+		font-family: var(--font-typewriter);
+		font-size: 1.5rem;
+		color: white;
+		text-decoration: none;
+		pointer-events: auto;
+		transition: opacity var(--transition-base);
+	}
+
+	.header-landing__logo:hover,
+	.header-landing__subscribe:hover {
+		opacity: 0.7;
+	}
+
+	/* Default variant */
 	.header {
 		display: flex;
 		align-items: center;
@@ -48,21 +68,12 @@
 		gap: 1rem;
 	}
 
-	.header__avatar {
-		width: clamp(32px, 5vw, 48px);
-		height: clamp(32px, 5vw, 48px);
-		border-radius: 50%;
-		object-fit: cover;
-		flex-shrink: 0;
-	}
-
 	.header__logo {
 		font-size: clamp(0.875rem, 2vw, 1.25rem);
 		color: var(--color-text-on-green);
-		font-family: var(--font-sans);
+		font-family: var(--font-typewriter);
 		text-decoration: none;
 		transition: opacity var(--transition-base);
-		font-style: italic;
 		flex-shrink: 0;
 	}
 
@@ -71,35 +82,19 @@
 	}
 
 	.header__logo-name {
-		font-weight: 700;
+		font-weight: 400;
 	}
 
-	.header__subscribe {
-		flex-shrink: 1;
-		min-width: 0;
-	}
-
-	.header__input {
-		width: 100%;
-		max-width: clamp(100px, 15vw, 160px);
-		padding: 0.5rem 0.75rem;
-		border: 1px solid var(--color-text-on-green);
-		border-radius: 6px;
-		background-color: transparent;
+	.header__subscribe-link {
+		font-family: var(--font-typewriter);
+		font-size: clamp(0.875rem, 2vw, 1.25rem);
 		color: var(--color-text-on-green);
-		font-family: var(--font-sans);
-		font-size: clamp(0.75rem, 1.5vw, 0.875rem);
-		font-style: italic;
+		text-decoration: none;
+		transition: opacity var(--transition-base);
 	}
 
-	.header__input::placeholder {
-		color: var(--color-text-on-green);
-		opacity: 0.6;
-	}
-
-	.header__input:focus {
-		outline: none;
-		border-color: var(--color-text-body-green);
+	.header__subscribe-link:hover {
+		opacity: 0.8;
 	}
 
 	@media (max-width: 768px) {
@@ -108,6 +103,14 @@
 			margin-right: 0.5rem;
 			padding: 0.75rem 1rem;
 		}
+
+		.header-landing {
+			padding: 1rem;
+		}
+
+		.header-landing__logo,
+		.header-landing__subscribe {
+			font-size: 1.125rem;
+		}
 	}
 </style>
-
