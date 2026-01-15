@@ -16,8 +16,40 @@
 	// Dynamic colors - start with defaults, update after extraction
 	let colors = $state<ColorPalette>(defaultColors);
 	let isLoading = $state(true);
+	
+	// Scroll position for shimmer effect
+	let scrollY = $state(0);
+	
+	// All images for color wash (feature + inline)
+	let allImages = $state<string[]>([]);
+	
+	function handleScroll() {
+		scrollY = window.scrollY;
+	}
+
+	// Extract inline images from HTML
+	function extractImagesFromHtml(html: string): string[] {
+		const imgRegex = /<img[^>]+src="([^"]+)"/g;
+		const images: string[] = [];
+		let match;
+		while ((match = imgRegex.exec(html)) !== null) {
+			images.push(match[1]);
+		}
+		return images;
+	}
 
 	onMount(async () => {
+		// Collect all images: feature image + inline images
+		const images: string[] = [];
+		if (data.post.feature_image) {
+			images.push(data.post.feature_image);
+		}
+		if (data.post.html) {
+			images.push(...extractImagesFromHtml(data.post.html));
+		}
+		allImages = images;
+		
+		// Extract colors from feature image
 		if (data.post.feature_image) {
 			const extracted = await extractColors(data.post.feature_image);
 			colors = extracted;
@@ -26,7 +58,14 @@
 	});
 </script>
 
+<svelte:window onscroll={handleScroll} />
+
+<svelte:head>
+	<title>{data.post.title} | siberspace</title>
+</svelte:head>
+
 <main 
+	class="article-page"
 	style="
 		--dynamic-bg: {colors.bgColor};
 		--dynamic-text: {colors.textColor};
@@ -41,6 +80,25 @@
 	class:light-theme={colors.isLight}
 	class:loading={isLoading}
 >
+	<!-- Background layers (same as landing page) -->
+	<div class="bg-base"></div>
+	
+	<!-- Color wash layers from all images -->
+	{#each allImages as image, i}
+		<div 
+			class="bg-color-wash"
+			style="
+				background-image: url('{image}');
+				opacity: {0.35 / (i + 1)};
+				animation-delay: {i * 0.2}s;
+			"
+		></div>
+	{/each}
+	
+	<div class="bg-paper"></div>
+	<div class="bg-gradient"></div>
+	<div class="bg-shimmer" style="--scroll-y: {scrollY}px"></div>
+
 	<!-- Hero Image Section -->
 	{#if data.post.feature_image}
 		<section class="hero-image-section">
@@ -95,7 +153,11 @@
 </main>
 
 <style>
-	main {
+	/* ===== ARTICLE PAGE ===== */
+	.article-page {
+		position: relative;
+		min-height: 100vh;
+		background-color: #f5f5f5;
 		--bg: var(--dynamic-bg);
 		--text: var(--dynamic-text);
 		--headline: var(--dynamic-headline);
@@ -105,15 +167,94 @@
 		--tag-text: var(--dynamic-tag-text);
 		--border: var(--dynamic-border);
 		--link: var(--dynamic-link);
-		transition: all 0.5s ease;
 	}
 
-	main.loading {
-		opacity: 0.8;
+	.article-page.loading {
+		opacity: 0.9;
+	}
+
+	/* Layer 1: Base - terrazzo/confetti pattern */
+	.bg-base {
+		position: fixed;
+		inset: 0;
+		background-color: #a8a8a8;
+		background-image: url('/bg-texture.png');
+		background-size: cover;
+		background-position: center;
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	/* Layer 1.5: Color wash from images */
+	.bg-color-wash {
+		position: fixed;
+		inset: -50px;
+		background-size: cover;
+		background-position: center;
+		filter: blur(80px) saturate(1.5);
+		opacity: 0.35;
+		pointer-events: none;
+		z-index: 0;
+		transition: opacity 0.8s ease-out;
+		animation: fadeInWash 1s ease-out forwards;
+	}
+
+	@keyframes fadeInWash {
+		from { opacity: 0; }
+		to { opacity: var(--target-opacity, 0.35); }
+	}
+
+	/* Layer 2: Paper pulpy texture overlay */
+	.bg-paper {
+		position: fixed;
+		inset: 0;
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23fff' surfaceScale='2'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
+		opacity: 0.4;
+		mix-blend-mode: multiply;
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	/* Layer 3: Gray gradient overlay */
+	.bg-gradient {
+		position: fixed;
+		inset: 0;
+		background: linear-gradient(
+			180deg,
+			rgba(180, 180, 180, 0.3) 0%,
+			rgba(170, 170, 170, 0.4) 40%,
+			rgba(160, 158, 158, 0.6) 70%,
+			rgba(150, 148, 148, 0.8) 100%
+		);
+		pointer-events: none;
+		z-index: 2;
+	}
+
+	/* Layer 4: Scroll-based shimmer */
+	.bg-shimmer {
+		position: fixed;
+		inset: 0;
+		background: 
+			linear-gradient(
+				120deg,
+				transparent 0%,
+				transparent 20%,
+				rgba(255, 255, 255, 0.35) 35%,
+				rgba(255, 255, 255, 0.5) 50%,
+				rgba(255, 255, 255, 0.35) 65%,
+				transparent 80%,
+				transparent 100%
+			);
+		background-size: 300% 100%;
+		background-position: calc(var(--scroll-y) * 0.15px) 0;
+		pointer-events: none;
+		z-index: 2;
 	}
 
 	/* Hero Image Section */
 	.hero-image-section {
+		position: relative;
+		z-index: 3;
 		margin-top: 0.625rem;
 		margin-bottom: 0.625rem;
 		margin-left: 1rem;
@@ -127,6 +268,7 @@
 		border-radius: 12px;
 		border: 5px solid var(--border);
 		transition: border-color 0.5s ease;
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 	}
 
 	.hero-image {
@@ -138,15 +280,14 @@
 
 	/* Content Section */
 	.content-section {
-		background-color: var(--bg);
+		position: relative;
+		z-index: 3;
 		padding: 4rem 5rem 3rem;
-		border-radius: 12px;
 		margin: 0 1rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		gap: 2rem;
-		transition: background-color 0.5s ease;
 	}
 
 	/* Post Title */
@@ -199,7 +340,7 @@
 		max-width: 65ch;
 		width: 100%;
 		text-align: justify;
-		opacity: 0.9;
+		opacity: 0.95;
 		transition: color 0.5s ease;
 	}
 
@@ -270,11 +411,12 @@
 	/* Inline images with card background */
 	.article-body :global(figure:not(.kg-embed-card)),
 	.article-body :global(.kg-image-card) {
-		background-color: var(--tag-bg);
-		border-radius: 8px;
-		padding: 0.375rem;
+		background-color: rgba(0, 0, 0, 0.15);
+		backdrop-filter: blur(8px);
+		border-radius: 12px;
+		padding: 0.5rem;
 		margin: 2rem 0;
-		opacity: 0.9;
+		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 	}
 
 	.article-body :global(figure:not(.kg-embed-card) img),
@@ -291,16 +433,17 @@
 		color: var(--text);
 		text-align: center;
 		margin-top: 1rem;
-		padding-bottom: 1rem;
+		padding-bottom: 0.5rem;
 	}
 
 	/* Standalone images (not in figure) */
 	.article-body :global(p > img) {
-		background-color: var(--tag-bg);
-		border-radius: 8px;
-		padding: 0.375rem;
-		width: calc(100% - 0.75rem);
-		opacity: 0.9;
+		background-color: rgba(0, 0, 0, 0.15);
+		backdrop-filter: blur(8px);
+		border-radius: 12px;
+		padding: 0.5rem;
+		width: calc(100% - 1rem);
+		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 	}
 
 	/* YouTube/Video embeds - full width, no background */
@@ -317,7 +460,7 @@
 	}
 
 	/* Light theme adjustments */
-	main.light-theme .post-title {
+	.article-page.light-theme .post-title {
 		text-shadow: 
 			1px 1px 0 var(--headline-shadow),
 			2px 2px 0 var(--headline-shadow),
@@ -326,7 +469,7 @@
 			-2px -2px 0 var(--headline-accent);
 	}
 
-	main.light-theme .article-body :global(h2) {
+	.article-page.light-theme .article-body :global(h2) {
 		text-shadow: 
 			1px 1px 0 var(--headline-shadow),
 			2px 2px 0 var(--headline-shadow),
