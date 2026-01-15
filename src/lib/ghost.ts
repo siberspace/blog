@@ -1,11 +1,13 @@
 import GhostContentAPI from "@tryghost/content-api";
-import { GHOST_API_URL, GHOST_CONTENT_API_KEY } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 
-const ghost = new GhostContentAPI({
-  url: GHOST_API_URL,
-  key: GHOST_CONTENT_API_KEY,
-  version: "v5.0",
-});
+function getGhostClient() {
+  return new GhostContentAPI({
+    url: env.GHOST_API_URL || env.GHOST_URL || "",
+    key: env.GHOST_CONTENT_API_KEY || "",
+    version: "v5.0",
+  });
+}
 
 export type GhostTag = {
   id: string;
@@ -34,6 +36,7 @@ export type GhostPost = {
 
 // Fetch all posts
 export async function getPosts(): Promise<GhostPost[]> {
+  const ghost = getGhostClient();
   const posts = await ghost.posts.browse({
     limit: "all",
     include: ["tags", "authors"],
@@ -44,6 +47,7 @@ export async function getPosts(): Promise<GhostPost[]> {
 // Fetch a single post by slug
 export async function getPost(slug: string): Promise<GhostPost | null> {
   try {
+    const ghost = getGhostClient();
     const post = await ghost.posts.read(
       { slug },
       { include: ["tags", "authors"] }
@@ -56,6 +60,7 @@ export async function getPost(slug: string): Promise<GhostPost | null> {
 
 // Fetch all slugs (for static generation)
 export async function getAllPostSlugs(): Promise<string[]> {
+  const ghost = getGhostClient();
   const posts = await ghost.posts.browse({
     limit: "all",
     fields: "slug",
