@@ -1,17 +1,13 @@
 <script lang="ts">
-	import { sketchPaths, tagColors } from '$lib/design-system/tokens';
+	import { sketchPaths } from '$lib/design-system/tokens';
 
 	interface Props {
 		label: string;
-		color?: string;
 		pathIndex?: number;
 		size?: 'sm' | 'md' | 'lg';
 	}
 
-	let { label, color, pathIndex, size = 'md' }: Props = $props();
-
-	// Default to a random color if not provided
-	const tagColor = color || tagColors[Math.floor(Math.random() * tagColors.length)];
+	let { label, pathIndex, size = 'md' }: Props = $props();
 	
 	// Use provided pathIndex or randomize
 	const path = sketchPaths[pathIndex ?? Math.floor(Math.random() * sketchPaths.length)];
@@ -23,10 +19,7 @@
 	};
 </script>
 
-<span 
-	class="tag-pill {sizeClasses[size]}"
-	style="color: {tagColor};"
->
+<span class="tag-pill {sizeClasses[size]}">
 	<svg viewBox="0 0 100 65" preserveAspectRatio="none" aria-hidden="true">
 		<path class="sketch-outline" d={path} />
 	</svg>
@@ -41,6 +34,8 @@
 		align-items: center;
 		justify-content: center;
 		cursor: default;
+		color: inherit;
+		transition: color 0.8s ease-out;
 	}
 
 	.tag-pill svg {

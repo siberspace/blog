@@ -513,9 +513,11 @@
 		position: relative;
 		z-index: 3;
 		padding: 0 2rem 4rem;
-		max-width: 1400px;
 		margin: 0 auto;
 		margin-top: -3rem; /* Pull up to peek above fold */
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
 	.index__title {
@@ -535,7 +537,7 @@
 	/* Headers Row - reordered: thumb, headline, type, year, words, genre */
 	.index__headers {
 		display: grid;
-		grid-template-columns: 100px minmax(200px, 500px) 100px 60px 70px 100px;
+		grid-template-columns: 100px minmax(200px, 450px) 100px 60px 70px 100px;
 		gap: 1.5rem;
 		padding: 0.75rem 1rem;
 		font-family: var(--font-typewriter);
@@ -544,6 +546,7 @@
 		color: black;
 		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 		margin-bottom: 0.5rem;
+		width: fit-content;
 	}
 
 	.index__header--thumb {
@@ -551,10 +554,14 @@
 		display: block;
 	}
 
+	.index__list {
+		width: fit-content;
+	}
+
 	/* Story Row */
 	.index__row {
 		display: grid;
-		grid-template-columns: 100px minmax(200px, 500px) 100px 60px 70px 100px;
+		grid-template-columns: 100px minmax(200px, 450px) 100px 60px 70px 100px;
 		gap: 1.5rem;
 		padding: 0.75rem 1rem;
 		align-items: center;

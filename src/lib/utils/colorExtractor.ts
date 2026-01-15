@@ -12,17 +12,17 @@ export interface ColorPalette {
 	isLight: boolean;
 }
 
-// Default green theme
+// Default green theme - vibrant and colorful
 export const defaultColors: ColorPalette = {
-	bgColor: '#385c35',
+	bgColor: '#2a4528',
 	textColor: '#1a1a1a',
-	headlineColor: '#4a8c3b',
-	headlineShadow: '#2d5a25',
-	headlineAccent: '#8fce7d',
-	tagColor: '#4a8c3b',
+	headlineColor: '#2e8b57', // Sea green - vibrant but readable
+	headlineShadow: '#1a5035',
+	headlineAccent: '#5cb882',
+	tagColor: '#2e8b57',
 	tagTextColor: '#1a1a1a',
-	borderColor: '#4a8c3b',
-	linkColor: '#3d7a30',
+	borderColor: '#2e8b57',
+	linkColor: '#228b53',
 	isLight: false
 };
 
@@ -58,6 +58,91 @@ function getSaturation(r: number, g: number, b: number): number {
 	const max = Math.max(r, g, b);
 	const min = Math.min(r, g, b);
 	return max === 0 ? 0 : (max - min) / max;
+}
+
+// Get hue of a color (0-360)
+function getHue(r: number, g: number, b: number): number {
+	const max = Math.max(r, g, b);
+	const min = Math.min(r, g, b);
+	const delta = max - min;
+	
+	if (delta === 0) return 0;
+	
+	let hue = 0;
+	if (max === r) {
+		hue = ((g - b) / delta) % 6;
+	} else if (max === g) {
+		hue = (b - r) / delta + 2;
+	} else {
+		hue = (r - g) / delta + 4;
+	}
+	
+	hue *= 60;
+	if (hue < 0) hue += 360;
+	return hue;
+}
+
+// Check if a color is "muddy" (brown, gray, beige, skin tone)
+// These colors have low saturation OR are in the brown/orange hue range with low saturation
+function isColorMuddy(r: number, g: number, b: number): boolean {
+	const sat = getSaturation(r, g, b);
+	const lum = getLuminance(r, g, b);
+	const hue = getHue(r, g, b);
+	
+	// Very low saturation = gray
+	if (sat < 0.25) return true;
+	
+	// Brown/beige/skin tones: orange-ish hue (15-45) with medium-low saturation
+	if (hue >= 15 && hue <= 50 && sat < 0.5) return true;
+	
+	// Desaturated warm tones
+	if (hue >= 0 && hue <= 60 && sat < 0.4 && lum > 0.2 && lum < 0.7) return true;
+	
+	return false;
+}
+
+// Calculate a "vibrancy score" - higher is more colorful and interesting
+function getVibrancyScore(r: number, g: number, b: number): number {
+	const sat = getSaturation(r, g, b);
+	const lum = getLuminance(r, g, b);
+	const hue = getHue(r, g, b);
+	
+	// Base score from saturation
+	let score = sat * 100;
+	
+	// Penalize very dark or very light colors
+	if (lum < 0.15 || lum > 0.85) score *= 0.3;
+	else if (lum < 0.25 || lum > 0.75) score *= 0.7;
+	
+	// STRONGLY boost cool colors (cyan, teal, green, blue, purple)
+	// Cyan/Teal: 160-200 - these are the "hero" colors we want
+	if (hue >= 160 && hue <= 200) {
+		score *= 2.5;
+	}
+	// Green: 80-160
+	else if (hue >= 80 && hue < 160) {
+		score *= 2.0;
+	}
+	// Blue/Purple: 200-300
+	else if (hue > 200 && hue <= 300) {
+		score *= 1.8;
+	}
+	
+	// HEAVILY penalize red/orange/warm colors - these are often distractions
+	// Red: 0-20 and 340-360
+	if (hue <= 20 || hue >= 340) {
+		score *= 0.15; // Heavy penalty for reds
+	}
+	// Orange/brown: 20-50
+	else if (hue > 20 && hue <= 50) {
+		score *= 0.2; // Heavy penalty for oranges
+	}
+	// Warm yellow-ish: 50-80
+	else if (hue > 50 && hue < 80) {
+		score *= 0.5;
+	}
+	
+	return score;
 }
 
 // Darken a color
@@ -145,29 +230,41 @@ function findVibrantColors(colors: Array<[number, number, number]>): {
 	darkVibrant: [number, number, number];
 	dominant: [number, number, number];
 } {
+	const fallbackGreen: [number, number, number] = [80, 180, 100];
+	
 	if (colors.length === 0) {
 		return {
-			vibrant: [120, 180, 80],
-			lightVibrant: [160, 210, 120],
-			darkVibrant: [80, 130, 50],
+			vibrant: fallbackGreen,
+			lightVibrant: [140, 220, 160],
+			darkVibrant: [50, 130, 70],
 			dominant: [128, 128, 128]
 		};
 	}
 
-	// Sort by saturation to find vibrant
-	const bySaturation = [...colors].sort((a, b) => 
-		getSaturation(...b) - getSaturation(...a)
+	// Filter out muddy colors first
+	const colorfulColors = colors.filter(([r, g, b]) => !isColorMuddy(r, g, b));
+	
+	// If we filtered too aggressively, use colors with decent saturation
+	const workingColors = colorfulColors.length >= 10 
+		? colorfulColors 
+		: colors.filter(([r, g, b]) => getSaturation(r, g, b) > 0.2);
+	
+	// Sort by vibrancy score (not just saturation)
+	const byVibrancy = [...(workingColors.length > 0 ? workingColors : colors)].sort((a, b) => 
+		getVibrancyScore(...b) - getVibrancyScore(...a)
 	);
 	
-	// Get top saturated colors
-	const topSaturated = bySaturation.slice(0, Math.max(20, Math.floor(colors.length * 0.15)));
+	// Get top vibrant colors
+	const topVibrant = byVibrancy.slice(0, Math.max(15, Math.floor(byVibrancy.length * 0.1)));
 	
-	// Find vibrant with good luminance (not too dark, not too light)
-	let vibrant = topSaturated[0];
-	for (const color of topSaturated) {
+	// Find the best vibrant color
+	let vibrant = topVibrant[0] || fallbackGreen;
+	for (const color of topVibrant) {
 		const lum = getLuminance(...color);
 		const sat = getSaturation(...color);
-		if (lum > 0.2 && lum < 0.8 && sat > 0.25) {
+		const score = getVibrancyScore(...color);
+		// Pick the first color with good luminance, saturation, and score
+		if (lum > 0.25 && lum < 0.75 && sat > 0.35 && score > 30) {
 			vibrant = color;
 			break;
 		}
@@ -175,27 +272,27 @@ function findVibrantColors(colors: Array<[number, number, number]>): {
 	
 	// Find a light vibrant (high luminance, decent saturation)
 	let lightVibrant: [number, number, number] = lighten(...vibrant, 0.4);
-	for (const color of topSaturated) {
+	for (const color of topVibrant) {
 		const lum = getLuminance(...color);
 		const sat = getSaturation(...color);
-		if (lum > 0.5 && sat > 0.2) {
+		if (lum > 0.5 && sat > 0.3 && !isColorMuddy(...color)) {
 			lightVibrant = color;
 			break;
 		}
 	}
 	
 	// Find a dark vibrant (low luminance, decent saturation)
-	let darkVibrant: [number, number, number] = darken(...vibrant, 0.4);
-	for (const color of topSaturated) {
+	let darkVibrant: [number, number, number] = darken(...vibrant, 0.3);
+	for (const color of topVibrant) {
 		const lum = getLuminance(...color);
 		const sat = getSaturation(...color);
-		if (lum < 0.4 && lum > 0.1 && sat > 0.2) {
+		if (lum < 0.45 && lum > 0.15 && sat > 0.3 && !isColorMuddy(...color)) {
 			darkVibrant = color;
 			break;
 		}
 	}
 
-	// Calculate dominant color via averaging
+	// Calculate dominant color via averaging (of all colors, for bg purposes)
 	let avgR = 0, avgG = 0, avgB = 0;
 	for (const [r, g, b] of colors) {
 		avgR += r;
@@ -230,7 +327,7 @@ export async function extractColors(imageUrl: string): Promise<ColorPalette> {
 					return;
 				}
 
-				const size = 50;
+				const size = 64;
 				canvas.width = size;
 				canvas.height = size;
 				
@@ -245,15 +342,23 @@ export async function extractColors(imageUrl: string): Promise<ColorPalette> {
 					return;
 				}
 
-				// Collect color samples
+				// Sample colors from the CENTER of the image where the subject typically is
+				// Focus on the middle 30% of the image (tight center crop)
+				const centerStart = Math.floor(size * 0.35);
+				const centerEnd = Math.floor(size * 0.65);
+				
 				const colors: Array<[number, number, number]> = [];
-				for (let i = 0; i < imageData.length; i += 4) {
-					const r = imageData[i];
-					const g = imageData[i + 1];
-					const b = imageData[i + 2];
-					const lum = getLuminance(r, g, b);
-					if (lum > 0.03 && lum < 0.97) {
-						colors.push([r, g, b]);
+				for (let y = centerStart; y < centerEnd; y++) {
+					for (let x = centerStart; x < centerEnd; x++) {
+						const i = (y * size + x) * 4;
+						const r = imageData[i];
+						const g = imageData[i + 1];
+						const b = imageData[i + 2];
+						const lum = getLuminance(r, g, b);
+						// Skip very dark and very light pixels
+						if (lum > 0.05 && lum < 0.95) {
+							colors.push([r, g, b]);
+						}
 					}
 				}
 
@@ -267,47 +372,38 @@ export async function extractColors(imageUrl: string): Promise<ColorPalette> {
 				const isLight = dominantLum > 0.5;
 				
 				// ===== HEADLINE COLOR =====
-				// Start with the vibrant color, boost saturation
-				let headline = saturate(...vibrant, 0.6);
-				// Ensure it has good contrast - prefer LIGHTER for visibility
-				headline = ensureContrastOnGray(headline, 3.5, true);
-				
-				// If still too dark, force lighten
-				const headlineLum = getLuminance(...headline);
-				if (headlineLum < 0.35) {
-					headline = lighten(...headline, 0.4);
-					headline = saturate(...headline, 0.3);
-				}
+				// Start with the vibrant color, boost saturation significantly
+				let headline = saturate(...vibrant, 1.2);
+				// Only slightly darken to maintain vibrancy, prefer lightening for contrast
+				headline = darken(...headline, 0.1);
+				headline = saturate(...headline, 0.6); // Re-saturate to stay punchy
+				// Ensure minimum contrast - PREFER LIGHTER for more vibrant feel
+				headline = ensureContrastOnGray(headline, 4.0, true);
 				
 				// ===== BODY TEXT COLOR =====
 				// Body text must be highly readable - use dark text on the gray bg
-				// Dark text has better contrast on the medium-gray background
 				const textColor: [number, number, number] = [35, 35, 35]; // Near black
 				
 				// ===== HEADLINE SHADOW & ACCENT =====
-				const headlineShadow = darken(...headline, 0.55);
-				const headlineAccent = lighten(...headline, 0.35);
+				// Shadow should be much darker for 3D depth
+				const headlineShadow = darken(...headline, 0.6);
+				// Accent (highlight edge) should be much brighter for embossed effect
+				const headlineAccent = lighten(...headline, 0.6);
 				
 				// ===== TAG COLOR =====
-				// Tags should use the same vibrant color family as headlines
-				// Use headline color for tags so they match the theme
-				const tagColor = headline;
-				const tagTextColor: [number, number, number] = [35, 35, 35]; // Dark for readability
+				// Tags should be colorful and punchy - use the vibrant with heavy saturation
+				let tagColor = saturate(...vibrant, 1.5); // Heavy saturation boost
+				// Prefer lighter, more vibrant version for tags
+				tagColor = ensureContrastOnGray(tagColor, 4.0, true);
+				const tagTextColor: [number, number, number] = [35, 35, 35];
 				
 				// ===== LINK COLOR =====
-				// Links need to be clearly visible - use a saturated, contrasting color
-				let linkColor = saturate(...darkVibrant, 0.5);
-				linkColor = ensureContrastOnGray(linkColor, 4.5, false); // Prefer darker for links
-				
-				// If link is too similar to text, make it more vibrant
-				const linkLum = getLuminance(...linkColor);
-				if (linkLum < 0.2) {
-					linkColor = lighten(...linkColor, 0.3);
-					linkColor = saturate(...linkColor, 0.4);
-				}
+				// Links should be colorful too
+				let linkColor = saturate(...darkVibrant, 1.2);
+				linkColor = ensureContrastOnGray(linkColor, 4.5, true); // Prefer light for vibrancy
 				
 				// ===== BORDER COLOR =====
-				const borderColor = headline;
+				const borderColor = tagColor;
 
 				const palette: ColorPalette = {
 					bgColor: rgbToHex(...darken(...dominant, 0.4)),
