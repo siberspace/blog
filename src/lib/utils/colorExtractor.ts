@@ -60,6 +60,9 @@ export async function extractColors(imageUrl: string): Promise<ColorPalette> {
 		const img = new Image();
 		img.crossOrigin = 'anonymous';
 		
+		// Use wsrv.nl as a CORS proxy (free image CDN that adds CORS headers)
+		const proxyUrl = `https://wsrv.nl/?url=${encodeURIComponent(imageUrl)}&w=100&h=100`;
+		
 		img.onload = () => {
 			try {
 				const canvas = document.createElement('canvas');
@@ -76,7 +79,16 @@ export async function extractColors(imageUrl: string): Promise<ColorPalette> {
 				canvas.height = size;
 				
 				ctx.drawImage(img, 0, 0, size, size);
-				const imageData = ctx.getImageData(0, 0, size, size).data;
+				
+				let imageData;
+				try {
+					imageData = ctx.getImageData(0, 0, size, size).data;
+				} catch {
+					// CORS error - canvas is tainted
+					console.log('CORS blocked color extraction, using defaults');
+					resolve(defaultColors);
+					return;
+				}
 
 				// Collect color samples
 				const colors: Array<[number, number, number]> = [];
@@ -155,7 +167,7 @@ export async function extractColors(imageUrl: string): Promise<ColorPalette> {
 			resolve(defaultColors);
 		};
 
-		img.src = imageUrl;
+		img.src = proxyUrl;
 	});
 }
 
