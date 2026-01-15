@@ -2,6 +2,8 @@
 	import type { PageData } from './$types';
 	import { TagPill, BackLink } from '$lib/components';
 	import { sketchPaths } from '$lib/design-system';
+	import { extractColors, defaultColors, type ColorPalette } from '$lib/utils/colorExtractor';
+	import { onMount } from 'svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -11,8 +13,17 @@
 	// Get author name
 	const authorName = $derived(data.post.primary_author?.name || data.post.authors?.[0]?.name || 'siber');
 
-	// Use extracted colors
-	const colors = $derived(data.colors);
+	// Dynamic colors - start with defaults, update after extraction
+	let colors = $state<ColorPalette>(defaultColors);
+	let isLoading = $state(true);
+
+	onMount(async () => {
+		if (data.post.feature_image) {
+			const extracted = await extractColors(data.post.feature_image);
+			colors = extracted;
+		}
+		isLoading = false;
+	});
 </script>
 
 <main 
@@ -28,6 +39,7 @@
 		--dynamic-link: {colors.linkColor};
 	"
 	class:light-theme={colors.isLight}
+	class:loading={isLoading}
 >
 	<!-- Hero Image Section -->
 	{#if data.post.feature_image}
@@ -93,6 +105,11 @@
 		--tag-text: var(--dynamic-tag-text);
 		--border: var(--dynamic-border);
 		--link: var(--dynamic-link);
+		transition: all 0.5s ease;
+	}
+
+	main.loading {
+		opacity: 0.8;
 	}
 
 	/* Hero Image Section */
@@ -109,6 +126,7 @@
 		overflow: hidden;
 		border-radius: 12px;
 		border: 5px solid var(--border);
+		transition: border-color 0.5s ease;
 	}
 
 	.hero-image {
@@ -128,6 +146,7 @@
 		flex-direction: column;
 		align-items: center;
 		gap: 2rem;
+		transition: background-color 0.5s ease;
 	}
 
 	/* Post Title */
@@ -149,6 +168,7 @@
 			6px 6px 0 var(--headline-shadow),
 			-1px -1px 0 var(--headline-accent),
 			-2px -2px 0 var(--headline-accent);
+		transition: color 0.5s ease, text-shadow 0.5s ease;
 	}
 
 	/* Tags Container */
@@ -167,6 +187,7 @@
 		border-top: 2px solid var(--text);
 		opacity: 0.3;
 		margin: 0;
+		transition: border-color 0.5s ease;
 	}
 
 	/* Article Body */
@@ -179,6 +200,7 @@
 		width: 100%;
 		text-align: justify;
 		opacity: 0.9;
+		transition: color 0.5s ease;
 	}
 
 	.article-body :global(p) {
