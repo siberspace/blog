@@ -1,6 +1,6 @@
-import { getPost, getAllPostSlugs } from '$lib/ghost';
+import { getPost } from '$lib/ghost';
 import { error } from '@sveltejs/kit';
-import type { PageServerLoad, EntryGenerator } from './$types';
+import type { PageServerLoad } from './$types';
 
 // Default color theme (green)
 const defaultColors = {
@@ -29,10 +29,3 @@ export const load: PageServerLoad = async ({ params }) => {
 	};
 };
 
-// Generate static pages for all posts
-export const entries: EntryGenerator = async () => {
-	const slugs = await getAllPostSlugs();
-	return slugs.map((slug) => ({ slug }));
-};
-
-export const prerender = true;
