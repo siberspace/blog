@@ -15,19 +15,19 @@
 {#if variant === 'landing'}
 	<header class="header-landing">
 		<a href="/" class="header-landing__logo">{siteName}</a>
-		<a href="#subscribe" class="header-landing__subscribe">subscribe</a>
+		<button type="button" class="header-landing__subscribe" data-portal="signup">subscribe</button>
 	</header>
 {:else if variant === 'article'}
 	<header class="header-article" class:header-article--hidden={hidden}>
 		<a href="/" class="header-article__logo">{siteName}</a>
-		<a href="#subscribe" class="header-article__subscribe">subscribe</a>
+		<button type="button" class="header-article__subscribe" data-portal="signup">subscribe</button>
 	</header>
 {:else}
 	<header class="header">
 		<a href="/" class="header__logo">
 			<span class="header__logo-name">{siteName}</span>
 		</a>
-		<a href="#subscribe" class="header__subscribe-link">subscribe</a>
+		<button type="button" class="header__subscribe-link" data-portal="signup">subscribe</button>
 	</header>
 {/if}
 
@@ -54,6 +54,9 @@
 		color: white;
 		text-decoration: none;
 		pointer-events: auto;
+		background: none;
+		border: none;
+		cursor: pointer;
 		/* Embossed 3D effect for landing - white/light theme */
 		text-shadow: 
 			-1px -1px 0 rgba(255, 255, 255, 0.5),
@@ -99,6 +102,9 @@
 		font-weight: 700;
 		color: var(--headline, #4a4a4a);
 		text-decoration: none;
+		background: none;
+		border: none;
+		cursor: pointer;
 		/* Embossed 3D effect - scaled down for header */
 		text-shadow: 
 			-1px -1px 0 var(--headline-accent, #7a7a7a),
@@ -152,6 +158,9 @@
 		font-size: clamp(0.875rem, 2vw, 1.25rem);
 		color: var(--color-text-on-green);
 		text-decoration: none;
+		background: none;
+		border: none;
+		cursor: pointer;
 		transition: opacity var(--transition-base);
 	}
 
