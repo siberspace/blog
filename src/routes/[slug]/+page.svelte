@@ -483,13 +483,15 @@
 	/* Post Title - Embossed 3D effect */
 	.post-title {
 		font-family: var(--font-handwritten);
-		font-size: clamp(2.5rem, 6vw, 6.75rem);
+		font-size: clamp(2.5rem, 5vw, 5.5rem);
 		font-weight: 700;
 		color: var(--headline);
 		text-align: center;
 		line-height: 1.1;
 		margin: 0;
 		margin-bottom: 1rem;
+		max-width: 900px;
+		text-wrap: balance;
 		/* Embossed 3D effect with highlight, extrusion, and glow */
 		text-shadow: 
 			/* Inner highlight - top left edge */
