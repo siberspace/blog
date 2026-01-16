@@ -9,9 +9,10 @@
 		// Add Ghost Portal script for subscriptions
 		if (data.ghostUrl && !document.querySelector('script[data-ghost]')) {
 			const script = document.createElement('script');
-			script.src = `${data.ghostUrl}/public/member.js`;
+			script.src = `${data.ghostUrl}/public/portal.min.js`;
 			script.setAttribute('data-ghost', data.ghostUrl);
-			script.async = true;
+			script.setAttribute('data-api', `${data.ghostUrl}/ghost/api/content/`);
+			script.defer = true;
 			document.head.appendChild(script);
 		}
 	});
