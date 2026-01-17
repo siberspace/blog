@@ -749,7 +749,7 @@
 	@media (max-width: 768px) {
 		.hero {
 			min-height: auto;
-			padding: 5rem 1rem 3rem;
+			padding: 6.5rem 1rem 3rem;
 			justify-content: flex-start;
 			gap: 0;
 			overflow: visible;
@@ -861,7 +861,7 @@
 
 	@media (max-width: 480px) {
 		.hero {
-			padding: 4rem 1rem 2.5rem;
+			padding: 5.5rem 1rem 2.5rem;
 		}
 
 		.hero__stack {
