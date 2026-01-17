@@ -435,7 +435,7 @@
 	.hero-image-section {
 		position: relative;
 		z-index: 3;
-		margin-top: 0.625rem;
+		margin-top: 5rem;
 		margin-bottom: 0.625rem;
 		margin-left: 1rem;
 		margin-right: 1rem;
@@ -892,6 +892,7 @@
 	/* Responsive */
 	@media (max-width: 768px) {
 		.hero-image-section {
+			margin-top: 4rem;
 			margin-left: 0.5rem;
 			margin-right: 0.5rem;
 		}
