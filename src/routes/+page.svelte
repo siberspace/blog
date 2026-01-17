@@ -907,6 +907,14 @@
 		white-space: nowrap;
 	}
 
+	@media (max-width: 768px) {
+		.tagline {
+			white-space: normal;
+			max-width: 90%;
+			padding: 0.5rem 1.5rem 0;
+		}
+	}
+
 	/* ===== FLOWER GARDEN ===== */
 	.flower-garden {
 		position: relative;
