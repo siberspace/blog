@@ -237,6 +237,15 @@
 			{@html data.post.html}
 		</article>
 
+		<!-- Home button -->
+		<a href="/" class="home-button">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+				<polyline points="9 22 9 12 15 12 15 22"></polyline>
+			</svg>
+			<span>home</span>
+		</a>
+
 		<!-- End flower - blooms when you finish reading -->
 		<div class="end-flower" class:end-flower--bloomed={readingProgress > 85}>
 			<svg class="bloom-flower" viewBox="0 0 100 160" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -777,6 +786,46 @@
 		aspect-ratio: 16 / 9;
 		height: auto;
 		border-radius: 8px;
+	}
+
+	/* Home Button */
+	.home-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		margin: 3rem auto 0;
+		padding: 0.6rem 1.2rem;
+		font-family: var(--font-handwritten);
+		font-size: 1rem;
+		color: var(--headline);
+		text-decoration: none;
+		border: 2px solid var(--headline);
+		border-radius: 25px;
+		background: transparent;
+		transition: all 0.3s ease;
+	}
+
+	.home-button:hover {
+		background: var(--headline);
+		color: white;
+	}
+
+	.home-button svg {
+		width: 18px;
+		height: 18px;
+	}
+
+	@media (max-width: 768px) {
+		.home-button {
+			font-size: 0.9rem;
+			padding: 0.5rem 1rem;
+		}
+
+		.home-button svg {
+			width: 16px;
+			height: 16px;
+		}
 	}
 
 	/* End Flower - Single blooming flower */
