@@ -918,17 +918,20 @@
 	@media (max-width: 768px) {
 		.hero-image-section {
 			margin-top: 4rem;
+			margin-bottom: 2rem;
 			margin-left: 0.5rem;
 			margin-right: 0.5rem;
 		}
 
 		.content-section {
-			padding: 2rem 1.5rem;
+			padding: 0 1.5rem 2rem;
 			margin: 0 0.5rem;
+			gap: 1.5rem;
 		}
 
 		.post-title {
 			font-size: clamp(2rem, 8vw, 3rem);
+			margin-bottom: 0.5rem;
 		}
 
 		.article-body {
