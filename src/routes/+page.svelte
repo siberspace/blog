@@ -748,16 +748,17 @@
 
 	@media (max-width: 768px) {
 		.hero {
-			min-height: calc(100svh - 60px);
-			padding: 5rem 1rem 2rem;
-			justify-content: center;
-			gap: 2.5rem;
+			min-height: auto;
+			padding: 5rem 1rem 3rem;
+			justify-content: flex-start;
+			gap: 0;
+			overflow: visible;
 		}
 
 		.hero__stack {
 			width: 70vw;
 			height: 45vw;
-			margin-bottom: 0;
+			margin-bottom: 2.5rem;
 		}
 
 		/* Reduce rotation on mobile to prevent overlap */
@@ -767,7 +768,7 @@
 
 		.hero__title-container {
 			min-height: auto;
-			margin-bottom: 0;
+			margin-bottom: 2.5rem;
 		}
 
 		.hero__title {
@@ -778,7 +779,7 @@
 		}
 
 		.hero__actions {
-			margin-bottom: 0;
+			margin-bottom: 3rem;
 			position: relative;
 			z-index: 10;
 		}
@@ -788,10 +789,11 @@
 			padding: 0.7rem 1.8rem;
 			position: relative;
 			z-index: 10;
+			touch-action: manipulation;
 		}
 
 		.index {
-			padding: 1rem 1rem 2rem;
+			padding: 0 1rem 2rem;
 			margin-top: 0;
 		}
 
@@ -803,7 +805,7 @@
 		.index__title--mobile {
 			display: block;
 			margin-top: 0;
-			margin-bottom: 0.75rem;
+			margin-bottom: 1rem;
 		}
 
 		.index__row {
@@ -847,18 +849,25 @@
 
 	@media (max-width: 480px) {
 		.hero {
-			min-height: calc(100svh - 50px);
-			padding: 4rem 1rem 1.5rem;
-			gap: 2rem;
+			padding: 4rem 1rem 2.5rem;
 		}
 
 		.hero__stack {
 			width: 78vw;
 			height: 50vw;
+			margin-bottom: 2rem;
+		}
+
+		.hero__title-container {
+			margin-bottom: 2rem;
 		}
 
 		.hero__title {
 			font-size: 1rem;
+		}
+
+		.hero__actions {
+			margin-bottom: 2.5rem;
 		}
 
 		.hero__btn {
