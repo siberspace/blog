@@ -144,6 +144,15 @@
 
 <svelte:head>
 	<title>siberspace</title>
+	<meta property="og:title" content="siberspace" />
+	<meta property="og:description" content="music blog (most of the time). writings about lifesources in wasteland." />
+	<meta property="og:image" content="https://siberrr.space/site.png" />
+	<meta property="og:url" content="https://siberrr.space" />
+	<meta property="og:type" content="website" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="siberspace" />
+	<meta name="twitter:description" content="music blog (most of the time). writings about lifesources in wasteland." />
+	<meta name="twitter:image" content="https://siberrr.space/site.png" />
 </svelte:head>
 
 <main class="landing">

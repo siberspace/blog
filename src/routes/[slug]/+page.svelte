@@ -142,6 +142,15 @@
 
 <svelte:head>
 	<title>{data.post.title} | siberspace</title>
+	<meta property="og:title" content={data.post.title} />
+	<meta property="og:description" content={data.post.excerpt || "a siberspace story"} />
+	<meta property="og:image" content={data.post.feature_image || "https://siberrr.space/site.png"} />
+	<meta property="og:url" content={`https://siberrr.space/${data.post.slug}`} />
+	<meta property="og:type" content="article" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content={data.post.title} />
+	<meta name="twitter:description" content={data.post.excerpt || "a siberspace story"} />
+	<meta name="twitter:image" content={data.post.feature_image || "https://siberrr.space/site.png"} />
 </svelte:head>
 
 <main 
