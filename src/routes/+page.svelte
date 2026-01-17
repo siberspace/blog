@@ -767,8 +767,14 @@
 		}
 
 		.hero__title-container {
-			min-height: auto;
+			height: 3.5rem;
+			min-height: 3.5rem;
+			max-height: 3.5rem;
 			margin-bottom: 2.5rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
 		}
 
 		.hero__title {
@@ -776,6 +782,12 @@
 			line-height: 1.4;
 			color: #1a1a1a;
 			text-shadow: none;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
 		.hero__actions {
@@ -859,6 +871,9 @@
 		}
 
 		.hero__title-container {
+			height: 3rem;
+			min-height: 3rem;
+			max-height: 3rem;
 			margin-bottom: 2rem;
 		}
 
