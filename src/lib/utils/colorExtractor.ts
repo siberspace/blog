@@ -9,6 +9,7 @@ export interface ColorPalette {
 	tagTextColor: string;
 	borderColor: string;
 	linkColor: string;
+	imageCardBg: string;
 	isLight: boolean;
 }
 
@@ -23,6 +24,7 @@ export const defaultColors: ColorPalette = {
 	tagTextColor: '#1a1a1a',
 	borderColor: '#2e8b57',
 	linkColor: '#228b53',
+	imageCardBg: 'rgba(46, 139, 87, 0.15)',
 	isLight: false
 };
 
@@ -404,6 +406,10 @@ export async function extractColors(imageUrl: string): Promise<ColorPalette> {
 				
 				// ===== BORDER COLOR =====
 				const borderColor = tagColor;
+				
+				// ===== IMAGE CARD BACKGROUND =====
+				// Use the headline color at low opacity for subtle, cohesive card backgrounds
+				const imageCardBg = `rgba(${headline[0]}, ${headline[1]}, ${headline[2]}, 0.15)`;
 
 				const palette: ColorPalette = {
 					bgColor: rgbToHex(...darken(...dominant, 0.4)),
@@ -415,6 +421,7 @@ export async function extractColors(imageUrl: string): Promise<ColorPalette> {
 					tagTextColor: rgbToHex(...tagTextColor),
 					borderColor: rgbToHex(...borderColor),
 					linkColor: rgbToHex(...linkColor),
+					imageCardBg,
 					isLight
 				};
 

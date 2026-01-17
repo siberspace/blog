@@ -147,6 +147,7 @@
 		--dynamic-headline-glow: {colors.headlineColor}40;
 		--dynamic-tag: {colors.tagColor};
 		--dynamic-highlight: {colors.headlineAccent}90;
+		--dynamic-image-card-bg: {colors.imageCardBg};
 	"
 >
 	<!-- Header - hides on scroll down, shows on scroll up -->
@@ -288,6 +289,7 @@
 		--link: #1a1a1a;
 		--tag-color: #3a3a3a;
 		--highlight: rgba(120, 120, 120, 0.3);
+		--image-card-bg: rgba(0, 0, 0, 0.12);
 	}
 	
 	/* Apply dynamic colors once loaded */
@@ -298,6 +300,7 @@
 		--headline-glow: var(--dynamic-headline-glow);
 		--tag-color: var(--dynamic-tag);
 		--highlight: var(--dynamic-highlight);
+		--image-card-bg: var(--dynamic-image-card-bg);
 	}
 
 	/* Custom text selection color */
@@ -678,12 +681,13 @@
 	.article-body :global(figure:not(.kg-embed-card)),
 	.article-body :global(.kg-image-card) {
 		position: relative;
-		background-color: rgba(0, 0, 0, 0.15);
+		background-color: var(--image-card-bg, rgba(0, 0, 0, 0.12));
 		backdrop-filter: blur(8px);
 		border-radius: 12px;
 		padding: 0.5rem;
 		margin: 2rem 0;
-		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+		box-shadow: 0 4px 24px var(--image-card-bg, rgba(0, 0, 0, 0.12));
+		transition: background-color 0.8s ease-out, box-shadow 0.8s ease-out;
 	}
 
 	/* Paper texture overlay on inline images */
@@ -721,12 +725,13 @@
 
 	/* Standalone images (not in figure) */
 	.article-body :global(p > img) {
-		background-color: rgba(0, 0, 0, 0.15);
+		background-color: var(--image-card-bg, rgba(0, 0, 0, 0.12));
 		backdrop-filter: blur(8px);
 		border-radius: 12px;
 		padding: 0.5rem;
 		width: calc(100% - 1rem);
-		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+		box-shadow: 0 4px 24px var(--image-card-bg, rgba(0, 0, 0, 0.12));
+		transition: background-color 0.8s ease-out, box-shadow 0.8s ease-out;
 	}
 
 	/* YouTube/Video embeds - full width, no background */
