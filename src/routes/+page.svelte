@@ -303,8 +303,7 @@
 
 	<!-- Tagline -->
 	<p class="tagline">
-		<span class="tagline__line1">music blog (most of the time). writings about lifesources in wasteland.</span>
-		<span class="tagline__line2">published from iris falls, constella.</span>
+		music blog (most of the time). writings about lifesources in wasteland. published from iris falls, constella.
 	</p>
 
 	<!-- Flower Garden - one flower per story -->
@@ -905,11 +904,7 @@
 		padding: 0.5rem 1rem 0;
 		margin: 0 auto;
 		font-style: italic;
-	}
-
-	.tagline__line1,
-	.tagline__line2 {
-		display: block;
+		white-space: nowrap;
 	}
 
 	/* ===== FLOWER GARDEN ===== */
