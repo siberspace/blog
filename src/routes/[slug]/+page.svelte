@@ -237,13 +237,12 @@
 			{@html data.post.html}
 		</article>
 
-		<!-- Home button -->
+		<!-- More stories button -->
 		<a href="/" class="home-button">
 			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-				<polyline points="9 22 9 12 15 12 15 22"></polyline>
+				<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
 			</svg>
-			<span>home</span>
+			<span>more stories</span>
 		</a>
 
 		<!-- End flower - blooms when you finish reading -->
@@ -804,6 +803,12 @@
 		border-radius: 25px;
 		background: transparent;
 		transition: all 0.3s ease;
+	}
+
+	/* Reduce padding above flower when button is present */
+	.home-button + .end-flower {
+		padding-top: 1.5rem;
+		margin-top: 0;
 	}
 
 	.home-button:hover {
