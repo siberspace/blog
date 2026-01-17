@@ -88,6 +88,13 @@
 		const articleBody = document.querySelector('.article-body');
 		if (!articleBody) return;
 		
+		// Make all links open in new tabs
+		const links = articleBody.querySelectorAll('a');
+		links.forEach((link) => {
+			link.setAttribute('target', '_blank');
+			link.setAttribute('rel', 'noopener noreferrer');
+		});
+		
 		const images = articleBody.querySelectorAll('img');
 		if (images.length === 0) return;
 		
