@@ -963,10 +963,11 @@
 		align-items: flex-end;
 		justify-content: center;
 		transform: translateX(var(--flower-x, 0));
+		transform-origin: bottom center;
 		cursor: pointer;
 		text-decoration: none;
 		transition: transform 0.3s ease;
-		animation: gentleBreeze 3s ease-in-out infinite;
+		animation: gentleBreeze 4s ease-in-out infinite;
 		animation-delay: var(--animation-delay, 0s);
 	}
 
@@ -987,10 +988,16 @@
 	/* Gentle swaying animation */
 	@keyframes gentleBreeze {
 		0%, 100% {
-			transform: translateX(var(--flower-x, 0)) rotate(-1deg);
+			transform: translateX(var(--flower-x, 0)) rotate(-3deg) translateX(-2px);
+		}
+		25% {
+			transform: translateX(var(--flower-x, 0)) rotate(-1deg) translateX(-1px);
 		}
 		50% {
-			transform: translateX(var(--flower-x, 0)) rotate(1deg);
+			transform: translateX(var(--flower-x, 0)) rotate(3deg) translateX(2px);
+		}
+		75% {
+			transform: translateX(var(--flower-x, 0)) rotate(1deg) translateX(1px);
 		}
 	}
 
