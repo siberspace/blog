@@ -758,7 +758,7 @@
 		.hero__stack {
 			width: 70vw;
 			height: 45vw;
-			margin-bottom: 2.5rem;
+			margin-bottom: 4rem;
 		}
 
 		/* Reduce rotation on mobile to prevent overlap */
@@ -867,7 +867,7 @@
 		.hero__stack {
 			width: 78vw;
 			height: 50vw;
-			margin-bottom: 2rem;
+			margin-bottom: 3.5rem;
 		}
 
 		.hero__title-container {
