@@ -751,7 +751,7 @@
 			min-height: calc(100svh - 60px);
 			padding: 5rem 1rem 2rem;
 			justify-content: center;
-			gap: 1.5rem;
+			gap: 2.5rem;
 		}
 
 		.hero__stack {
@@ -779,11 +779,15 @@
 
 		.hero__actions {
 			margin-bottom: 0;
+			position: relative;
+			z-index: 10;
 		}
 
 		.hero__btn {
 			font-size: 1rem;
 			padding: 0.7rem 1.8rem;
+			position: relative;
+			z-index: 10;
 		}
 
 		.index {
@@ -845,7 +849,7 @@
 		.hero {
 			min-height: calc(100svh - 50px);
 			padding: 4rem 1rem 1.5rem;
-			gap: 1.25rem;
+			gap: 2rem;
 		}
 
 		.hero__stack {
