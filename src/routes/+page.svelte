@@ -102,10 +102,10 @@
 		}, 250);
 	}
 
-	// Open the featured post in a new tab
+	// Open the featured post in the same tab
 	function openStory() {
 		if (featuredPost) {
-			window.open(`/${featuredPost.slug}`, '_blank');
+			window.location.href = `/${featuredPost.slug}`;
 		}
 	}
 
