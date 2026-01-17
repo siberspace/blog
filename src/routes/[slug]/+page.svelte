@@ -527,6 +527,31 @@
 		transition: color 0.8s ease-out;
 	}
 
+	/* Smaller tag pills on mobile */
+	@media (max-width: 768px) {
+		.tags-container {
+			gap: 0.4rem;
+		}
+
+		.tags-container :global(.tag-pill) {
+			font-size: 0.85rem;
+			padding: 0.25rem 0.6rem;
+		}
+
+		.tags-container :global(.tag-pill svg) {
+			inset: -2px;
+			width: calc(100% + 4px);
+			height: calc(100% + 4px);
+		}
+	}
+
+	@media (max-width: 480px) {
+		.tags-container :global(.tag-pill) {
+			font-size: 0.75rem;
+			padding: 0.2rem 0.5rem;
+		}
+	}
+
 	/* Divider Line */
 	.divider-line {
 		width: 100%;
