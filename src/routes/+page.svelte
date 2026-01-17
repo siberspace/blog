@@ -748,15 +748,16 @@
 
 	@media (max-width: 768px) {
 		.hero {
-			min-height: auto;
-			padding: 5rem 1rem 1.5rem;
-			justify-content: flex-start;
+			min-height: calc(100svh - 60px);
+			padding: 5rem 1rem 2rem;
+			justify-content: center;
+			gap: 1.5rem;
 		}
 
 		.hero__stack {
 			width: 70vw;
 			height: 45vw;
-			margin-bottom: 3rem;
+			margin-bottom: 0;
 		}
 
 		/* Reduce rotation on mobile to prevent overlap */
@@ -766,7 +767,7 @@
 
 		.hero__title-container {
 			min-height: auto;
-			margin-bottom: 1.5rem;
+			margin-bottom: 0;
 		}
 
 		.hero__title {
@@ -777,7 +778,7 @@
 		}
 
 		.hero__actions {
-			margin-bottom: 2.5rem;
+			margin-bottom: 0;
 		}
 
 		.hero__btn {
@@ -786,7 +787,7 @@
 		}
 
 		.index {
-			padding: 0 1rem 2rem;
+			padding: 1rem 1rem 2rem;
 			margin-top: 0;
 		}
 
@@ -798,7 +799,7 @@
 		.index__title--mobile {
 			display: block;
 			margin-top: 0;
-			margin-bottom: 1rem;
+			margin-bottom: 0.75rem;
 		}
 
 		.index__row {
@@ -842,13 +843,14 @@
 
 	@media (max-width: 480px) {
 		.hero {
-			padding: 4rem 1rem 1rem;
+			min-height: calc(100svh - 50px);
+			padding: 4rem 1rem 1.5rem;
+			gap: 1.25rem;
 		}
 
 		.hero__stack {
-			width: 80vw;
-			height: 52vw;
-			margin-bottom: 2.5rem;
+			width: 78vw;
+			height: 50vw;
 		}
 
 		.hero__title {
