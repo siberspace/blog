@@ -534,6 +534,7 @@
 		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 		max-width: 450px;
 		line-height: 1.4;
+		text-wrap: balance;
 	}
 
 	/* Action Buttons */
@@ -782,6 +783,7 @@
 			line-height: 1.4;
 			color: #1a1a1a;
 			text-shadow: none;
+			text-wrap: balance;
 			display: -webkit-box;
 			-webkit-line-clamp: 2;
 			line-clamp: 2;
