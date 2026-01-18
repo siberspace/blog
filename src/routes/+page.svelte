@@ -639,8 +639,8 @@
 		background: linear-gradient(
 			to bottom,
 			rgba(235, 235, 235, 0) 0%,
-			rgba(235, 235, 235, 0.70) 8%,
-			rgba(235, 235, 235, 0.80) 100%
+			rgba(235, 235, 235, 0.60) 8%,
+			rgba(235, 235, 235, 0.70) 100%
 		);
 		border-radius: 12px;
 		z-index: -1;
@@ -922,6 +922,8 @@
 		position: relative;
 		z-index: 3;
 		text-align: center;
+		background: rgba(235, 235, 235, 0.70);
+		border-radius: 8px;
 		font-family: var(--font-handwritten);
 		font-size: 0.875rem;
 		color: rgba(0, 0, 0, 0.55);
@@ -955,7 +957,7 @@
 		content: '';
 		position: absolute;
 		inset: 0;
-		background: rgba(235, 235, 235, 0.80);
+		background: rgba(235, 235, 235, 0.70);
 		z-index: -1;
 		pointer-events: none;
 	}
