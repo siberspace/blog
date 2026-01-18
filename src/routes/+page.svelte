@@ -639,8 +639,8 @@
 		background: linear-gradient(
 			to bottom,
 			rgba(235, 235, 235, 0) 0%,
-			rgba(235, 235, 235, 0.75) 8%,
-			rgba(235, 235, 235, 0.85) 100%
+			rgba(235, 235, 235, 0.70) 8%,
+			rgba(235, 235, 235, 0.80) 100%
 		);
 		border-radius: 12px;
 		z-index: -1;
@@ -948,6 +948,16 @@
 		margin-top: 0;
 		overflow: hidden;
 		height: 160px;
+	}
+
+	/* Overlay to soften texture behind flower garden */
+	.flower-garden::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: rgba(235, 235, 235, 0.80);
+		z-index: -1;
+		pointer-events: none;
 	}
 
 	.garden-ground {
