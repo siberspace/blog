@@ -631,6 +631,22 @@
 		align-items: center;
 	}
 
+	/* Overlay to soften texture behind index for better readability */
+	.index::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to bottom,
+			rgba(235, 235, 235, 0) 0%,
+			rgba(235, 235, 235, 0.75) 8%,
+			rgba(235, 235, 235, 0.85) 100%
+		);
+		border-radius: 12px;
+		z-index: -1;
+		pointer-events: none;
+	}
+
 	.index__title {
 		font-family: var(--font-typewriter);
 		font-size: 1.5rem;
