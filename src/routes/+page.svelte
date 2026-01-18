@@ -256,8 +256,10 @@
 		</div>
 	</section>
 
-	<!-- Stories Index Section -->
-	<section class="index">
+	<!-- Bottom section wrapper with unified overlay -->
+	<div class="bottom-section-wrapper">
+		<!-- Stories Index Section -->
+		<section class="index">
 		<!-- Mobile title (hidden on desktop) -->
 		<h2 class="index__title index__title--mobile">in the crates...</h2>
 
@@ -365,6 +367,7 @@
 			{/each}
 		</div>
 	</section>
+	</div>
 </main>
 
 <style>
@@ -631,19 +634,23 @@
 		align-items: center;
 	}
 
-	/* Overlay to soften texture behind index for better readability */
-	.index::before {
+	/* Wrapper for bottom sections with unified overlay */
+	.bottom-section-wrapper {
+		position: relative;
+	}
+
+	/* Single continuous overlay for index, tagline, and flower garden */
+	.bottom-section-wrapper::before {
 		content: '';
 		position: absolute;
 		inset: 0;
 		background: linear-gradient(
 			to bottom,
 			rgba(235, 235, 235, 0) 0%,
-			rgba(235, 235, 235, 0.60) 8%,
+			rgba(235, 235, 235, 0.60) 3%,
 			rgba(235, 235, 235, 0.70) 100%
 		);
-		border-radius: 12px;
-		z-index: -1;
+		z-index: 0;
 		pointer-events: none;
 	}
 
@@ -922,8 +929,6 @@
 		position: relative;
 		z-index: 3;
 		text-align: center;
-		background: rgba(235, 235, 235, 0.70);
-		border-radius: 8px;
 		font-family: var(--font-handwritten);
 		font-size: 0.875rem;
 		color: rgba(0, 0, 0, 0.55);
@@ -952,15 +957,6 @@
 		height: 160px;
 	}
 
-	/* Overlay to soften texture behind flower garden */
-	.flower-garden::before {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: rgba(235, 235, 235, 0.70);
-		z-index: -1;
-		pointer-events: none;
-	}
 
 	.garden-ground {
 		position: absolute;
