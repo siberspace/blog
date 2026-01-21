@@ -874,6 +874,7 @@
 		color: #ffffff;
 		font-weight: 500;
 		text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+		text-transform: lowercase;
 	}
 
 	.index__cell--type,
