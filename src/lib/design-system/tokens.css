@@ -38,10 +38,10 @@
 	
 	/* Typography - Font Families */
 	--font-sans: "Inter", sans-serif;
-	--font-serif: "Libre Caslon Text", "Georgia", serif;
-	--font-display: "Big Caslon", "Libre Caslon Display", "Libre Caslon Text", "Georgia", serif;
-	--font-handwritten: "Caveat", cursive;
-	--font-typewriter: "Special Elite", "American Typewriter", "Courier New", monospace;
+	--font-serif: "Literata", "Georgia", serif;
+	--font-display: "Unbounded", "Georgia", serif;
+	--font-handwritten: "Unbounded", sans-serif;
+	--font-typewriter: "JetBrains Mono", "Consolas", monospace;
 	
 	/* Typography - Sizes */
 	--text-xs: 0.75rem;
