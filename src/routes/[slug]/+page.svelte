@@ -601,7 +601,7 @@
 		color: var(--text);
 		max-width: 65ch;
 		width: 100%;
-		text-align: justify;
+		text-align: left;
 	}
 
 	.article-body :global(p) {
@@ -923,10 +923,6 @@
 			font-size: clamp(1.5rem, 6vw, 2.5rem);
 			margin-bottom: 0.5rem;
 			letter-spacing: 0.06em;
-		}
-
-		.article-body {
-			text-align: left;
 		}
 
 		.progress-bar {
