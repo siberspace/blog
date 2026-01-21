@@ -652,7 +652,7 @@
 		text-align: center;
 		white-space: nowrap;
 		line-height: 1.4;
-		text-transform: uppercase;
+		text-transform: lowercase;
 		letter-spacing: 0.08em;
 		/* Starlight glow */
 		text-shadow: 
@@ -674,7 +674,7 @@
 		font-family: 'VT323', monospace;
 		font-size: 1.1rem;
 		letter-spacing: 0.1em;
-		text-transform: uppercase;
+		text-transform: lowercase;
 		padding: 0.7rem 1.8rem;
 		border-radius: 4px;
 		cursor: pointer;
@@ -778,7 +778,7 @@
 		color: #e8e8e8;
 		text-align: center;
 		margin-bottom: 2rem;
-		text-transform: uppercase;
+		text-transform: lowercase;
 		text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
 		animation: star-twinkle 3s ease-in-out infinite;
 	}
@@ -814,7 +814,7 @@
 		font-size: 1.1rem;
 		font-weight: 400;
 		color: #d0d0d0;
-		text-transform: uppercase;
+		text-transform: lowercase;
 		border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 		margin-bottom: 0.5rem;
 		width: fit-content;
@@ -974,7 +974,7 @@
 			text-wrap: balance;
 			white-space: normal;
 			padding: 0.5rem 0.75rem;
-			text-transform: uppercase;
+			text-transform: lowercase;
 			letter-spacing: 0.08em;
 			/* Starlight glow - mobile */
 			text-shadow: 
@@ -1072,7 +1072,7 @@
 		.hero__title {
 			font-size: 1rem;
 			padding: 0.4rem 0.6rem;
-			text-transform: uppercase;
+			text-transform: lowercase;
 			letter-spacing: 0.06em;
 			/* Starlight glow - small mobile */
 			text-shadow: 

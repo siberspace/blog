@@ -52,7 +52,7 @@
 		font-size: 1.5rem;
 		font-weight: 400;
 		letter-spacing: 0.1em;
-		text-transform: uppercase;
+		text-transform: lowercase;
 		color: #e8e8e8;
 		text-decoration: none;
 		pointer-events: auto;
@@ -98,7 +98,7 @@
 		font-size: 1.5rem;
 		font-weight: 400;
 		letter-spacing: 0.1em;
-		text-transform: uppercase;
+		text-transform: lowercase;
 		color: var(--headline, #e8e8e8);
 		text-decoration: none;
 		cursor: pointer;
