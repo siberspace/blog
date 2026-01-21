@@ -729,13 +729,36 @@
 	}
 
 	.index__title {
-		font-family: var(--font-typewriter);
-		font-size: 1.25rem;
+		font-family: 'VT323', monospace;
+		font-size: 1.5rem;
 		font-weight: 400;
-		letter-spacing: 0.05em;
-		color: #2a2a2a;
+		letter-spacing: 0.1em;
+		color: #00ff88;
 		text-align: center;
 		margin-bottom: 2rem;
+		text-transform: uppercase;
+		text-shadow: 
+			0 0 5px #00ff88,
+			0 0 10px #00ff88,
+			0 0 20px #00ff8855;
+		animation: clock-glow 2s ease-in-out infinite;
+	}
+
+	@keyframes clock-glow {
+		0%, 100% {
+			opacity: 1;
+			text-shadow: 
+				0 0 5px #00ff88,
+				0 0 10px #00ff88,
+				0 0 20px #00ff8855;
+		}
+		50% {
+			opacity: 0.85;
+			text-shadow: 
+				0 0 3px #00ff88,
+				0 0 6px #00ff88,
+				0 0 12px #00ff8855;
+		}
 	}
 
 	/* Hide mobile title on desktop */
@@ -749,14 +772,19 @@
 		grid-template-columns: 100px minmax(200px, 450px) 100px 60px 70px 100px;
 		gap: 1.5rem;
 		padding: 0.75rem 1rem;
-		font-family: var(--font-typewriter);
-		letter-spacing: 0.03em;
-		font-size: 1rem;
-		font-weight: 700;
-		color: black;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+		font-family: 'VT323', monospace;
+		letter-spacing: 0.08em;
+		font-size: 1.1rem;
+		font-weight: 400;
+		color: #00ff88;
+		text-transform: uppercase;
+		border-bottom: 1px solid rgba(0, 255, 136, 0.3);
 		margin-bottom: 0.5rem;
 		width: fit-content;
+		text-shadow: 
+			0 0 5px #00ff88,
+			0 0 10px #00ff8855;
+		animation: clock-glow 2s ease-in-out infinite;
 	}
 
 	.index__header--thumb {
@@ -782,7 +810,14 @@
 	}
 
 	.index__row:hover {
-		background-color: rgba(0, 0, 0, 0.05);
+		background-color: rgba(0, 255, 136, 0.08);
+	}
+
+	.index__row:hover .index__cell {
+		text-shadow: 
+			0 0 5px #00ff88,
+			0 0 12px #00ff88,
+			0 0 20px #00ff8888;
 	}
 
 	/* Thumbnail */
@@ -808,14 +843,18 @@
 
 	/* Cell Styles */
 	.index__cell {
-		font-family: var(--font-typewriter);
-		font-size: 0.95rem;
-		color: #2a2a2a;
-		letter-spacing: 0.02em;
+		font-family: 'VT323', monospace;
+		font-size: 1.1rem;
+		color: #00ff88;
+		letter-spacing: 0.05em;
+		text-shadow: 
+			0 0 3px #00ff88,
+			0 0 8px #00ff8855;
+		animation: clock-glow 2s ease-in-out infinite;
 	}
 
 	.index__cell--headline {
-		font-size: 1.125rem;
+		font-size: 1.25rem;
 		line-height: 1.3;
 	}
 
@@ -972,13 +1011,14 @@
 		.index__cell--excerpt {
 			display: block;
 			grid-column: 2;
-			font-family: var(--font-sans);
-			font-size: 0.8rem;
-			color: #666;
+			font-family: 'VT323', monospace;
+			font-size: 0.95rem;
+			color: #00ff88aa;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			line-height: 1.4;
+			text-shadow: 0 0 3px #00ff8855;
 		}
 	}
 
