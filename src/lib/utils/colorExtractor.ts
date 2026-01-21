@@ -378,8 +378,8 @@ export async function extractColors(imageUrl: string): Promise<ColorPalette> {
 				// ===== HEADLINE COLOR =====
 				// Start with the vibrant color, boost saturation significantly
 				let headline = saturate(...vibrant, 1.8);
-				// Only lighten slightly - keep close to original vibrant color
-				headline = lighten(...headline, 0.1);
+				// Lighten 20% for better readability while staying vibrant
+				headline = lighten(...headline, 0.2);
 				headline = saturate(...headline, 0.5); // Re-saturate to stay punchy
 				// Ensure minimum contrast but don't over-lighten
 				headline = ensureContrastOnGray(headline, 3.0, false);
