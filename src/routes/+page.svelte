@@ -490,7 +490,7 @@
 		position: relative;
 		width: min(70vw, 500px);
 		height: min(45vw, 320px);
-		margin-bottom: 3.5rem;
+		margin-bottom: 5rem;
 	}
 
 	.hero__card {
@@ -592,7 +592,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-bottom: 3.5rem;
+		margin-bottom: 5rem;
 		padding: 0 1rem;
 	}
 
