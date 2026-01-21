@@ -773,6 +773,11 @@
 		z-index: 0;
 	}
 
+	/* Images with captions: flatten bottom corners so they flow into caption */
+	.article-body :global(figure:has(figcaption) img) {
+		border-radius: 8px 8px 0 0;
+	}
+
 	.article-body :global(figcaption) {
 		font-family: var(--font-sans);
 		font-size: 0.9375rem;
