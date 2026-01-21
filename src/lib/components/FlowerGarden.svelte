@@ -202,7 +202,6 @@
 		.garden-flower {
 			width: 40px;
 			min-width: 15px;
-			animation: none; /* Disable sway animation on mobile for performance */
 		}
 	}
 
@@ -218,7 +217,6 @@
 		.garden-flower {
 			width: 32px;
 			min-width: 10px;
-			animation: none;
 		}
 	}
 

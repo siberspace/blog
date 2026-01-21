@@ -898,16 +898,8 @@
 			animation: none; /* Disable nebula drift on mobile */
 		}
 
-		.bg-stars {
-			animation: none; /* Disable star twinkle on mobile */
-		}
-
 		.hero__title {
 			animation: none; /* Disable shimmer on mobile */
-		}
-
-		.index__title {
-			animation: none; /* Disable twinkle on mobile */
 		}
 
 		.hero {
