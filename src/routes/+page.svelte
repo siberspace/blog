@@ -1086,7 +1086,7 @@
 		}
 
 		.flowers-row {
-			bottom: 35px;
+			bottom: 15px;
 		}
 
 		.garden-flower {
@@ -1101,7 +1101,7 @@
 		}
 
 		.flowers-row {
-			bottom: 40px;
+			bottom: 10px;
 		}
 
 		.garden-flower {
