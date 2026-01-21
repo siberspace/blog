@@ -492,14 +492,25 @@
 	.hero__card {
 		position: absolute;
 		inset: 0;
-		border-radius: 3px;
+		border-radius: 2px;
 		overflow: hidden;
 		transform: rotate(var(--rotation)) translate(var(--offset-x), var(--offset-y));
-		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-		/* Polaroid frame */
-		background: linear-gradient(to bottom, #fafafa 0%, #f0f0f0 100%);
+		/* Layered shadows for depth */
+		box-shadow: 
+			0 1px 2px rgba(0, 0, 0, 0.1),
+			0 4px 8px rgba(0, 0, 0, 0.1),
+			0 8px 16px rgba(0, 0, 0, 0.15),
+			0 16px 32px rgba(0, 0, 0, 0.1),
+			inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+		/* Polaroid frame with paper texture */
+		background: 
+			url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='0.03'/%3E%3C/svg%3E"),
+			linear-gradient(175deg, #fcfcfa 0%, #f5f5f0 40%, #eeeee8 100%);
 		padding: 12px 12px 40px 12px;
-		border: 1px solid rgba(0, 0, 0, 0.1);
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		/* Subtle worn edges */
+		border-top-color: rgba(255, 255, 255, 0.3);
+		border-left-color: rgba(255, 255, 255, 0.2);
 	}
 
 	/* Background stack cards */
@@ -540,9 +551,12 @@
 		height: 100%;
 		object-fit: cover;
 		/* Vintage print/risograph effect */
-		filter: contrast(1.2) saturate(1.4) brightness(1.05);
+		filter: contrast(1.15) saturate(1.3) brightness(1.02);
 		border-radius: 1px;
-		border: 1px solid var(--card-border, #333);
+		/* Subtle inset shadow for photo depth */
+		box-shadow: 
+			inset 0 0 3px rgba(0, 0, 0, 0.2),
+			inset 0 0 10px rgba(0, 0, 0, 0.05);
 	}
 
 	/* Grain overlay for print texture - covers image area only */
@@ -837,6 +851,11 @@
 		.hero__card {
 			transform: rotate(calc(var(--rotation) * 0.4)) translate(calc(var(--offset-x) * 0.5), calc(var(--offset-y) * 0.5));
 			padding: 8px 8px 28px 8px;
+			box-shadow: 
+				0 1px 2px rgba(0, 0, 0, 0.1),
+				0 4px 8px rgba(0, 0, 0, 0.12),
+				0 8px 16px rgba(0, 0, 0, 0.1),
+				inset 0 0 0 1px rgba(255, 255, 255, 0.5);
 		}
 
 		.hero__card::after {
