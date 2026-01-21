@@ -309,18 +309,13 @@
 		--headline-glow: rgba(255, 255, 255, 0.2);
 		--border: #3a3a3a;
 		--link: #88ccff;
-		--tag-color: #d0d0d0;
+		--tag-color: #c8c8d0;
 		--highlight: rgba(255, 255, 255, 0.2);
 		--image-card-bg: rgba(255, 255, 255, 0.08);
 	}
 	
-	/* Apply dynamic colors once loaded */
+	/* Apply dynamic colors once loaded (for in-line images only) */
 	.article-page.colors-loaded {
-		--headline: var(--dynamic-headline);
-		--headline-shadow: var(--dynamic-headline-shadow);
-		--headline-accent: var(--dynamic-headline-accent);
-		--headline-glow: var(--dynamic-headline-glow);
-		--tag-color: var(--dynamic-tag);
 		--highlight: var(--dynamic-highlight);
 		--image-card-bg: var(--dynamic-image-card-bg);
 	}
@@ -669,16 +664,6 @@
 	}
 
 	/* Drop cap for first paragraph */
-	.article-body :global(p:first-of-type::first-letter) {
-		float: left;
-		font-family: var(--font-display);
-		font-size: 3.75em;
-		line-height: 0.8;
-		padding-right: 0.08em;
-		padding-top: 0.05em;
-		color: var(--headline);
-		transition: color 0.8s ease-out;
-	}
 
 	.article-body :global(a) {
 		color: var(--link);
