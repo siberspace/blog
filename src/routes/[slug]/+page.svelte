@@ -31,6 +31,10 @@
 	let colors = $state<ColorPalette>(defaultColors);
 	let colorsLoaded = $state(false);
 	
+	// Track if mobile for limiting tags
+	let isMobile = $state(false);
+	const maxMobileTags = 4; // Max total tags (including author, year) on mobile
+	
 	function handleScroll() {
 		scrollY = window.scrollY;
 		
@@ -78,6 +82,13 @@
 	}
 	
 	onMount(async () => {
+		// Check if mobile
+		const checkMobile = () => {
+			isMobile = window.innerWidth <= 768;
+		};
+		checkMobile();
+		window.addEventListener('resize', checkMobile);
+		
 		// Extract colors from feature image
 		if (data.post.feature_image) {
 			const extracted = await extractColors(data.post.feature_image);
@@ -227,9 +238,10 @@
 			<!-- Year tag -->
 			<TagPill label={String(publishedYear)} pathIndex={1} />
 
-			<!-- Post tags from Ghost -->
+			<!-- Post tags from Ghost - limit on mobile -->
 			{#if data.post.tags && data.post.tags.length > 0}
-				{#each data.post.tags as tag, i}
+				{@const visibleTags = isMobile ? data.post.tags.slice(0, maxMobileTags - 2) : data.post.tags}
+				{#each visibleTags as tag, i}
 					<TagPill 
 						label={tag.name} 
 						pathIndex={(i + 2) % sketchPaths.length}
@@ -549,19 +561,15 @@
 		transition: color 0.8s ease-out;
 	}
 
-	/* Smaller tag pills on mobile - single line only */
+	/* Smaller tag pills on mobile */
 	@media (max-width: 768px) {
 		.tags-container {
 			gap: 0.4rem;
-			flex-wrap: nowrap;
-			overflow: hidden;
-			max-width: 100%;
 		}
 
 		.tags-container :global(.tag-pill) {
 			font-size: 0.85rem;
 			padding: 0.25rem 0.6rem;
-			flex-shrink: 0;
 		}
 
 		.tags-container :global(.tag-pill svg) {
