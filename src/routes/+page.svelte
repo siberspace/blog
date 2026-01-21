@@ -193,7 +193,6 @@
 	<div class="bg-color-wash" style="background-image: url('{featuredPost?.feature_image || ''}')"></div>
 	<div class="bg-paper"></div>
 	<div class="bg-gradient"></div>
-	<div class="bg-shimmer" style="--scroll-y: {scrollY}px"></div>
 
 	<!-- Header -->
 	<Header variant="landing" />
@@ -460,16 +459,10 @@
 
 	@keyframes nebulaDrift {
 		0%, 100% {
-			transform: scale(1.1) translate(0, 0);
-		}
-		25% {
-			transform: scale(1.2) translate(30px, -20px);
+			transform: scale(1.05) translate(0, 0);
 		}
 		50% {
-			transform: scale(1.05) translate(-30px, 35px);
-		}
-		75% {
-			transform: scale(1.15) translate(-40px, -15px);
+			transform: scale(1.08) translate(10px, -10px);
 		}
 	}
 
@@ -498,26 +491,6 @@
 		z-index: 2;
 	}
 
-	/* Layer 4: Scroll-based shimmer */
-	.bg-shimmer {
-		position: fixed;
-		inset: 0;
-		background: 
-			linear-gradient(
-				120deg,
-				transparent 0%,
-				transparent 20%,
-				rgba(255, 255, 255, 0.35) 35%,
-				rgba(255, 255, 255, 0.5) 50%,
-				rgba(255, 255, 255, 0.35) 65%,
-				transparent 80%,
-				transparent 100%
-			);
-		background-size: 300% 100%;
-		background-position: calc(var(--scroll-y) * 0.15px) 0;
-		pointer-events: none;
-		z-index: 2;
-	}
 
 	/* ===== HERO SECTION ===== */
 	.hero {
