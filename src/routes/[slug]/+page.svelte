@@ -782,10 +782,11 @@
 	.article-body :global(figcaption) {
 		font-family: var(--font-sans);
 		font-size: 0.9375rem;
-		color: var(--text);
+		color: var(--headline, var(--text));
 		text-align: center;
 		padding: 1rem 0.5rem;
 		margin: 0;
+		transition: color 0.8s ease-out;
 	}
 
 	/* Standalone images (not in figure) */
