@@ -932,7 +932,7 @@
 		}
 
 		.hero__title {
-			font-size: 1.5rem;
+			font-size: 1.8rem;
 			line-height: 1.3;
 			color: #c8c8d0;
 			text-wrap: balance;
@@ -981,6 +981,8 @@
 			display: block;
 			margin-top: 0;
 			margin-bottom: 1rem;
+			font-size: 1.1rem;
+			letter-spacing: 0.03em;
 		}
 
 		.index__row {
@@ -1043,7 +1045,7 @@
 		}
 
 		.hero__title {
-			font-size: 1.2rem;
+			font-size: 1.5rem;
 			padding: 0;
 			text-transform: lowercase;
 			letter-spacing: 0.01em;
@@ -1052,6 +1054,10 @@
 				-1px -1px 0 rgba(255, 255, 255, 0.8),
 				1px 1px 0 rgba(0, 0, 0, 0.4),
 				0 0 8px rgba(192, 192, 210, 0.3);
+		}
+
+		.index__title--mobile {
+			font-size: 1rem;
 		}
 
 		.hero__actions {
