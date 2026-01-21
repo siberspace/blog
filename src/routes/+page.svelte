@@ -488,9 +488,9 @@
 	/* Stacked Cards */
 	.hero__stack {
 		position: relative;
-		width: min(85vw, 650px);
-		height: min(55vw, 400px);
-		margin-bottom: 3rem;
+		width: min(70vw, 500px);
+		height: min(45vw, 320px);
+		margin-bottom: 2rem;
 	}
 
 	.hero__card {
@@ -586,32 +586,35 @@
 
 	/* Hero Title */
 	.hero__title-container {
-		min-height: 2.5rem;
+		height: 3rem;
+		min-height: 3rem;
+		max-height: 3rem;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-bottom: 1.25rem;
+		margin-bottom: 1.5rem;
 		padding: 0 1rem;
 	}
 
 	.hero__title {
 		font-family: var(--font-handwritten);
-		font-size: clamp(1.5rem, 4vw, 2.5rem);
+		font-size: clamp(1.2rem, 2.5vw, 1.75rem);
 		font-weight: 700;
 		color: var(--title-color, #333);
 		text-align: center;
-		max-width: 550px;
+		max-width: 800px;
+		white-space: nowrap;
 		line-height: 1.2;
-		text-wrap: balance;
-		/* Embossed 3D effect - scaled down from article page */
+		overflow: hidden;
+		text-overflow: ellipsis;
+		/* Embossed 3D effect - scaled for single line */
 		text-shadow: 
-			-1px -1px 0 var(--title-accent, rgba(255,255,255,0.5)),
+			-0.5px -0.5px 0 var(--title-accent, rgba(255,255,255,0.5)),
+			0.5px 0.5px 0 var(--title-shadow, rgba(0,0,0,0.3)),
 			1px 1px 0 var(--title-shadow, rgba(0,0,0,0.3)),
 			2px 2px 0 var(--title-shadow, rgba(0,0,0,0.3)),
-			3px 3px 0 var(--title-shadow, rgba(0,0,0,0.3)),
-			4px 4px 0 var(--title-shadow, rgba(0,0,0,0.3)),
-			5px 5px 4px rgba(0, 0, 0, 0.2),
-			0 0 20px var(--title-color, rgba(0,0,0,0.1));
+			3px 3px 3px rgba(0, 0, 0, 0.2),
+			0 0 15px var(--title-color, rgba(0,0,0,0.1));
 		transition: color 0.5s ease, text-shadow 0.5s ease;
 	}
 
