@@ -432,15 +432,15 @@
 		position: fixed;
 		inset: 0;
 		pointer-events: none;
-		z-index: 0;
+		z-index: 1;
 		animation: starTwinkle 4s ease-in-out infinite;
 	}
 
 	@keyframes starTwinkle {
 		0%, 100% { opacity: 1; }
-		25% { opacity: 0.6; }
-		50% { opacity: 0.95; }
-		75% { opacity: 0.5; }
+		25% { opacity: 0.7; }
+		50% { opacity: 1; }
+		75% { opacity: 0.6; }
 	}
 
 	/* Layer 1.5: Nebula color wash from featured image */
@@ -449,8 +449,8 @@
 		inset: -50px;
 		background-size: cover;
 		background-position: center;
-		filter: blur(80px) saturate(2.5) brightness(0.6);
-		opacity: 0.5;
+		filter: blur(100px) saturate(2) brightness(0.5);
+		opacity: 0.35;
 		pointer-events: none;
 		z-index: 0;
 		transition: background-image 0.5s ease-out;
@@ -649,7 +649,7 @@
 		font-weight: 400;
 		color: #ffffff;
 		text-align: center;
-		max-width: 800px;
+		width: 100%;
 		white-space: nowrap;
 		line-height: 1.4;
 		padding: 0.5rem 1rem;
@@ -969,18 +969,18 @@
 		}
 
 		.hero__title {
-			font-size: 1.3rem;
+			font-size: 1.2rem;
 			line-height: 1.3;
-			color: var(--title-color, #333);
+			color: #ffffff;
 			text-wrap: balance;
 			white-space: normal;
 			padding: 0.5rem 0.75rem;
-			/* Embossed into paper - mobile */
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			/* Starlight glow - mobile */
 			text-shadow: 
-				-1px -1px 0 rgba(255, 255, 255, 0.3),
-				1px 1px 1px var(--title-shadow, rgba(0,0,0,0.4)),
-				2px 2px 2px var(--title-shadow, rgba(0,0,0,0.2)),
-				2px 2px 5px rgba(0, 0, 0, 0.12);
+				0 0 8px rgba(255, 255, 255, 0.6),
+				0 0 16px rgba(255, 255, 255, 0.3);
 		}
 
 		.hero__actions {
@@ -1071,12 +1071,14 @@
 		}
 
 		.hero__title {
-			font-size: 1.1rem;
+			font-size: 1rem;
 			padding: 0.4rem 0.6rem;
+			text-transform: uppercase;
+			letter-spacing: 0.06em;
+			/* Starlight glow - small mobile */
 			text-shadow: 
-				-0.5px -0.5px 0 rgba(255, 255, 255, 0.25),
-				1px 1px 1px var(--title-shadow, rgba(0,0,0,0.35)),
-				1.5px 1.5px 3px rgba(0, 0, 0, 0.1);
+				0 0 6px rgba(255, 255, 255, 0.5),
+				0 0 12px rgba(255, 255, 255, 0.25);
 		}
 
 		.hero__actions {
