@@ -11,7 +11,28 @@
 	let flowerColors = $state<Map<string, ColorPalette>>(new Map());
 	
 	// Dynamic starfield based on user location
-	let starfieldCSS = $state('');
+	// Static fallback stars for instant display
+	const staticStars = `
+		radial-gradient(2px 2px at 15% 20%, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
+		radial-gradient(1.5px 1.5px at 85% 15%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
+		radial-gradient(2.5px 2.5px at 45% 75%, rgba(255, 255, 255, 0.95) 0%, transparent 100%),
+		radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+		radial-gradient(1.5px 1.5px at 25% 60%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
+		radial-gradient(2px 2px at 90% 70%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
+		radial-gradient(1px 1px at 10% 85%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+		radial-gradient(1.5px 1.5px at 55% 25%, rgba(255, 255, 255, 0.65) 0%, transparent 100%),
+		radial-gradient(2px 2px at 35% 90%, rgba(255, 255, 255, 0.75) 0%, transparent 100%),
+		radial-gradient(1px 1px at 80% 55%, rgba(255, 255, 255, 0.55) 0%, transparent 100%),
+		radial-gradient(1.5px 1.5px at 5% 45%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
+		radial-gradient(2px 2px at 60% 10%, rgba(255, 255, 255, 0.85) 0%, transparent 100%),
+		radial-gradient(1px 1px at 95% 35%, rgba(255, 255, 255, 0.45) 0%, transparent 100%),
+		radial-gradient(1.5px 1.5px at 40% 50%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
+		radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
+		radial-gradient(1px 1px at 75% 80%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+		radial-gradient(1.5px 1.5px at 50% 5%, rgba(255, 255, 255, 0.65) 0%, transparent 100%),
+		radial-gradient(2px 2px at 30% 65%, rgba(255, 255, 255, 0.9) 0%, transparent 100%)
+	`;
+	let starfieldCSS = $state(staticStars);
 	let userLocationName = $state('Lebanon');
 	
 	// Extract colors for all posts on mount and initialize starfield
@@ -967,15 +988,18 @@
 		.hero__actions {
 			margin-bottom: 3rem;
 			position: relative;
-			z-index: 10;
+			z-index: 100;
+			pointer-events: auto;
 		}
 
 		.hero__btn {
 			font-size: 1rem;
 			padding: 0.7rem 1.8rem;
 			position: relative;
-			z-index: 10;
+			z-index: 100;
 			touch-action: manipulation;
+			pointer-events: auto !important;
+			-webkit-tap-highlight-color: transparent;
 		}
 
 		.index {
