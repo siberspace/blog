@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { extractColors, type ColorPalette } from '$lib/utils/colorExtractor';
+	import { extractColors, defaultColors, type ColorPalette } from '$lib/utils/colorExtractor';
 
 	interface Post {
 		slug: string;
@@ -13,16 +13,6 @@
 
 	let { posts }: Props = $props();
 
-	const defaultColors: ColorPalette = {
-		headlineColor: '#e88a6a',
-		headlineShadow: '#5c2f1a',
-		headlineAccent: '#ffd4c4',
-		headlineGlow: 'rgba(232, 138, 106, 0.4)',
-		tagColor: '#d97756',
-		highlight: 'rgba(232, 138, 106, 0.15)',
-		imageCardBg: 'rgba(232, 138, 106, 0.12)'
-	};
-
 	let flowerColors = $state(new Map<string, ColorPalette>());
 
 	onMount(async () => {
@@ -33,6 +23,7 @@
 					const colors = await extractColors(post.feature_image);
 					return { slug: post.slug, colors };
 				} catch (e) {
+					console.warn('Color extraction failed for', post.slug, e);
 					return { slug: post.slug, colors: defaultColors };
 				}
 			}
