@@ -596,27 +596,47 @@
 	}
 
 	.hero__title {
-		font-family: var(--font-handwritten);
-		font-size: clamp(1.2rem, 2.5vw, 1.75rem);
-		font-weight: 700;
-		color: var(--title-color, #333);
+		font-family: var(--font-serif);
+		font-size: clamp(1.3rem, 2.5vw, 1.85rem);
+		font-weight: 500;
+		font-style: italic;
+		color: var(--title-color, #2d3a28);
 		text-align: center;
 		max-width: 800px;
 		white-space: nowrap;
-		line-height: 1.4;
+		line-height: 1.5;
 		padding: 0.5rem 1rem;
-		/* Embossed into paper effect - pressed in with inner shadow */
+		position: relative;
+		/* Organic shadow - like light through leaves */
 		text-shadow: 
-			/* Light edge on top-left (raised edge catching light) */
-			-1px -1px 0 rgba(255, 255, 255, 0.3),
-			/* Dark shadow on bottom-right (pressed into surface) */
-			1px 1px 1px var(--title-shadow, rgba(0,0,0,0.4)),
-			2px 2px 2px var(--title-shadow, rgba(0,0,0,0.25)),
-			/* Soft ambient shadow */
-			3px 3px 6px rgba(0, 0, 0, 0.15),
-			/* Subtle inner glow for depth */
-			0 0 8px var(--title-shadow, rgba(0,0,0,0.1));
+			0 1px 2px rgba(45, 58, 40, 0.2),
+			0 2px 4px rgba(45, 58, 40, 0.1);
 		transition: color 0.5s ease, text-shadow 0.5s ease;
+	}
+	
+	/* Decorative botanical flourishes around title */
+	.hero__title::before {
+		content: '❧';
+		position: absolute;
+		left: -2rem;
+		top: 50%;
+		transform: translateY(-50%);
+		font-style: normal;
+		color: #5a7a52;
+		opacity: 0.5;
+		font-size: 1.2em;
+	}
+	
+	.hero__title::after {
+		content: '❧';
+		position: absolute;
+		right: -2rem;
+		top: 50%;
+		transform: translateY(-50%) scaleX(-1);
+		font-style: normal;
+		color: #5a7a52;
+		opacity: 0.5;
+		font-size: 1.2em;
 	}
 
 	/* Action Buttons */
@@ -627,18 +647,19 @@
 	}
 
 	.hero__btn {
-		font-family: var(--font-typewriter);
-		font-size: 1rem;
-		letter-spacing: 0.05em;
-		padding: 0.7rem 1.8rem;
-		border-radius: 22px;
+		font-family: var(--font-serif);
+		font-size: 0.95rem;
+		font-style: italic;
+		letter-spacing: 0.02em;
+		padding: 0.6rem 1.6rem;
+		border-radius: 20px;
 		cursor: pointer;
-		transition: all 0.1s ease;
+		transition: all 0.2s ease;
 		position: relative;
 	}
 
 	.hero__btn:active {
-		transform: translateY(2px);
+		transform: translateY(1px);
 	}
 
 	.hero__btn:disabled {
@@ -647,50 +668,46 @@
 		transform: none;
 	}
 
-	/* Dig button - dark tactile */
+	/* Dig button - mossy green */
 	.hero__btn--dig {
-		background: linear-gradient(180deg, #3a3a3a 0%, #1a1a1a 50%, #0f0f0f 100%);
-		color: white;
+		background: linear-gradient(180deg, #5a7a52 0%, #4a6741 100%);
+		color: #f5f5f0;
 		border: none;
-		border-top: 1px solid rgba(255, 255, 255, 0.15);
+		border-top: 1px solid rgba(255, 255, 255, 0.2);
 		box-shadow: 
-			0 4px 0 #000,
-			0 6px 8px rgba(0, 0, 0, 0.4),
-			inset 0 1px 0 rgba(255, 255, 255, 0.1);
+			0 2px 4px rgba(45, 58, 40, 0.3),
+			inset 0 1px 0 rgba(255, 255, 255, 0.15);
 	}
 
 	.hero__btn--dig:hover {
-		background: linear-gradient(180deg, #454545 0%, #252525 50%, #1a1a1a 100%);
+		background: linear-gradient(180deg, #6a8a62 0%, #5a7751 100%);
 	}
 
 	.hero__btn--dig:active {
 		box-shadow: 
-			0 1px 0 #000,
-			0 2px 4px rgba(0, 0, 0, 0.3),
+			0 1px 2px rgba(45, 58, 40, 0.2),
 			inset 0 1px 0 rgba(255, 255, 255, 0.1);
 	}
 
-	/* Open button - subtle tactile */
+	/* Open button - soft cream */
 	.hero__btn--open {
-		background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
-		color: #1a1a1a;
-		border: 1px solid #d0d0d0;
+		background: linear-gradient(180deg, #faf8f5 0%, #f0ede8 100%);
+		color: #3d5a35;
+		border: 1px solid rgba(90, 122, 82, 0.3);
 		box-shadow: 
-			0 2px 4px rgba(0, 0, 0, 0.15),
+			0 2px 4px rgba(45, 58, 40, 0.12),
 			inset 0 1px 0 rgba(255, 255, 255, 0.8);
 	}
 
 	.hero__btn--open:hover {
-		background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
-		box-shadow: 
-			0 3px 6px rgba(0, 0, 0, 0.18),
-			inset 0 1px 0 rgba(255, 255, 255, 0.8);
+		background: linear-gradient(180deg, #ffffff 0%, #f5f2ed 100%);
+		border-color: rgba(90, 122, 82, 0.4);
 	}
 
 	.hero__btn--open:active {
 		transform: translateY(1px);
 		box-shadow: 
-			0 1px 2px rgba(0, 0, 0, 0.12),
+			0 1px 2px rgba(45, 58, 40, 0.1),
 			inset 0 1px 0 rgba(255, 255, 255, 0.6);
 	}
 
@@ -729,27 +746,25 @@
 	}
 
 	.index__title {
-		font-family: 'VT323', monospace;
-		font-size: 1.5rem;
+		font-family: var(--font-serif);
+		font-size: 1.25rem;
 		font-weight: 400;
-		letter-spacing: 0.1em;
-		color: #e8e8e8;
+		font-style: italic;
+		letter-spacing: 0.02em;
+		color: #4a6741;
 		text-align: center;
 		margin-bottom: 2rem;
-		text-transform: uppercase;
-		text-shadow: 0 0 6px #e8e8e866;
-		animation: clock-glow 2s ease-in-out infinite;
+		position: relative;
 	}
 
-	@keyframes clock-glow {
-		0%, 100% {
-			opacity: 1;
-			text-shadow: 0 0 6px #e8e8e866;
-		}
-		50% {
-			opacity: 0.9;
-			text-shadow: 0 0 3px #e8e8e844;
-		}
+	/* Decorative vine flourish */
+	.index__title::before,
+	.index__title::after {
+		content: '✿';
+		font-style: normal;
+		margin: 0 0.75rem;
+		opacity: 0.6;
+		font-size: 0.9em;
 	}
 
 	/* Hide mobile title on desktop */
@@ -763,17 +778,16 @@
 		grid-template-columns: 100px minmax(200px, 450px) 100px 60px 70px 100px;
 		gap: 1.5rem;
 		padding: 0.75rem 1rem;
-		font-family: 'VT323', monospace;
-		letter-spacing: 0.08em;
-		font-size: 1.1rem;
+		font-family: var(--font-serif);
+		letter-spacing: 0.02em;
+		font-size: 0.9rem;
 		font-weight: 400;
-		color: #e8e8e8;
-		text-transform: uppercase;
-		border-bottom: 1px solid rgba(232, 232, 232, 0.2);
+		color: #5a7a52;
+		text-transform: lowercase;
+		font-style: italic;
+		border-bottom: 1px solid rgba(90, 122, 82, 0.3);
 		margin-bottom: 0.5rem;
 		width: fit-content;
-		text-shadow: 0 0 6px #e8e8e866;
-		animation: clock-glow 2s ease-in-out infinite;
 	}
 
 	.index__header--thumb {
@@ -799,11 +813,11 @@
 	}
 
 	.index__row:hover {
-		background-color: rgba(232, 232, 232, 0.06);
+		background-color: rgba(90, 122, 82, 0.08);
 	}
 
-	.index__row:hover .index__cell {
-		text-shadow: 0 0 8px #e8e8e877;
+	.index__row:hover .index__cell--headline {
+		color: #4a6741;
 	}
 
 	/* Thumbnail */
@@ -829,17 +843,17 @@
 
 	/* Cell Styles */
 	.index__cell {
-		font-family: 'VT323', monospace;
-		font-size: 1.1rem;
-		color: #e8e8e8;
-		letter-spacing: 0.05em;
-		text-shadow: 0 0 5px #e8e8e855;
-		animation: clock-glow 2s ease-in-out infinite;
+		font-family: var(--font-serif);
+		font-size: 0.95rem;
+		color: #3d4a38;
+		letter-spacing: 0.01em;
 	}
 
 	.index__cell--headline {
-		font-size: 1.25rem;
-		line-height: 1.3;
+		font-size: 1.05rem;
+		line-height: 1.4;
+		font-weight: 500;
+		color: #2d3a28;
 	}
 
 	.index__cell--type,
@@ -995,14 +1009,14 @@
 		.index__cell--excerpt {
 			display: block;
 			grid-column: 2;
-			font-family: 'VT323', monospace;
-			font-size: 0.95rem;
-			color: #e8e8e8aa;
+			font-family: var(--font-serif);
+			font-size: 0.85rem;
+			color: #5a7a52;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			line-height: 1.4;
-			text-shadow: 0 0 4px #e8e8e844;
+			font-style: italic;
 		}
 	}
 
@@ -1047,9 +1061,9 @@
 		position: relative;
 		z-index: 3;
 		text-align: center;
-		font-family: var(--font-handwritten);
-		font-size: 0.875rem;
-		color: rgba(0, 0, 0, 0.55);
+		font-family: var(--font-serif);
+		font-size: 0.9rem;
+		color: #4a6741;
 		line-height: 1.7;
 		padding: 0.5rem 1rem 0;
 		margin: 0 auto;
