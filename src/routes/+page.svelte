@@ -175,17 +175,20 @@
 			{#each [2, 3] as i}
 				{@const rotation = [-5, 7][i - 2]}
 				{@const offset = i * 8}
+				{@const bgPost = data.posts[(featuredIndex + i) % data.posts.length]}
+				{@const bgColors = flowerColors.get(bgPost?.slug || '') || defaultColors}
 				<div 
 					class="hero__card hero__card--bg"
 					style="
 						--rotation: {rotation}deg;
 						--offset-x: {offset}px;
 						--offset-y: {offset}px;
+						--card-border: {bgColors.headlineColor};
 					"
 				>
-					{#if data.posts[(featuredIndex + i) % data.posts.length]?.feature_image}
+					{#if bgPost?.feature_image}
 						<img 
-							src={data.posts[(featuredIndex + i) % data.posts.length].feature_image} 
+							src={bgPost.feature_image} 
 							alt=""
 							class="hero__card-image"
 						/>
@@ -197,9 +200,10 @@
 			
 			<!-- Outgoing card (fades out) - uses previous rotation -->
 			{#if isTransitioning}
+				{@const prevColors = flowerColors.get(data.posts[previousIndex]?.slug || '') || defaultColors}
 				<div 
 					class="hero__card hero__card--outgoing"
-					style="--rotation: {rotations[rotationSide === 0 ? 1 : 0]}deg; --offset-x: 0px; --offset-y: 0px;"
+					style="--rotation: {rotations[rotationSide === 0 ? 1 : 0]}deg; --offset-x: 0px; --offset-y: 0px; --card-border: {prevColors.headlineColor};"
 				>
 					{#if data.posts[previousIndex]?.feature_image}
 						<img 
@@ -217,7 +221,7 @@
 			<div 
 				class="hero__card hero__card--current"
 				class:hero__card--entering={isTransitioning}
-				style="--rotation: {rotations[rotationSide]}deg; --offset-x: 0px; --offset-y: 0px;"
+				style="--rotation: {rotations[rotationSide]}deg; --offset-x: 0px; --offset-y: 0px; --card-border: {(flowerColors.get(featuredPost?.slug || '') || defaultColors).headlineColor};"
 			>
 				{#if featuredPost?.feature_image}
 					<img 
@@ -475,10 +479,11 @@
 	.hero__card {
 		position: absolute;
 		inset: 0;
-		border-radius: 24px;
+		border-radius: 3px;
 		overflow: hidden;
 		transform: rotate(var(--rotation)) translate(var(--offset-x), var(--offset-y));
 		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+		border: 2px solid var(--card-border, #333);
 	}
 
 	/* Background stack cards */
@@ -531,7 +536,7 @@
 		opacity: 0.15;
 		mix-blend-mode: overlay;
 		pointer-events: none;
-		border-radius: 24px;
+		border-radius: 3px;
 	}
 
 	.hero__card-placeholder {
