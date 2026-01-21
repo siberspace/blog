@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { TagPill, BackLink, Header, FlowerGarden } from '$lib/components';
+	import { TagPill, Header, FlowerGarden } from '$lib/components';
 	import { sketchPaths } from '$lib/design-system';
 	import { onMount } from 'svelte';
 	import { extractColors, defaultColors, type ColorPalette } from '$lib/utils/colorExtractor';
@@ -283,10 +283,9 @@
 	</section>
 
 	<!-- Flower Garden Footer -->
-	<FlowerGarden posts={data.posts} />
-
-	<!-- Back link -->
-	<BackLink />
+	<div class="flower-footer">
+		<FlowerGarden posts={data.posts} />
+	</div>
 
 	<!-- Reading Progress Bar -->
 	<div class="progress-bar" style="--progress: {readingProgress}%"></div>
@@ -298,6 +297,8 @@
 		position: relative;
 		min-height: 100vh;
 		background-color: #050510;
+		display: flex;
+		flex-direction: column;
 		
 		/* Static fallback colors - light text for dark mode */
 		--text: #e0e0e0;
@@ -870,6 +871,13 @@
 			width: 16px;
 			height: 16px;
 		}
+	}
+
+	/* Flower Garden Footer Wrapper */
+	.flower-footer {
+		position: relative;
+		z-index: 3;
+		margin-top: auto;
 	}
 
 	/* Reading Progress Bar */
