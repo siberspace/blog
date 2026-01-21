@@ -29,7 +29,8 @@
 <style>
 	.tag-pill {
 		position: relative;
-		font-family: var(--font-handwritten);
+		font-family: 'Caveat', cursive;
+		font-weight: 500;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
