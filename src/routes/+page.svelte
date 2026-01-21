@@ -648,19 +648,55 @@
 		font-family: 'Caveat', cursive;
 		font-size: clamp(1.8rem, 4vw, 2.8rem);
 		font-weight: 600;
-		color: #ffffff;
+		color: #c8c8d0;
 		text-align: center;
 		white-space: nowrap;
 		line-height: 1.3;
 		text-transform: lowercase;
 		letter-spacing: 0.02em;
-		/* Starlight glow */
+		/* Speckled silver embossed effect */
 		text-shadow: 
-			0 0 10px rgba(255, 255, 255, 0.6),
-			0 0 20px rgba(255, 255, 255, 0.3),
-			0 0 40px var(--title-color, rgba(255, 255, 255, 0.2));
+			/* Emboss highlight - top-left edge */
+			-1px -1px 0 rgba(255, 255, 255, 0.9),
+			-2px -2px 1px rgba(255, 255, 255, 0.4),
+			/* Emboss shadow - bottom-right edge */
+			1px 1px 0 rgba(0, 0, 0, 0.5),
+			2px 2px 1px rgba(0, 0, 0, 0.3),
+			3px 3px 3px rgba(0, 0, 0, 0.2),
+			/* Silver specular highlights */
+			0 0 2px rgba(255, 255, 255, 0.8),
+			/* Outer glow */
+			0 0 15px rgba(192, 192, 210, 0.4),
+			0 0 30px rgba(160, 160, 180, 0.2);
 		transition: color 0.5s ease, text-shadow 0.5s ease;
-		animation: star-twinkle 3s ease-in-out infinite;
+		animation: silver-shimmer 3s ease-in-out infinite;
+	}
+
+	@keyframes silver-shimmer {
+		0%, 100% {
+			color: #c8c8d0;
+			text-shadow: 
+				-1px -1px 0 rgba(255, 255, 255, 0.9),
+				-2px -2px 1px rgba(255, 255, 255, 0.4),
+				1px 1px 0 rgba(0, 0, 0, 0.5),
+				2px 2px 1px rgba(0, 0, 0, 0.3),
+				3px 3px 3px rgba(0, 0, 0, 0.2),
+				0 0 2px rgba(255, 255, 255, 0.8),
+				0 0 15px rgba(192, 192, 210, 0.4),
+				0 0 30px rgba(160, 160, 180, 0.2);
+		}
+		50% {
+			color: #e0e0e8;
+			text-shadow: 
+				-1px -1px 0 rgba(255, 255, 255, 1),
+				-2px -2px 1px rgba(255, 255, 255, 0.5),
+				1px 1px 0 rgba(0, 0, 0, 0.4),
+				2px 2px 1px rgba(0, 0, 0, 0.25),
+				3px 3px 3px rgba(0, 0, 0, 0.15),
+				0 0 4px rgba(255, 255, 255, 1),
+				0 0 20px rgba(200, 200, 220, 0.5),
+				0 0 40px rgba(180, 180, 200, 0.3);
+		}
 	}
 
 	/* Action Buttons */
@@ -970,16 +1006,18 @@
 		.hero__title {
 			font-size: 1.6rem;
 			line-height: 1.3;
-			color: #ffffff;
+			color: #c8c8d0;
 			text-wrap: balance;
 			white-space: normal;
 			padding: 0.5rem 0.75rem;
 			text-transform: lowercase;
 			letter-spacing: 0.02em;
-			/* Starlight glow - mobile */
+			/* Silver embossed - mobile */
 			text-shadow: 
-				0 0 8px rgba(255, 255, 255, 0.6),
-				0 0 16px rgba(255, 255, 255, 0.3);
+				-1px -1px 0 rgba(255, 255, 255, 0.9),
+				1px 1px 0 rgba(0, 0, 0, 0.5),
+				2px 2px 2px rgba(0, 0, 0, 0.2),
+				0 0 10px rgba(192, 192, 210, 0.4);
 		}
 
 		.hero__actions {
@@ -1074,10 +1112,11 @@
 			padding: 0.4rem 0.6rem;
 			text-transform: lowercase;
 			letter-spacing: 0.01em;
-			/* Starlight glow - small mobile */
+			/* Silver embossed - small mobile */
 			text-shadow: 
-				0 0 6px rgba(255, 255, 255, 0.5),
-				0 0 12px rgba(255, 255, 255, 0.25);
+				-1px -1px 0 rgba(255, 255, 255, 0.8),
+				1px 1px 0 rgba(0, 0, 0, 0.4),
+				0 0 8px rgba(192, 192, 210, 0.3);
 		}
 
 		.hero__actions {
