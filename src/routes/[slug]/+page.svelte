@@ -716,12 +716,14 @@
 		font-weight: 700;
 	}
 
-	.article-body :global(strong) {
+	.article-body :global(strong),
+	.article-body :global(b) {
 		color: var(--text);
-		font-weight: 700;
+		font-weight: 700 !important;
 	}
 
-	.article-body :global(em) {
+	.article-body :global(em),
+	.article-body :global(i) {
 		font-style: italic;
 	}
 
