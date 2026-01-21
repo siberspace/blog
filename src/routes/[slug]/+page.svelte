@@ -4,6 +4,7 @@
 	import { sketchPaths } from '$lib/design-system';
 	import { onMount } from 'svelte';
 	import { extractColors, defaultColors, type ColorPalette } from '$lib/utils/colorExtractor';
+	import { getVisibleStars, getUserLocation, generateStarfieldCSS } from '$lib/utils/starfield';
 
 	let { data }: { data: PageData } = $props();
 
@@ -30,6 +31,9 @@
 	// Dynamic colors extracted from the feature image
 	let colors = $state<ColorPalette>(defaultColors);
 	let colorsLoaded = $state(false);
+	
+	// Dynamic starfield based on user location
+	let starfieldCSS = $state('');
 	
 	// Track if mobile for limiting tags
 	let isMobile = $state(false);
@@ -88,6 +92,16 @@
 		};
 		checkMobile();
 		window.addEventListener('resize', checkMobile);
+		
+		// Initialize starfield based on user's location (or Lebanon default)
+		try {
+			const location = await getUserLocation();
+			const stars = getVisibleStars(location, new Date());
+			starfieldCSS = generateStarfieldCSS(stars);
+		} catch (e) {
+			const stars = getVisibleStars();
+			starfieldCSS = generateStarfieldCSS(stars);
+		}
 		
 		// Extract colors from feature image
 		if (data.post.feature_image) {
@@ -180,10 +194,11 @@
 	<!-- Header - hides on scroll down, shows on scroll up -->
 	<Header variant="article" hidden={headerHidden} />
 
-	<!-- Background layers (same as landing page) -->
+	<!-- Background layers (night sky theme) -->
 	<div class="bg-base"></div>
+	<div class="bg-stars" style="background-image: {starfieldCSS}"></div>
 	
-	<!-- Color wash layers - two overlapping for smooth crossfade -->
+	<!-- Color wash layers - nebula effect -->
 	<div class="bg-color-wash-container">
 		<!-- Previous image (fades out) -->
 		{#if previousWashImage}
@@ -313,19 +328,20 @@
 	.article-page {
 		position: relative;
 		min-height: 100vh;
-		background-color: #f5f5f5;
+		background-color: #050510;
 		
-		/* Static fallback colors */
-		--text: #1a1a1a;
-		--headline: #4a4a4a;
-		--headline-shadow: #1a1a1a;
-		--headline-accent: #7a7a7a;
-		--headline-glow: rgba(74, 74, 74, 0.2);
+		/* Static fallback colors - light text for dark mode */
+		--text: #e0e0e0;
+		--text-muted: #a0a0a0;
+		--headline: #ffffff;
+		--headline-shadow: rgba(0, 0, 0, 0.8);
+		--headline-accent: rgba(255, 255, 255, 0.3);
+		--headline-glow: rgba(255, 255, 255, 0.2);
 		--border: #3a3a3a;
-		--link: #1a1a1a;
-		--tag-color: #3a3a3a;
-		--highlight: rgba(120, 120, 120, 0.3);
-		--image-card-bg: rgba(0, 0, 0, 0.12);
+		--link: #88ccff;
+		--tag-color: #d0d0d0;
+		--highlight: rgba(255, 255, 255, 0.2);
+		--image-card-bg: rgba(255, 255, 255, 0.08);
 	}
 	
 	/* Apply dynamic colors once loaded */
@@ -350,24 +366,31 @@
 		color: var(--text);
 	}
 
-	/* Layer 1: Base - terrazzo/confetti pattern */
+	/* Layer 1: Base - night sky */
 	.bg-base {
 		position: fixed;
 		inset: 0;
-		background-color: #b8b8b8;
+		background: radial-gradient(ellipse at 20% 20%, #0a0a15 0%, #050510 50%, #020208 100%);
 		pointer-events: none;
 		z-index: 0;
 		transform: translateZ(0);
 		contain: strict;
 	}
 
-	/* Texture overlay - reduced opacity for better text contrast */
-	.bg-base::after {
-		content: '';
-		position: absolute;
+	/* Layer 1.25: Dynamic stars based on user location */
+	.bg-stars {
+		position: fixed;
 		inset: 0;
-		background-color: #d4d4d4;
-		opacity: 0.4;
+		pointer-events: none;
+		z-index: 1;
+		animation: starTwinkle 4s ease-in-out infinite;
+	}
+
+	@keyframes starTwinkle {
+		0%, 100% { opacity: 1; }
+		25% { opacity: 0.7; }
+		50% { opacity: 1; }
+		75% { opacity: 0.6; }
 	}
 
 	/* Layer 1.5: Color wash container */
@@ -378,14 +401,15 @@
 		z-index: 0;
 	}
 
-	/* Color wash from currently visible image */
+	/* Color wash from currently visible image - nebula effect */
 	.bg-color-wash {
 		position: absolute;
 		inset: -50px; /* Extend beyond viewport to avoid edge artifacts */
 		background-size: cover;
 		background-position: center;
-		filter: blur(80px) saturate(1.8);
+		filter: blur(100px) saturate(2) brightness(0.5);
 		pointer-events: none;
+		mix-blend-mode: screen;
 		/* GPU acceleration hints to prevent tiling artifacts on resize */
 		will-change: opacity;
 		transform: translateZ(0);
@@ -404,40 +428,39 @@
 
 	@keyframes washFadeIn {
 		0% { opacity: 0; }
-		100% { opacity: 0.4; }
+		100% { opacity: 0.35; }
 	}
 
 	@keyframes washFadeOut {
-		0% { opacity: 0.4; }
+		0% { opacity: 0.35; }
 		100% { opacity: 0; }
 	}
 
-	/* Layer 2: Paper pulpy texture overlay */
+	/* Layer 2: Cosmic dust texture overlay */
 	.bg-paper {
 		position: fixed;
 		inset: 0;
 		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23fff' surfaceScale='2'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
-		opacity: 0.25;
-		mix-blend-mode: multiply;
+		opacity: 0.06;
+		mix-blend-mode: overlay;
 		pointer-events: none;
-		z-index: 1;
+		z-index: 2;
 		transform: translateZ(0);
 		contain: strict;
 	}
 
-	/* Layer 3: Gray gradient overlay */
+	/* Layer 3: Subtle vignette */
 	.bg-gradient {
 		position: fixed;
 		inset: 0;
-		background: linear-gradient(
-			180deg,
-			rgba(180, 180, 180, 0.3) 0%,
-			rgba(170, 170, 170, 0.4) 40%,
-			rgba(160, 158, 158, 0.6) 70%,
-			rgba(150, 148, 148, 0.8) 100%
+		background: radial-gradient(
+			ellipse at center,
+			transparent 0%,
+			transparent 50%,
+			rgba(0, 0, 0, 0.3) 100%
 		);
 		pointer-events: none;
-		z-index: 2;
+		z-index: 3;
 		transform: translateZ(0);
 		contain: strict;
 	}
@@ -517,38 +540,42 @@
 		gap: 2rem;
 	}
 
-	/* Post Title - Embossed 3D effect */
+	/* Post Title - Starlight glow effect */
 	.post-title {
-		font-family: var(--font-handwritten);
-		font-size: clamp(2.5rem, 5vw, 5.5rem);
-		font-weight: 700;
+		font-family: 'VT323', monospace;
+		font-size: clamp(2rem, 4vw, 3.5rem);
+		font-weight: 400;
 		color: var(--headline);
 		text-align: center;
-		line-height: 1.1;
+		line-height: 1.2;
 		margin: 0;
 		margin-bottom: 1rem;
 		max-width: 900px;
 		text-wrap: balance;
-		/* Embossed 3D effect with highlight, extrusion, and glow */
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		/* Starlight glow */
 		text-shadow: 
-			/* Inner highlight - top left edge */
-			-1px -1px 0 var(--headline-accent),
-			-2px -2px 0 var(--headline-accent),
-			/* 3D extrusion - builds depth */
-			1px 1px 0 var(--headline-shadow),
-			2px 2px 0 var(--headline-shadow),
-			3px 3px 0 var(--headline-shadow),
-			4px 4px 0 var(--headline-shadow),
-			5px 5px 0 var(--headline-shadow),
-			6px 6px 0 var(--headline-shadow),
-			7px 7px 0 var(--headline-shadow),
-			8px 8px 0 var(--headline-shadow),
-			/* Soft shadow for depth */
-			10px 10px 8px rgba(0, 0, 0, 0.3),
-			/* Outer glow */
-			0 0 30px var(--headline-glow),
-			0 0 60px var(--headline-glow);
+			0 0 10px var(--headline-glow),
+			0 0 20px var(--headline-glow),
+			0 0 40px var(--headline-glow);
 		transition: color 0.8s ease-out, text-shadow 0.8s ease-out;
+		animation: star-twinkle 3s ease-in-out infinite;
+	}
+
+	@keyframes star-twinkle {
+		0%, 100% {
+			text-shadow: 
+				0 0 10px var(--headline-glow),
+				0 0 20px var(--headline-glow),
+				0 0 40px var(--headline-glow);
+		}
+		50% {
+			text-shadow: 
+				0 0 6px var(--headline-glow),
+				0 0 12px var(--headline-glow),
+				0 0 24px var(--headline-glow);
+		}
 	}
 
 	/* Tags Container */
@@ -679,30 +706,33 @@
 	}
 
 	.article-body :global(h2) {
-		font-family: var(--font-handwritten);
-		font-size: 1.5rem;
-		font-weight: 700;
+		font-family: 'VT323', monospace;
+		font-size: 1.4rem;
+		font-weight: 400;
 		color: var(--headline);
 		margin-top: 2em;
 		margin-bottom: 0.75em;
 		text-align: center;
-		/* Subtle embossed effect - much smaller than title */
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		/* Starlight glow */
 		text-shadow: 
-			-1px -1px 0 var(--headline-accent),
-			1px 1px 0 var(--headline-shadow),
-			2px 2px 0 var(--headline-shadow),
-			3px 3px 3px rgba(0, 0, 0, 0.15);
+			0 0 8px var(--headline-glow),
+			0 0 16px var(--headline-glow);
 		transition: color 0.8s ease-out, text-shadow 0.8s ease-out;
 	}
 
 	.article-body :global(h3) {
-		font-family: var(--font-serif);
+		font-family: 'VT323', monospace;
 		font-size: 1.2rem;
-		font-weight: 600;
+		font-weight: 400;
 		color: var(--headline);
 		margin-top: 1.75em;
 		margin-bottom: 0.5em;
 		text-align: center;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		text-shadow: 0 0 6px var(--headline-glow);
 		transition: color 0.8s ease-out;
 	}
 
@@ -1004,7 +1034,7 @@
 		left: 0;
 		right: 0;
 		height: 4px;
-		background: rgba(0, 0, 0, 0.1);
+		background: rgba(255, 255, 255, 0.1);
 		z-index: 100;
 		overflow: hidden;
 	}
@@ -1037,8 +1067,9 @@
 		}
 
 		.post-title {
-			font-size: clamp(2rem, 8vw, 3rem);
+			font-size: clamp(1.5rem, 6vw, 2.5rem);
 			margin-bottom: 0.5rem;
+			letter-spacing: 0.06em;
 		}
 
 		.article-body {
