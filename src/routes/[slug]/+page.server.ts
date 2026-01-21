@@ -1,13 +1,16 @@
-import { getPost } from '$lib/ghost';
+import { getPost, getPosts } from '$lib/ghost';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
-	const post = await getPost(params.slug);
+	const [post, posts] = await Promise.all([
+		getPost(params.slug),
+		getPosts()
+	]);
 
 	if (!post) {
 		throw error(404, 'Post not found');
 	}
 
-	return { post };
+	return { post, posts };
 };

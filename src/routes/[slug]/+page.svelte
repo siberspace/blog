@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { TagPill, BackLink, Header } from '$lib/components';
+	import { TagPill, BackLink, Header, FlowerGarden } from '$lib/components';
 	import { sketchPaths } from '$lib/design-system';
 	import { onMount } from 'svelte';
 	import { extractColors, defaultColors, type ColorPalette } from '$lib/utils/colorExtractor';
@@ -280,41 +280,10 @@
 			</svg>
 			<span>more stories</span>
 		</a>
-
-		<!-- End flower - blooms when you finish reading -->
-		<div class="end-flower" class:end-flower--bloomed={readingProgress > 85}>
-			<svg class="bloom-flower" viewBox="0 0 100 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-				<defs>
-					<filter id="roughEdge" x="-10%" y="-10%" width="120%" height="120%">
-						<feTurbulence type="turbulence" baseFrequency="0.04" numOctaves="2" result="noise" seed="3"/>
-						<feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
-					</filter>
-				</defs>
-				
-				<g filter="url(#roughEdge)">
-					<!-- Stem -->
-					<path class="stem" d="M50 160 Q48 130 50 100" stroke="#4a7c3f" stroke-width="3" fill="none" stroke-linecap="round"/>
-					
-					<!-- Leaves -->
-					<path class="leaf leaf--left" d="M42 125 Q30 118 28 110 Q38 108 46 118 Q44 124 42 125" fill="#5a9c4a"/>
-					<path class="leaf leaf--right" d="M58 135 Q70 130 72 122 Q62 120 54 128 Q56 134 58 135" fill="#4a8c3a"/>
-					
-					<!-- Petals - bloom outward from center -->
-					<path class="petal petal--1" d="M50 45 Q42 35 50 20 Q58 35 50 45" fill="var(--headline, #e07)"/>
-					<path class="petal petal--2" d="M60 55 Q72 48 80 58 Q70 68 60 55" fill="var(--headline, #e07)" opacity="0.95"/>
-					<path class="petal petal--3" d="M40 55 Q28 48 20 58 Q30 68 40 55" fill="var(--headline, #e07)" opacity="0.95"/>
-					<path class="petal petal--4" d="M58 70 Q70 78 65 90 Q52 82 58 70" fill="var(--headline, #e07)" opacity="0.9"/>
-					<path class="petal petal--5" d="M42 70 Q30 78 35 90 Q48 82 42 70" fill="var(--headline, #e07)" opacity="0.9"/>
-					
-					<!-- Center -->
-					<circle class="center" cx="50" cy="60" r="12" fill="#ffd93d"/>
-					<circle cx="46" cy="57" r="2" fill="#e8a800" opacity="0.6"/>
-					<circle cx="54" cy="62" r="1.5" fill="#e8a800" opacity="0.6"/>
-					<circle cx="50" cy="65" r="1.5" fill="#e8a800" opacity="0.6"/>
-				</g>
-			</svg>
-		</div>
 	</section>
+
+	<!-- Flower Garden Footer -->
+	<FlowerGarden posts={data.posts} />
 
 	<!-- Back link -->
 	<BackLink />
@@ -881,12 +850,6 @@
 		transition: all 0.3s ease;
 	}
 
-	/* Reduce padding above flower when button is present */
-	.home-button + .end-flower {
-		padding-top: 1.5rem;
-		margin-top: 0;
-	}
-
 	.home-button:hover {
 		background: var(--headline);
 		color: white;
@@ -906,124 +869,6 @@
 		.home-button svg {
 			width: 16px;
 			height: 16px;
-		}
-	}
-
-	/* End Flower - Single blooming flower */
-	.end-flower {
-		display: flex;
-		justify-content: center;
-		padding: 3rem 1rem 1rem;
-		margin-top: 2rem;
-	}
-
-	.bloom-flower {
-		height: 120px;
-		width: auto;
-		transform-origin: bottom center;
-	}
-
-	/* Stem grows up first */
-	.bloom-flower .stem {
-		stroke-dasharray: 100;
-		stroke-dashoffset: 100;
-		transition: stroke-dashoffset 0.8s ease-out;
-	}
-
-	.end-flower--bloomed .bloom-flower .stem {
-		stroke-dashoffset: 0;
-	}
-
-	/* Leaves unfurl */
-	.bloom-flower .leaf {
-		opacity: 0;
-		transform: scale(0);
-		transform-origin: center right;
-		transition: opacity 0.4s ease-out, transform 0.5s ease-out;
-	}
-
-	.bloom-flower .leaf--right {
-		transform-origin: center left;
-	}
-
-	.end-flower--bloomed .bloom-flower .leaf {
-		opacity: 1;
-		transform: scale(1);
-	}
-
-	.end-flower--bloomed .bloom-flower .leaf--left {
-		transition-delay: 0.6s;
-	}
-
-	.end-flower--bloomed .bloom-flower .leaf--right {
-		transition-delay: 0.8s;
-	}
-
-	/* Petals bloom outward from center */
-	.bloom-flower .petal {
-		opacity: 0;
-		transform-origin: 50px 60px;
-		transform: scale(0) rotate(0deg);
-		transition: opacity 0.5s ease-out, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-	}
-
-	.end-flower--bloomed .bloom-flower .petal {
-		opacity: 1;
-		transform: scale(1) rotate(0deg);
-	}
-
-	.end-flower--bloomed .bloom-flower .petal--1 { transition-delay: 1s; }
-	.end-flower--bloomed .bloom-flower .petal--2 { transition-delay: 1.15s; }
-	.end-flower--bloomed .bloom-flower .petal--3 { transition-delay: 1.15s; }
-	.end-flower--bloomed .bloom-flower .petal--4 { transition-delay: 1.3s; }
-	.end-flower--bloomed .bloom-flower .petal--5 { transition-delay: 1.3s; }
-
-	/* Center appears last */
-	.bloom-flower .center {
-		opacity: 0;
-		transform: scale(0);
-		transform-origin: center;
-		transition: opacity 0.3s ease-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-	}
-
-	.end-flower--bloomed .bloom-flower .center {
-		opacity: 1;
-		transform: scale(1);
-		transition-delay: 1.5s;
-	}
-
-	/* Gentle sway after blooming */
-	.end-flower--bloomed .bloom-flower {
-		animation: gentleSway 4s ease-in-out infinite;
-		animation-delay: 2s;
-	}
-
-	@keyframes gentleSway {
-		0%, 100% { transform: rotate(-1.5deg); }
-		50% { transform: rotate(1.5deg); }
-	}
-
-	/* Leaves wiggle */
-	.end-flower--bloomed .bloom-flower .leaf {
-		animation: leafWiggle 3s ease-in-out infinite;
-	}
-
-	.end-flower--bloomed .bloom-flower .leaf--left {
-		animation-delay: 2.2s;
-	}
-
-	.end-flower--bloomed .bloom-flower .leaf--right {
-		animation-delay: 2.5s;
-	}
-
-	@keyframes leafWiggle {
-		0%, 100% { transform: scale(1) rotate(0deg); }
-		50% { transform: scale(1.03) rotate(2deg); }
-	}
-
-	@media (max-width: 768px) {
-		.bloom-flower {
-			height: 100px;
 		}
 	}
 
