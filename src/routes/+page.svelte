@@ -311,7 +311,7 @@
 				onclick={openStory}
 				type="button"
 			>
-				open
+				read
 			</button>
 		</div>
 	</section>
