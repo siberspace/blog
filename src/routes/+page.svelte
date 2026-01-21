@@ -586,14 +586,13 @@
 
 	/* Hero Title */
 	.hero__title-container {
-		height: 3rem;
 		min-height: 3rem;
-		max-height: 3rem;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		margin-bottom: 4rem;
-		padding: 0 1rem;
+		padding: 1rem 2rem;
+		overflow: visible;
 	}
 
 	.hero__title {
@@ -604,9 +603,8 @@
 		text-align: center;
 		max-width: 800px;
 		white-space: nowrap;
-		line-height: 1.2;
-		overflow: hidden;
-		text-overflow: ellipsis;
+		line-height: 1.4;
+		padding: 0.5rem 1rem;
 		/* Embossed 3D effect - scaled for single line */
 		text-shadow: 
 			-0.5px -0.5px 0 var(--title-accent, rgba(255,255,255,0.5)),
@@ -614,7 +612,7 @@
 			1px 1px 0 var(--title-shadow, rgba(0,0,0,0.3)),
 			2px 2px 0 var(--title-shadow, rgba(0,0,0,0.3)),
 			3px 3px 3px rgba(0, 0, 0, 0.2),
-			0 0 15px var(--title-color, rgba(0,0,0,0.1));
+			0 0 20px var(--title-color, rgba(0,0,0,0.15));
 		transition: color 0.5s ease, text-shadow 0.5s ease;
 	}
 
@@ -888,27 +886,22 @@
 		}
 
 		.hero__title-container {
-			height: 3.5rem;
-			min-height: 3.5rem;
-			max-height: 3.5rem;
+			min-height: 4rem;
 			margin-bottom: 2.5rem;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			overflow: hidden;
+			overflow: visible;
+			padding: 0.75rem 1.5rem;
 		}
 
 		.hero__title {
-			font-size: 1.4rem;
-			line-height: 1.2;
+			font-size: 1.3rem;
+			line-height: 1.3;
 			color: var(--title-color, #333);
 			text-wrap: balance;
-			display: -webkit-box;
-			-webkit-line-clamp: 2;
-			line-clamp: 2;
-			-webkit-box-orient: vertical;
-			overflow: hidden;
-			text-overflow: ellipsis;
+			white-space: normal;
+			padding: 0.5rem 0.75rem;
 			/* Scaled down embossed effect for mobile */
 			text-shadow: 
 				-0.5px -0.5px 0 var(--title-accent, rgba(255,255,255,0.5)),
@@ -916,7 +909,7 @@
 				1px 1px 0 var(--title-shadow, rgba(0,0,0,0.3)),
 				2px 2px 0 var(--title-shadow, rgba(0,0,0,0.3)),
 				3px 3px 3px rgba(0, 0, 0, 0.15),
-				0 0 10px var(--title-color, rgba(0,0,0,0.1));
+				0 0 15px var(--title-color, rgba(0,0,0,0.12));
 		}
 
 		.hero__actions {
@@ -1000,19 +993,20 @@
 		}
 
 		.hero__title-container {
-			height: 3rem;
-			min-height: 3rem;
-			max-height: 3rem;
+			min-height: 3.5rem;
 			margin-bottom: 2rem;
+			padding: 0.5rem 1rem;
 		}
 
 		.hero__title {
-			font-size: 1.2rem;
+			font-size: 1.1rem;
+			padding: 0.4rem 0.6rem;
 			text-shadow: 
 				-0.5px -0.5px 0 var(--title-accent, rgba(255,255,255,0.5)),
 				0.5px 0.5px 0 var(--title-shadow, rgba(0,0,0,0.3)),
 				1px 1px 0 var(--title-shadow, rgba(0,0,0,0.3)),
-				2px 2px 2px rgba(0, 0, 0, 0.15);
+				2px 2px 2px rgba(0, 0, 0, 0.15),
+				0 0 12px var(--title-color, rgba(0,0,0,0.1));
 		}
 
 		.hero__actions {
