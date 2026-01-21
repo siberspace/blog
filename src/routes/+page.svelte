@@ -921,13 +921,13 @@
 		}
 
 		.hero__title-container {
-			height: 5rem; /* Fixed height to prevent layout shift */
+			height: 6rem; /* Fixed height to prevent layout shift */
 			min-height: unset;
-			margin-bottom: 2.5rem;
+			margin-bottom: 3rem;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			overflow: hidden;
+			overflow: visible;
 			padding: 0.5rem 1.5rem;
 		}
 
@@ -940,11 +940,6 @@
 			padding: 0;
 			text-transform: lowercase;
 			letter-spacing: 0.02em;
-			max-height: 100%;
-			display: -webkit-box;
-			-webkit-line-clamp: 2;
-			-webkit-box-orient: vertical;
-			overflow: hidden;
 			/* Silver embossed - mobile */
 			text-shadow: 
 				-1px -1px 0 rgba(255, 255, 255, 0.9),
@@ -1038,9 +1033,9 @@
 		}
 
 		.hero__title-container {
-			height: 4.5rem; /* Fixed height to prevent layout shift */
+			height: 5.5rem; /* Fixed height to prevent layout shift */
 			min-height: unset;
-			margin-bottom: 2rem;
+			margin-bottom: 2.5rem;
 			padding: 0.5rem 1rem;
 		}
 
