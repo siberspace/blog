@@ -416,12 +416,14 @@
 			radial-gradient(1.5px 1.5px at 35% 30%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
 			radial-gradient(1px 1px at 5% 50%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
 			radial-gradient(1px 1px at 95% 35%, rgba(255, 255, 255, 0.7) 0%, transparent 100%);
-		animation: starTwinkle 8s ease-in-out infinite;
+		animation: starTwinkle 4s ease-in-out infinite;
 	}
 
 	@keyframes starTwinkle {
 		0%, 100% { opacity: 1; }
-		50% { opacity: 0.7; }
+		25% { opacity: 0.4; }
+		50% { opacity: 0.9; }
+		75% { opacity: 0.3; }
 	}
 
 	/* Layer 1.5: Nebula color wash from featured image */
@@ -768,11 +770,15 @@
 	@keyframes star-twinkle {
 		0%, 100% {
 			opacity: 1;
-			text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+			text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
 		}
-		50% {
-			opacity: 0.85;
-			text-shadow: 0 0 4px rgba(255, 255, 255, 0.25);
+		33% {
+			opacity: 0.7;
+			text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+		}
+		66% {
+			opacity: 0.95;
+			text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 		}
 	}
 
