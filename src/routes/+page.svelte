@@ -932,7 +932,7 @@
 		}
 
 		.hero__title {
-			font-size: 1.8rem;
+			font-size: 2rem;
 			line-height: 1.3;
 			color: #c8c8d0;
 			text-wrap: balance;
@@ -1045,7 +1045,7 @@
 		}
 
 		.hero__title {
-			font-size: 1.5rem;
+			font-size: 1.8rem;
 			padding: 0;
 			text-transform: lowercase;
 			letter-spacing: 0.01em;
