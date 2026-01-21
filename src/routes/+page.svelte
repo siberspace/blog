@@ -495,8 +495,11 @@
 		border-radius: 3px;
 		overflow: hidden;
 		transform: rotate(var(--rotation)) translate(var(--offset-x), var(--offset-y));
-		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-		border: 2px solid var(--card-border, #333);
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+		/* Polaroid frame */
+		background: linear-gradient(to bottom, #fafafa 0%, #f0f0f0 100%);
+		padding: 12px 12px 40px 12px;
+		border: 1px solid rgba(0, 0, 0, 0.1);
 	}
 
 	/* Background stack cards */
@@ -538,18 +541,23 @@
 		object-fit: cover;
 		/* Vintage print/risograph effect */
 		filter: contrast(1.2) saturate(1.4) brightness(1.05);
+		border-radius: 1px;
+		border: 1px solid var(--card-border, #333);
 	}
 
-	/* Grain overlay for print texture */
+	/* Grain overlay for print texture - covers image area only */
 	.hero__card::after {
 		content: '';
 		position: absolute;
-		inset: 0;
+		top: 12px;
+		left: 12px;
+		right: 12px;
+		bottom: 40px;
 		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
 		opacity: 0.15;
 		mix-blend-mode: overlay;
 		pointer-events: none;
-		border-radius: 3px;
+		border-radius: 1px;
 	}
 
 	.hero__card-placeholder {
@@ -828,6 +836,14 @@
 		/* Reduce rotation on mobile to prevent overlap */
 		.hero__card {
 			transform: rotate(calc(var(--rotation) * 0.4)) translate(calc(var(--offset-x) * 0.5), calc(var(--offset-y) * 0.5));
+			padding: 8px 8px 28px 8px;
+		}
+
+		.hero__card::after {
+			top: 8px;
+			left: 8px;
+			right: 8px;
+			bottom: 28px;
 		}
 
 		.hero__title-container {
