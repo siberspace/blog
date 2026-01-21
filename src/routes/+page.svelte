@@ -366,7 +366,7 @@
 	.landing {
 		position: relative;
 		min-height: 100vh;
-		background-color: #f5f5f5;
+		background-color: #050510;
 	}
 
 	/* Layer 1: Base - night sky */
@@ -927,8 +927,10 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			overflow: visible;
+			overflow: hidden;
 			padding: 0.5rem 1.5rem;
+			position: relative;
+			z-index: 5;
 		}
 
 		.hero__title {
@@ -1037,6 +1039,9 @@
 			min-height: unset;
 			margin-bottom: 2.5rem;
 			padding: 0.5rem 1rem;
+			overflow: hidden;
+			position: relative;
+			z-index: 5;
 		}
 
 		.hero__title {
