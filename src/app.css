@@ -12,12 +12,14 @@
 html {
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
+  overscroll-behavior: none;
 }
 
 body {
   background-color: var(--color-bg-primary);
   min-height: 100vh;
   font-family: var(--font-sans);
+  overscroll-behavior: none;
 }
 
 /* Serif font for article content */
