@@ -402,7 +402,7 @@
 		pointer-events: none;
 		z-index: 0;
 		transition: background-image 0.5s ease-out;
-		animation: colorDrift 20s ease-in-out infinite;
+		animation: colorDrift 15s ease-in-out infinite;
 	}
 
 	@keyframes colorDrift {
@@ -410,13 +410,13 @@
 			transform: scale(1) translate(0, 0);
 		}
 		25% {
-			transform: scale(1.05) translate(15px, -10px);
+			transform: scale(1.12) translate(40px, -25px);
 		}
 		50% {
-			transform: scale(1.02) translate(-10px, 15px);
+			transform: scale(1.05) translate(-30px, 35px);
 		}
 		75% {
-			transform: scale(1.07) translate(-15px, -5px);
+			transform: scale(1.15) translate(-40px, -15px);
 		}
 	}
 
