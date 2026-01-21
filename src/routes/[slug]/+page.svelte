@@ -464,38 +464,64 @@
 		z-index: 3;
 		margin-top: 5rem;
 		margin-bottom: 0.625rem;
-		margin-left: 1rem;
-		margin-right: 1rem;
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 700px;
+		padding: 0 1rem;
 	}
 
+	/* Polaroid frame styling */
 	.hero-image-container {
 		position: relative;
 		width: 100%;
-		max-height: 600px;
-		overflow: hidden;
-		border-radius: 12px;
-		border: 5px solid var(--tag-color);
-		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-		transition: border-color 0.8s ease-out;
+		overflow: visible;
+		border-radius: 2px;
+		/* Layered shadows for depth */
+		box-shadow: 
+			0 1px 2px rgba(0, 0, 0, 0.1),
+			0 4px 8px rgba(0, 0, 0, 0.1),
+			0 8px 16px rgba(0, 0, 0, 0.15),
+			0 16px 32px rgba(0, 0, 0, 0.1),
+			inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+		/* Polaroid frame with paper texture */
+		background: 
+			url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='0.03'/%3E%3C/svg%3E"),
+			linear-gradient(175deg, #fcfcfa 0%, #f5f5f0 40%, #eeeee8 100%);
+		padding: 16px 16px 50px 16px;
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		/* Subtle worn edges */
+		border-top-color: rgba(255, 255, 255, 0.3);
+		border-left-color: rgba(255, 255, 255, 0.2);
 	}
 
-	/* Paper texture overlay on hero image */
+	/* Grain overlay for print texture - covers image area only */
 	.hero-image-container::after {
 		content: '';
 		position: absolute;
-		inset: 0;
-		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23fff' surfaceScale='2'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
-		opacity: 0.15;
-		mix-blend-mode: multiply;
+		top: 16px;
+		left: 16px;
+		right: 16px;
+		bottom: 50px;
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+		opacity: 0.35;
+		mix-blend-mode: overlay;
 		pointer-events: none;
-		border-radius: 7px;
+		border-radius: 1px;
 	}
 
 	.hero-image {
 		width: 100%;
-		height: 100%;
+		height: auto;
+		max-height: 500px;
 		object-fit: cover;
 		display: block;
+		/* Vintage print/risograph effect */
+		filter: contrast(1.15) saturate(1.3) brightness(1.02);
+		border-radius: 1px;
+		/* Subtle inset shadow for photo depth */
+		box-shadow: 
+			inset 0 0 3px rgba(0, 0, 0, 0.2),
+			inset 0 0 10px rgba(0, 0, 0, 0.05);
 	}
 
 	/* Content Section */
@@ -510,42 +536,32 @@
 		gap: 2rem;
 	}
 
-	/* Post Title - Starlight glow effect */
+	/* Post Title - Silver embossed effect (matching homepage) */
 	.post-title {
-		font-family: 'VT323', monospace;
+		font-family: 'Caveat', cursive;
 		font-size: clamp(2rem, 4vw, 3.5rem);
-		font-weight: 400;
-		color: var(--headline);
+		font-weight: 600;
+		color: #c8c8d0;
 		text-align: center;
-		line-height: 1.2;
+		line-height: 1.3;
 		margin: 0;
 		margin-bottom: 1rem;
 		max-width: 900px;
 		text-wrap: balance;
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		/* Starlight glow */
+		text-transform: lowercase;
+		letter-spacing: 0.02em;
+		/* Speckled silver embossed effect */
 		text-shadow: 
-			0 0 10px var(--headline-glow),
-			0 0 20px var(--headline-glow),
-			0 0 40px var(--headline-glow);
-		transition: color 0.8s ease-out, text-shadow 0.8s ease-out;
-		animation: star-twinkle 3s ease-in-out infinite;
-	}
-
-	@keyframes star-twinkle {
-		0%, 100% {
-			text-shadow: 
-				0 0 10px var(--headline-glow),
-				0 0 20px var(--headline-glow),
-				0 0 40px var(--headline-glow);
-		}
-		50% {
-			text-shadow: 
-				0 0 6px var(--headline-glow),
-				0 0 12px var(--headline-glow),
-				0 0 24px var(--headline-glow);
-		}
+			/* Emboss highlight - top-left edge */
+			-1px -1px 0 rgba(255, 255, 255, 0.9),
+			-2px -2px 1px rgba(255, 255, 255, 0.4),
+			/* Emboss shadow - bottom-right edge */
+			1px 1px 0 rgba(0, 0, 0, 0.5),
+			2px 2px 1px rgba(0, 0, 0, 0.3),
+			3px 3px 3px rgba(0, 0, 0, 0.2),
+			/* Silver specular highlights */
+			0 0 2px rgba(255, 255, 255, 0.8),
+			0 0 15px rgba(192, 192, 210, 0.5);
 	}
 
 	/* Tags Container */
@@ -903,8 +919,8 @@
 		left: 0;
 		height: 100%;
 		width: var(--progress);
-		background: var(--headline);
-		box-shadow: 0 0 10px var(--headline-glow), 0 0 5px var(--headline);
+		background: #c8c8d0;
+		box-shadow: 0 0 10px rgba(192, 192, 210, 0.5), 0 0 5px #c8c8d0;
 		transition: width 0.1s ease-out;
 	}
 
@@ -913,8 +929,23 @@
 		.hero-image-section {
 			margin-top: 4rem;
 			margin-bottom: 2rem;
-			margin-left: 0.5rem;
-			margin-right: 0.5rem;
+			padding: 0 0.5rem;
+		}
+
+		.hero-image-container {
+			padding: 10px 10px 35px 10px;
+			box-shadow: 
+				0 1px 2px rgba(0, 0, 0, 0.1),
+				0 4px 8px rgba(0, 0, 0, 0.12),
+				0 8px 16px rgba(0, 0, 0, 0.1),
+				inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+		}
+
+		.hero-image-container::after {
+			top: 10px;
+			left: 10px;
+			right: 10px;
+			bottom: 35px;
 		}
 
 		.content-section {
@@ -926,7 +957,11 @@
 		.post-title {
 			font-size: clamp(1.5rem, 6vw, 2.5rem);
 			margin-bottom: 0.5rem;
-			letter-spacing: 0.06em;
+			text-shadow: 
+				-1px -1px 0 rgba(255, 255, 255, 0.9),
+				1px 1px 0 rgba(0, 0, 0, 0.5),
+				2px 2px 2px rgba(0, 0, 0, 0.2),
+				0 0 10px rgba(192, 192, 210, 0.4);
 		}
 
 		.progress-bar {
