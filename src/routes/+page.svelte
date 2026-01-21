@@ -635,6 +635,7 @@
 	/* Hero Title */
 	.hero__title-container {
 		min-height: 3rem;
+		width: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -649,10 +650,8 @@
 		font-weight: 400;
 		color: #ffffff;
 		text-align: center;
-		width: 100%;
 		white-space: nowrap;
 		line-height: 1.4;
-		padding: 0.5rem 1rem;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 		/* Starlight glow */
