@@ -685,7 +685,7 @@
 		color: var(--headline);
 		margin-top: 2em;
 		margin-bottom: 0.75em;
-		text-align: left;
+		text-align: center;
 		/* Subtle embossed effect - much smaller than title */
 		text-shadow: 
 			-1px -1px 0 var(--headline-accent),
@@ -702,6 +702,7 @@
 		color: var(--headline);
 		margin-top: 1.75em;
 		margin-bottom: 0.5em;
+		text-align: center;
 		transition: color 0.8s ease-out;
 	}
 
