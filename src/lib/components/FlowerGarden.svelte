@@ -54,36 +54,27 @@
 				--flower-x: {randomX}px;
 				--animation-delay: {randomDelay}s;
 			">
-				<svg class="flower-svg" viewBox="0 0 40 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<defs>
-						<filter id="roughEdge-{i}" x="-10%" y="-10%" width="120%" height="120%">
-							<feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="2" result="noise" seed="{i * 3}"/>
-							<feDisplacementMap in="SourceGraphic" in2="noise" scale="1" xChannelSelector="R" yChannelSelector="G"/>
-						</filter>
-					</defs>
-					
-					<g filter="url(#roughEdge-{i})">
-						<!-- Stem -->
-						<path class="stem" d="M20 120 Q18 90 20 50" stroke="#4a7c3f" stroke-width="2" fill="none" stroke-linecap="round"/>
-						
-						<!-- Leaves -->
-						<path class="leaf leaf--left" d="M16 85 Q8 80 6 74 Q14 72 20 80 Q18 84 16 85" fill="#5a9c4a"/>
-						<path class="leaf leaf--right" d="M24 95 Q32 92 34 86 Q26 84 20 90 Q22 94 24 95" fill="#4a8c3a"/>
-						
-						<!-- Petals -->
-						<path class="petal" d="M20 28 Q14 20 20 8 Q26 20 20 28" fill="var(--flower-color)"/>
-						<path class="petal" d="M28 34 Q36 28 42 36 Q34 44 28 34" fill="var(--flower-color)" opacity="0.95"/>
-						<path class="petal" d="M12 34 Q4 28 -2 36 Q6 44 12 34" fill="var(--flower-color)" opacity="0.95"/>
-						<path class="petal" d="M26 44 Q34 50 30 60 Q20 54 26 44" fill="var(--flower-color)" opacity="0.9"/>
-						<path class="petal" d="M14 44 Q6 50 10 60 Q20 54 14 44" fill="var(--flower-color)" opacity="0.9"/>
-						
-						<!-- Center -->
-						<circle class="center" cx="20" cy="38" r="8" fill="#ffd93d"/>
-						<circle cx="17" cy="36" r="1.5" fill="#e8a800" opacity="0.6"/>
-						<circle cx="23" cy="39" r="1" fill="#e8a800" opacity="0.6"/>
-						<circle cx="20" cy="42" r="1" fill="#e8a800" opacity="0.6"/>
-					</g>
-				</svg>
+			<svg class="flower-svg" viewBox="0 0 40 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<!-- Stem -->
+				<path class="stem" d="M20 120 Q18 90 20 50" stroke="#4a7c3f" stroke-width="2" fill="none" stroke-linecap="round"/>
+				
+				<!-- Leaves -->
+				<path class="leaf leaf--left" d="M16 85 Q8 80 6 74 Q14 72 20 80 Q18 84 16 85" fill="#5a9c4a"/>
+				<path class="leaf leaf--right" d="M24 95 Q32 92 34 86 Q26 84 20 90 Q22 94 24 95" fill="#4a8c3a"/>
+				
+				<!-- Petals -->
+				<path class="petal" d="M20 28 Q14 20 20 8 Q26 20 20 28" fill="var(--flower-color)"/>
+				<path class="petal" d="M28 34 Q36 28 42 36 Q34 44 28 34" fill="var(--flower-color)" opacity="0.95"/>
+				<path class="petal" d="M12 34 Q4 28 -2 36 Q6 44 12 34" fill="var(--flower-color)" opacity="0.95"/>
+				<path class="petal" d="M26 44 Q34 50 30 60 Q20 54 26 44" fill="var(--flower-color)" opacity="0.9"/>
+				<path class="petal" d="M14 44 Q6 50 10 60 Q20 54 14 44" fill="var(--flower-color)" opacity="0.9"/>
+				
+				<!-- Center -->
+				<circle class="center" cx="20" cy="38" r="8" fill="#ffd93d"/>
+				<circle cx="17" cy="36" r="1.5" fill="#e8a800" opacity="0.6"/>
+				<circle cx="23" cy="39" r="1" fill="#e8a800" opacity="0.6"/>
+				<circle cx="20" cy="42" r="1" fill="#e8a800" opacity="0.6"/>
+			</svg>
 			</a>
 		{/each}
 	</div>

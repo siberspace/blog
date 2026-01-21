@@ -916,7 +916,7 @@
 	@media (max-width: 768px) {
 		/* Mobile performance optimizations */
 		.bg-color-wash {
-			filter: blur(60px) saturate(2) brightness(0.5);
+			filter: blur(40px) saturate(1.8) brightness(0.5);
 			animation: none; /* Disable nebula drift on mobile */
 		}
 
