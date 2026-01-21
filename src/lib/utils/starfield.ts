@@ -244,29 +244,11 @@ export function getVisibleStars(
 }
 
 /**
- * Get user's location with Lebanon as fallback
+ * Get location for starfield - always uses Lebanon (Beirut)
+ * We don't request user location to avoid permission prompts
  */
 export function getUserLocation(): Promise<ObserverLocation> {
-	return new Promise((resolve) => {
-		if (typeof navigator !== 'undefined' && navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(
-				(position) => {
-					resolve({
-						latitude: position.coords.latitude,
-						longitude: position.coords.longitude
-					});
-				},
-				() => {
-					// User denied or error - use Lebanon
-					resolve(DEFAULT_LOCATION);
-				},
-				{ timeout: 5000 }
-			);
-		} else {
-			// No geolocation available - use Lebanon
-			resolve(DEFAULT_LOCATION);
-		}
-	});
+	return Promise.resolve(DEFAULT_LOCATION);
 }
 
 /**
