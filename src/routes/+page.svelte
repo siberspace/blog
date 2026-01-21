@@ -387,9 +387,6 @@
 		position: fixed;
 		inset: 0;
 		background-color: #a8a8a8;
-		background-image: url('/bg-texture.png');
-		background-size: cover;
-		background-position: center;
 		pointer-events: none;
 		z-index: 0;
 	}

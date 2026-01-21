@@ -354,9 +354,7 @@
 		content: '';
 		position: absolute;
 		inset: 0;
-		background-image: url('/bg-texture.png');
-		background-size: cover;
-		background-position: center;
+		background-color: #d4d4d4;
 		opacity: 0.4;
 	}
 
