@@ -626,8 +626,9 @@
 	}
 
 	.hero__btn {
-		font-family: var(--font-serif);
-		font-size: 1.1rem;
+		font-family: var(--font-typewriter);
+		font-size: 1rem;
+		letter-spacing: 0.05em;
 		padding: 0.7rem 1.8rem;
 		border-radius: 22px;
 		cursor: pointer;
@@ -727,11 +728,11 @@
 	}
 
 	.index__title {
-		font-family: var(--font-serif);
-		font-size: 1.5rem;
+		font-family: var(--font-typewriter);
+		font-size: 1.25rem;
 		font-weight: 400;
-		font-style: italic;
-		color: black;
+		letter-spacing: 0.05em;
+		color: #2a2a2a;
 		text-align: center;
 		margin-bottom: 2rem;
 	}
@@ -747,7 +748,8 @@
 		grid-template-columns: 100px minmax(200px, 450px) 100px 60px 70px 100px;
 		gap: 1.5rem;
 		padding: 0.75rem 1rem;
-		font-family: var(--font-serif);
+		font-family: var(--font-typewriter);
+		letter-spacing: 0.03em;
 		font-size: 1rem;
 		font-weight: 700;
 		color: black;
@@ -805,9 +807,10 @@
 
 	/* Cell Styles */
 	.index__cell {
-		font-family: var(--font-serif);
-		font-size: 1rem;
-		color: black;
+		font-family: var(--font-typewriter);
+		font-size: 0.95rem;
+		color: #2a2a2a;
+		letter-spacing: 0.02em;
 	}
 
 	.index__cell--headline {
