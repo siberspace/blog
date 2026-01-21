@@ -793,17 +793,39 @@
 		transition: background-color 0.8s ease-out, box-shadow 0.8s ease-out;
 	}
 
-	/* YouTube/Video embeds - full width, no background */
+	/* YouTube/Video embeds - with color-matched background frame */
 	.article-body :global(.kg-embed-card) {
+		position: relative;
+		background-color: var(--image-card-bg, rgba(0, 0, 0, 0.12));
+		backdrop-filter: blur(8px);
+		border-radius: 12px;
+		padding: 0.5rem;
 		margin: 2rem 0;
 		width: 100%;
+		box-shadow: 0 4px 24px var(--image-card-bg, rgba(0, 0, 0, 0.12));
+		transition: background-color 0.8s ease-out, box-shadow 0.8s ease-out;
+	}
+
+	/* Paper texture overlay on video embeds */
+	.article-body :global(.kg-embed-card)::before {
+		content: '';
+		position: absolute;
+		inset: 0.5rem;
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23fff' surfaceScale='2'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
+		opacity: 0.12;
+		mix-blend-mode: multiply;
+		pointer-events: none;
+		border-radius: 8px;
+		z-index: 1;
 	}
 
 	.article-body :global(.kg-embed-card iframe) {
+		position: relative;
 		width: 100%;
 		aspect-ratio: 16 / 9;
 		height: auto;
 		border-radius: 8px;
+		z-index: 0;
 	}
 
 	/* Home Button */
