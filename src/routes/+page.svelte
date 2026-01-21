@@ -397,8 +397,8 @@
 		inset: -50px;
 		background-size: cover;
 		background-position: center;
-		filter: blur(80px) saturate(1.5);
-		opacity: 0.45;
+		filter: blur(60px) saturate(2);
+		opacity: 0.7;
 		pointer-events: none;
 		z-index: 0;
 		transition: background-image 0.5s ease-out;
