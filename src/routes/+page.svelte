@@ -407,6 +407,10 @@
 		transition: background-image 0.5s ease-out;
 		animation: nebulaDrift 20s ease-in-out infinite;
 		mix-blend-mode: screen;
+		/* GPU acceleration */
+		transform: translateZ(0);
+		will-change: opacity;
+		backface-visibility: hidden;
 	}
 
 	@keyframes nebulaDrift {
@@ -888,6 +892,24 @@
 	}
 
 	@media (max-width: 768px) {
+		/* Mobile performance optimizations */
+		.bg-color-wash {
+			filter: blur(60px) saturate(2) brightness(0.5);
+			animation: none; /* Disable nebula drift on mobile */
+		}
+
+		.bg-stars {
+			animation: none; /* Disable star twinkle on mobile */
+		}
+
+		.hero__title {
+			animation: none; /* Disable shimmer on mobile */
+		}
+
+		.index__title {
+			animation: none; /* Disable twinkle on mobile */
+		}
+
 		.hero {
 			min-height: auto;
 			padding: 6.5rem 1rem 3rem;
