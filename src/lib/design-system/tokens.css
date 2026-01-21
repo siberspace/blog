@@ -38,9 +38,9 @@
 	
 	/* Typography - Font Families */
 	--font-sans: "Inter", sans-serif;
-	--font-serif: "Literata", "Georgia", serif;
-	--font-display: "Unbounded", "Georgia", serif;
-	--font-handwritten: "Unbounded", sans-serif;
+	--font-serif: "Big Caslon", "Libre Caslon Text", "Georgia", serif;
+	--font-display: "Big Caslon", "Libre Caslon Display", "Georgia", serif;
+	--font-handwritten: "Big Caslon", "Libre Caslon Display", "Georgia", serif;
 	--font-typewriter: "JetBrains Mono", "Consolas", monospace;
 	
 	/* Typography - Sizes */
