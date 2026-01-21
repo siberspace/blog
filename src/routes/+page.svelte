@@ -626,7 +626,7 @@
 	}
 
 	.hero__btn {
-		font-family: var(--font-typewriter);
+		font-family: var(--font-serif);
 		font-size: 1.1rem;
 		padding: 0.7rem 1.8rem;
 		border-radius: 22px;
@@ -727,9 +727,10 @@
 	}
 
 	.index__title {
-		font-family: var(--font-typewriter);
+		font-family: var(--font-serif);
 		font-size: 1.5rem;
-		font-weight: 700;
+		font-weight: 400;
+		font-style: italic;
 		color: black;
 		text-align: center;
 		margin-bottom: 2rem;
@@ -746,7 +747,7 @@
 		grid-template-columns: 100px minmax(200px, 450px) 100px 60px 70px 100px;
 		gap: 1.5rem;
 		padding: 0.75rem 1rem;
-		font-family: var(--font-typewriter);
+		font-family: var(--font-serif);
 		font-size: 1rem;
 		font-weight: 700;
 		color: black;
@@ -804,7 +805,7 @@
 
 	/* Cell Styles */
 	.index__cell {
-		font-family: var(--font-typewriter);
+		font-family: var(--font-serif);
 		font-size: 1rem;
 		color: black;
 	}
