@@ -27,6 +27,7 @@
 	let currentWashImage = $state(data.post.feature_image || '');
 	let previousWashImage = $state('');
 	let washTransitionKey = $state(0); // Increments on each change to trigger animations
+	let currentImageIsGif = $state(false); // Track if current image is a GIF
 	
 	// Dynamic colors extracted from the feature image
 	let colors = $state<ColorPalette>(defaultColors);
@@ -82,6 +83,8 @@
 			previousWashImage = currentWashImage;
 			currentWashImage = newImage;
 			washTransitionKey++;
+			// Check if the image is a GIF
+			currentImageIsGif = newImage.toLowerCase().endsWith('.gif') || newImage.toLowerCase().includes('.gif?');
 		}
 	}
 	
@@ -215,6 +218,7 @@
 			{#key `curr-${washTransitionKey}`}
 				<div 
 					class="bg-color-wash bg-color-wash--incoming"
+					class:bg-color-wash--gif={currentImageIsGif}
 					style="background-image: url('{currentWashImage}');"
 				></div>
 			{/key}
@@ -389,6 +393,12 @@
 	/* Outgoing wash - slow fade out, slightly faster than incoming for smooth overlap */
 	.bg-color-wash--outgoing {
 		animation: washFadeOut 2s ease-in forwards;
+	}
+
+	/* Reduce intensity for GIF images (50% less) */
+	.bg-color-wash--gif {
+		filter: blur(100px) saturate(1.5) brightness(0.4);
+		opacity: 0.15;
 	}
 
 	@keyframes washFadeIn {
