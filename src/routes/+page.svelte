@@ -921,24 +921,30 @@
 		}
 
 		.hero__title-container {
-			min-height: 4rem;
+			height: 5rem; /* Fixed height to prevent layout shift */
+			min-height: unset;
 			margin-bottom: 2.5rem;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			overflow: visible;
-			padding: 0.75rem 1.5rem;
+			overflow: hidden;
+			padding: 0.5rem 1.5rem;
 		}
 
 		.hero__title {
-			font-size: 1.6rem;
+			font-size: 1.5rem;
 			line-height: 1.3;
 			color: #c8c8d0;
 			text-wrap: balance;
 			white-space: normal;
-			padding: 0.5rem 0.75rem;
+			padding: 0;
 			text-transform: lowercase;
 			letter-spacing: 0.02em;
+			max-height: 100%;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
 			/* Silver embossed - mobile */
 			text-shadow: 
 				-1px -1px 0 rgba(255, 255, 255, 0.9),
@@ -1030,14 +1036,15 @@
 		}
 
 		.hero__title-container {
-			min-height: 3.5rem;
+			height: 4.5rem; /* Fixed height to prevent layout shift */
+			min-height: unset;
 			margin-bottom: 2rem;
 			padding: 0.5rem 1rem;
 		}
 
 		.hero__title {
-			font-size: 1.3rem;
-			padding: 0.4rem 0.6rem;
+			font-size: 1.2rem;
+			padding: 0;
 			text-transform: lowercase;
 			letter-spacing: 0.01em;
 			/* Silver embossed - small mobile */
