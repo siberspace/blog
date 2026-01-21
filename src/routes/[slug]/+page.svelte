@@ -774,8 +774,9 @@
 	}
 
 	/* Images with captions: flatten bottom corners so they flow into caption */
-	.article-body :global(figure:has(figcaption) img) {
-		border-radius: 8px 8px 0 0;
+	.article-body :global(figure:not(.kg-embed-card):has(figcaption) img),
+	.article-body :global(.kg-image-card:has(figcaption) img) {
+		border-radius: 8px 8px 0 0 !important;
 	}
 
 	.article-body :global(figcaption) {
