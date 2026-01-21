@@ -733,14 +733,14 @@
 		font-size: 1.5rem;
 		font-weight: 400;
 		letter-spacing: 0.1em;
-		color: #00ff88;
+		color: #ffffff;
 		text-align: center;
 		margin-bottom: 2rem;
 		text-transform: uppercase;
 		text-shadow: 
-			0 0 5px #00ff88,
-			0 0 10px #00ff88,
-			0 0 20px #00ff8855;
+			0 0 5px #ffffff,
+			0 0 10px #ffffff,
+			0 0 20px #ffffff55;
 		animation: clock-glow 2s ease-in-out infinite;
 	}
 
@@ -748,16 +748,16 @@
 		0%, 100% {
 			opacity: 1;
 			text-shadow: 
-				0 0 5px #00ff88,
-				0 0 10px #00ff88,
-				0 0 20px #00ff8855;
+				0 0 5px #ffffff,
+				0 0 10px #ffffff,
+				0 0 20px #ffffff55;
 		}
 		50% {
 			opacity: 0.85;
 			text-shadow: 
-				0 0 3px #00ff88,
-				0 0 6px #00ff88,
-				0 0 12px #00ff8855;
+				0 0 3px #ffffff,
+				0 0 6px #ffffff,
+				0 0 12px #ffffff55;
 		}
 	}
 
@@ -776,14 +776,14 @@
 		letter-spacing: 0.08em;
 		font-size: 1.1rem;
 		font-weight: 400;
-		color: #00ff88;
+		color: #ffffff;
 		text-transform: uppercase;
-		border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 		margin-bottom: 0.5rem;
 		width: fit-content;
 		text-shadow: 
-			0 0 5px #00ff88,
-			0 0 10px #00ff8855;
+			0 0 5px #ffffff,
+			0 0 10px #ffffff55;
 		animation: clock-glow 2s ease-in-out infinite;
 	}
 
@@ -810,14 +810,14 @@
 	}
 
 	.index__row:hover {
-		background-color: rgba(0, 255, 136, 0.08);
+		background-color: rgba(255, 255, 255, 0.08);
 	}
 
 	.index__row:hover .index__cell {
 		text-shadow: 
-			0 0 5px #00ff88,
-			0 0 12px #00ff88,
-			0 0 20px #00ff8888;
+			0 0 5px #ffffff,
+			0 0 12px #ffffff,
+			0 0 20px #ffffff88;
 	}
 
 	/* Thumbnail */
@@ -845,11 +845,11 @@
 	.index__cell {
 		font-family: 'VT323', monospace;
 		font-size: 1.1rem;
-		color: #00ff88;
+		color: #ffffff;
 		letter-spacing: 0.05em;
 		text-shadow: 
-			0 0 3px #00ff88,
-			0 0 8px #00ff8855;
+			0 0 3px #ffffff,
+			0 0 8px #ffffff55;
 		animation: clock-glow 2s ease-in-out infinite;
 	}
 
@@ -1013,12 +1013,12 @@
 			grid-column: 2;
 			font-family: 'VT323', monospace;
 			font-size: 0.95rem;
-			color: #00ff88aa;
+			color: #ffffffaa;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			line-height: 1.4;
-			text-shadow: 0 0 3px #00ff8855;
+			text-shadow: 0 0 3px #ffffff55;
 		}
 	}
 
