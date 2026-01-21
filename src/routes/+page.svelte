@@ -780,10 +780,10 @@
 	}
 
 	.index__title {
-		font-family: 'VT323', monospace;
+		font-family: var(--font-serif);
 		font-size: 1.5rem;
-		font-weight: 400;
-		letter-spacing: 0.1em;
+		font-weight: 500;
+		letter-spacing: 0.05em;
 		color: #e8e8e8;
 		text-align: center;
 		margin-bottom: 2rem;
@@ -818,10 +818,10 @@
 		grid-template-columns: 100px minmax(200px, 450px) 100px 60px 70px 100px;
 		gap: 1.5rem;
 		padding: 0.75rem 1rem;
-		font-family: 'VT323', monospace;
-		letter-spacing: 0.08em;
-		font-size: 1.1rem;
-		font-weight: 400;
+		font-family: var(--font-serif);
+		letter-spacing: 0.02em;
+		font-size: 1rem;
+		font-weight: 500;
 		color: #d0d0d0;
 		text-transform: lowercase;
 		border-bottom: 1px solid rgba(255, 255, 255, 0.15);
@@ -883,17 +883,19 @@
 
 	/* Cell Styles */
 	.index__cell {
-		font-family: 'VT323', monospace;
-		font-size: 1.1rem;
+		font-family: var(--font-serif);
+		font-size: 1rem;
 		color: #e0e0e0;
-		letter-spacing: 0.05em;
+		letter-spacing: 0.01em;
+		font-weight: 500;
 		text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
 	}
 
 	.index__cell--headline {
-		font-size: 1.25rem;
+		font-size: 1.1rem;
 		line-height: 1.3;
 		color: #ffffff;
+		font-weight: 500;
 		text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
 	}
 
@@ -1052,9 +1054,10 @@
 		.index__cell--excerpt {
 			display: block;
 			grid-column: 2;
-			font-family: 'VT323', monospace;
-			font-size: 0.95rem;
+			font-family: var(--font-serif);
+			font-size: 0.85rem;
 			color: #a0a0a0;
+			font-weight: 500;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
