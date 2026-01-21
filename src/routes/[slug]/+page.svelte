@@ -784,8 +784,8 @@
 		font-size: 0.9375rem;
 		color: var(--text);
 		text-align: center;
-		margin-top: 1rem;
-		padding-bottom: 0.5rem;
+		padding: 1rem 0.5rem;
+		margin: 0;
 	}
 
 	/* Standalone images (not in figure) */
