@@ -680,31 +680,28 @@
 
 	.article-body :global(h2) {
 		font-family: var(--font-handwritten);
-		font-size: 2.5rem;
+		font-size: 1.5rem;
 		font-weight: 700;
 		color: var(--headline);
 		margin-top: 2em;
-		margin-bottom: 1em;
-		text-align: center;
-		/* Embossed 3D effect - slightly smaller than title */
+		margin-bottom: 0.75em;
+		text-align: left;
+		/* Subtle embossed effect - much smaller than title */
 		text-shadow: 
 			-1px -1px 0 var(--headline-accent),
 			1px 1px 0 var(--headline-shadow),
 			2px 2px 0 var(--headline-shadow),
-			3px 3px 0 var(--headline-shadow),
-			4px 4px 0 var(--headline-shadow),
-			5px 5px 0 var(--headline-shadow),
-			6px 6px 5px rgba(0, 0, 0, 0.25),
-			0 0 20px var(--headline-glow);
+			3px 3px 3px rgba(0, 0, 0, 0.15);
 		transition: color 0.8s ease-out, text-shadow 0.8s ease-out;
 	}
 
 	.article-body :global(h3) {
 		font-family: var(--font-serif);
-		font-size: 1.375rem;
+		font-size: 1.2rem;
+		font-weight: 600;
 		color: var(--headline);
-		margin-top: 2em;
-		margin-bottom: 1em;
+		margin-top: 1.75em;
+		margin-bottom: 0.5em;
 		transition: color 0.8s ease-out;
 	}
 
