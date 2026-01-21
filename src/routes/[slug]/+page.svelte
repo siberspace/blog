@@ -595,15 +595,13 @@
 
 	/* Article Body */
 	.article-body {
-		font-family: var(--font-serif);
+		font-family: "Libre Caslon Text", "Georgia", serif;
 		font-size: 1.125rem;
 		line-height: 1.8;
 		color: var(--text);
 		max-width: 65ch;
 		width: 100%;
 		text-align: justify;
-		/* Allow browser to synthesize bold-italic if font lacks that variant */
-		font-synthesis: weight style;
 	}
 
 	.article-body :global(p) {
