@@ -236,7 +236,11 @@
 		</div>
 
 		<!-- Hero Title -->
-		<div class="hero__title-container">
+		<div class="hero__title-container" style="
+			--title-color: {(flowerColors.get(featuredPost?.slug || '') || defaultColors).headlineColor};
+			--title-shadow: {(flowerColors.get(featuredPost?.slug || '') || defaultColors).headlineShadow};
+			--title-accent: {(flowerColors.get(featuredPost?.slug || '') || defaultColors).headlineAccent};
+		">
 			<h1 class="hero__title">{heroTitle}</h1>
 		</div>
 
@@ -591,15 +595,24 @@
 	}
 
 	.hero__title {
-		font-family: var(--font-typewriter);
-		font-size: clamp(0.9rem, 2vw, 1.25rem);
+		font-family: var(--font-handwritten);
+		font-size: clamp(1.5rem, 4vw, 2.5rem);
 		font-weight: 700;
-		color: white;
+		color: var(--title-color, #333);
 		text-align: center;
-		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-		max-width: 450px;
-		line-height: 1.4;
+		max-width: 550px;
+		line-height: 1.2;
 		text-wrap: balance;
+		/* Embossed 3D effect - scaled down from article page */
+		text-shadow: 
+			-1px -1px 0 var(--title-accent, rgba(255,255,255,0.5)),
+			1px 1px 0 var(--title-shadow, rgba(0,0,0,0.3)),
+			2px 2px 0 var(--title-shadow, rgba(0,0,0,0.3)),
+			3px 3px 0 var(--title-shadow, rgba(0,0,0,0.3)),
+			4px 4px 0 var(--title-shadow, rgba(0,0,0,0.3)),
+			5px 5px 4px rgba(0, 0, 0, 0.2),
+			0 0 20px var(--title-color, rgba(0,0,0,0.1));
+		transition: color 0.5s ease, text-shadow 0.5s ease;
 	}
 
 	/* Action Buttons */
@@ -877,10 +890,9 @@
 		}
 
 		.hero__title {
-			font-size: 1.1rem;
-			line-height: 1.4;
-			color: #1a1a1a;
-			text-shadow: none;
+			font-size: 1.4rem;
+			line-height: 1.2;
+			color: var(--title-color, #333);
 			text-wrap: balance;
 			display: -webkit-box;
 			-webkit-line-clamp: 2;
@@ -888,6 +900,14 @@
 			-webkit-box-orient: vertical;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			/* Scaled down embossed effect for mobile */
+			text-shadow: 
+				-0.5px -0.5px 0 var(--title-accent, rgba(255,255,255,0.5)),
+				0.5px 0.5px 0 var(--title-shadow, rgba(0,0,0,0.3)),
+				1px 1px 0 var(--title-shadow, rgba(0,0,0,0.3)),
+				2px 2px 0 var(--title-shadow, rgba(0,0,0,0.3)),
+				3px 3px 3px rgba(0, 0, 0, 0.15),
+				0 0 10px var(--title-color, rgba(0,0,0,0.1));
 		}
 
 		.hero__actions {
@@ -978,7 +998,12 @@
 		}
 
 		.hero__title {
-			font-size: 1rem;
+			font-size: 1.2rem;
+			text-shadow: 
+				-0.5px -0.5px 0 var(--title-accent, rgba(255,255,255,0.5)),
+				0.5px 0.5px 0 var(--title-shadow, rgba(0,0,0,0.3)),
+				1px 1px 0 var(--title-shadow, rgba(0,0,0,0.3)),
+				2px 2px 2px rgba(0, 0, 0, 0.15);
 		}
 
 		.hero__actions {
