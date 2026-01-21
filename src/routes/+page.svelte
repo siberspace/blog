@@ -605,14 +605,17 @@
 		white-space: nowrap;
 		line-height: 1.4;
 		padding: 0.5rem 1rem;
-		/* Embossed 3D effect - scaled for single line */
+		/* Embossed into paper effect - pressed in with inner shadow */
 		text-shadow: 
-			-0.5px -0.5px 0 var(--title-accent, rgba(255,255,255,0.5)),
-			0.5px 0.5px 0 var(--title-shadow, rgba(0,0,0,0.3)),
-			1px 1px 0 var(--title-shadow, rgba(0,0,0,0.3)),
-			2px 2px 0 var(--title-shadow, rgba(0,0,0,0.3)),
-			3px 3px 3px rgba(0, 0, 0, 0.2),
-			0 0 20px var(--title-color, rgba(0,0,0,0.15));
+			/* Light edge on top-left (raised edge catching light) */
+			-1px -1px 0 rgba(255, 255, 255, 0.3),
+			/* Dark shadow on bottom-right (pressed into surface) */
+			1px 1px 1px var(--title-shadow, rgba(0,0,0,0.4)),
+			2px 2px 2px var(--title-shadow, rgba(0,0,0,0.25)),
+			/* Soft ambient shadow */
+			3px 3px 6px rgba(0, 0, 0, 0.15),
+			/* Subtle inner glow for depth */
+			0 0 8px var(--title-shadow, rgba(0,0,0,0.1));
 		transition: color 0.5s ease, text-shadow 0.5s ease;
 	}
 
@@ -902,14 +905,12 @@
 			text-wrap: balance;
 			white-space: normal;
 			padding: 0.5rem 0.75rem;
-			/* Scaled down embossed effect for mobile */
+			/* Embossed into paper - mobile */
 			text-shadow: 
-				-0.5px -0.5px 0 var(--title-accent, rgba(255,255,255,0.5)),
-				0.5px 0.5px 0 var(--title-shadow, rgba(0,0,0,0.3)),
-				1px 1px 0 var(--title-shadow, rgba(0,0,0,0.3)),
-				2px 2px 0 var(--title-shadow, rgba(0,0,0,0.3)),
-				3px 3px 3px rgba(0, 0, 0, 0.15),
-				0 0 15px var(--title-color, rgba(0,0,0,0.12));
+				-1px -1px 0 rgba(255, 255, 255, 0.3),
+				1px 1px 1px var(--title-shadow, rgba(0,0,0,0.4)),
+				2px 2px 2px var(--title-shadow, rgba(0,0,0,0.2)),
+				2px 2px 5px rgba(0, 0, 0, 0.12);
 		}
 
 		.hero__actions {
@@ -1002,11 +1003,9 @@
 			font-size: 1.1rem;
 			padding: 0.4rem 0.6rem;
 			text-shadow: 
-				-0.5px -0.5px 0 var(--title-accent, rgba(255,255,255,0.5)),
-				0.5px 0.5px 0 var(--title-shadow, rgba(0,0,0,0.3)),
-				1px 1px 0 var(--title-shadow, rgba(0,0,0,0.3)),
-				2px 2px 2px rgba(0, 0, 0, 0.15),
-				0 0 12px var(--title-color, rgba(0,0,0,0.1));
+				-0.5px -0.5px 0 rgba(255, 255, 255, 0.25),
+				1px 1px 1px var(--title-shadow, rgba(0,0,0,0.35)),
+				1.5px 1.5px 3px rgba(0, 0, 0, 0.1);
 		}
 
 		.hero__actions {
