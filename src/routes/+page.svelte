@@ -386,35 +386,65 @@
 		background-color: #f5f5f5;
 	}
 
-	/* Layer 1: Base - terrazzo/confetti pattern */
+	/* Layer 1: Base - night sky */
 	.bg-base {
 		position: fixed;
 		inset: 0;
-		background-color: #a8a8a8;
+		background: radial-gradient(ellipse at 20% 20%, #0a0a15 0%, #050510 50%, #020208 100%);
 		pointer-events: none;
 		z-index: 0;
 	}
 
-	/* Layer 1.5: Color wash from featured image */
+	/* Stars layer */
+	.bg-base::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-image: 
+			radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
+			radial-gradient(1px 1px at 30% 60%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
+			radial-gradient(1.5px 1.5px at 50% 10%, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
+			radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+			radial-gradient(1px 1px at 90% 80%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
+			radial-gradient(1px 1px at 15% 70%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
+			radial-gradient(1.5px 1.5px at 85% 15%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
+			radial-gradient(1px 1px at 45% 85%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+			radial-gradient(1px 1px at 65% 25%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
+			radial-gradient(2px 2px at 25% 45%, rgba(255, 255, 255, 1) 0%, transparent 100%),
+			radial-gradient(1px 1px at 55% 55%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
+			radial-gradient(1px 1px at 80% 70%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+			radial-gradient(1.5px 1.5px at 35% 30%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
+			radial-gradient(1px 1px at 5% 50%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
+			radial-gradient(1px 1px at 95% 35%, rgba(255, 255, 255, 0.7) 0%, transparent 100%);
+		animation: starTwinkle 8s ease-in-out infinite;
+	}
+
+	@keyframes starTwinkle {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.7; }
+	}
+
+	/* Layer 1.5: Nebula color wash from featured image */
 	.bg-color-wash {
 		position: fixed;
 		inset: -50px;
 		background-size: cover;
 		background-position: center;
-		filter: blur(50px) saturate(3) brightness(1.1) contrast(1.1);
-		opacity: 0.8;
+		filter: blur(80px) saturate(2.5) brightness(0.6);
+		opacity: 0.5;
 		pointer-events: none;
 		z-index: 0;
 		transition: background-image 0.5s ease-out;
-		animation: colorDrift 15s ease-in-out infinite;
+		animation: nebulaDrift 20s ease-in-out infinite;
+		mix-blend-mode: screen;
 	}
 
-	@keyframes colorDrift {
+	@keyframes nebulaDrift {
 		0%, 100% {
-			transform: scale(1) translate(0, 0);
+			transform: scale(1.1) translate(0, 0);
 		}
 		25% {
-			transform: scale(1.12) translate(40px, -25px);
+			transform: scale(1.2) translate(30px, -20px);
 		}
 		50% {
 			transform: scale(1.05) translate(-30px, 35px);
@@ -424,27 +454,26 @@
 		}
 	}
 
-	/* Layer 2: Paper pulpy texture overlay */
+	/* Layer 2: Cosmic dust texture overlay */
 	.bg-paper {
 		position: fixed;
 		inset: 0;
 		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23fff' surfaceScale='2'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
-		opacity: 0.4;
-		mix-blend-mode: multiply;
+		opacity: 0.08;
+		mix-blend-mode: overlay;
 		pointer-events: none;
 		z-index: 1;
 	}
 
-	/* Layer 3: Gray gradient overlay */
+	/* Layer 3: Subtle vignette */
 	.bg-gradient {
 		position: fixed;
 		inset: 0;
-		background: linear-gradient(
-			180deg,
-			rgba(180, 180, 180, 0.3) 0%,
-			rgba(170, 170, 170, 0.4) 40%,
-			rgba(160, 158, 158, 0.6) 70%,
-			rgba(150, 148, 148, 0.8) 100%
+		background: radial-gradient(
+			ellipse at center,
+			transparent 0%,
+			transparent 50%,
+			rgba(0, 0, 0, 0.4) 100%
 		);
 		pointer-events: none;
 		z-index: 2;
@@ -596,47 +625,24 @@
 	}
 
 	.hero__title {
-		font-family: var(--font-serif);
-		font-size: clamp(1.3rem, 2.5vw, 1.85rem);
-		font-weight: 500;
-		font-style: italic;
-		color: var(--title-color, #2d3a28);
+		font-family: 'VT323', monospace;
+		font-size: clamp(1.4rem, 3vw, 2rem);
+		font-weight: 400;
+		color: #ffffff;
 		text-align: center;
 		max-width: 800px;
 		white-space: nowrap;
-		line-height: 1.5;
+		line-height: 1.4;
 		padding: 0.5rem 1rem;
-		position: relative;
-		/* Organic shadow - like light through leaves */
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		/* Starlight glow */
 		text-shadow: 
-			0 1px 2px rgba(45, 58, 40, 0.2),
-			0 2px 4px rgba(45, 58, 40, 0.1);
+			0 0 10px rgba(255, 255, 255, 0.6),
+			0 0 20px rgba(255, 255, 255, 0.3),
+			0 0 40px var(--title-color, rgba(255, 255, 255, 0.2));
 		transition: color 0.5s ease, text-shadow 0.5s ease;
-	}
-	
-	/* Decorative botanical flourishes around title */
-	.hero__title::before {
-		content: '❧';
-		position: absolute;
-		left: -2rem;
-		top: 50%;
-		transform: translateY(-50%);
-		font-style: normal;
-		color: #5a7a52;
-		opacity: 0.5;
-		font-size: 1.2em;
-	}
-	
-	.hero__title::after {
-		content: '❧';
-		position: absolute;
-		right: -2rem;
-		top: 50%;
-		transform: translateY(-50%) scaleX(-1);
-		font-style: normal;
-		color: #5a7a52;
-		opacity: 0.5;
-		font-size: 1.2em;
+		animation: star-twinkle 3s ease-in-out infinite;
 	}
 
 	/* Action Buttons */
@@ -647,12 +653,12 @@
 	}
 
 	.hero__btn {
-		font-family: var(--font-serif);
-		font-size: 0.95rem;
-		font-style: italic;
-		letter-spacing: 0.02em;
-		padding: 0.6rem 1.6rem;
-		border-radius: 20px;
+		font-family: 'VT323', monospace;
+		font-size: 1.1rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		padding: 0.7rem 1.8rem;
+		border-radius: 4px;
 		cursor: pointer;
 		transition: all 0.2s ease;
 		position: relative;
@@ -668,47 +674,49 @@
 		transform: none;
 	}
 
-	/* Dig button - mossy green */
+	/* Dig button - cosmic dark */
 	.hero__btn--dig {
-		background: linear-gradient(180deg, #5a7a52 0%, #4a6741 100%);
-		color: #f5f5f0;
-		border: none;
-		border-top: 1px solid rgba(255, 255, 255, 0.2);
+		background: rgba(0, 0, 0, 0.6);
+		color: #ffffff;
+		border: 1px solid rgba(255, 255, 255, 0.3);
 		box-shadow: 
-			0 2px 4px rgba(45, 58, 40, 0.3),
-			inset 0 1px 0 rgba(255, 255, 255, 0.15);
+			0 0 15px rgba(255, 255, 255, 0.1),
+			inset 0 0 20px rgba(255, 255, 255, 0.05);
+		text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 	}
 
 	.hero__btn--dig:hover {
-		background: linear-gradient(180deg, #6a8a62 0%, #5a7751 100%);
+		background: rgba(0, 0, 0, 0.7);
+		border-color: rgba(255, 255, 255, 0.5);
+		box-shadow: 
+			0 0 20px rgba(255, 255, 255, 0.2),
+			inset 0 0 25px rgba(255, 255, 255, 0.08);
 	}
 
 	.hero__btn--dig:active {
 		box-shadow: 
-			0 1px 2px rgba(45, 58, 40, 0.2),
-			inset 0 1px 0 rgba(255, 255, 255, 0.1);
+			0 0 10px rgba(255, 255, 255, 0.1),
+			inset 0 0 15px rgba(255, 255, 255, 0.03);
 	}
 
-	/* Open button - soft cream */
+	/* Open button - starlight */
 	.hero__btn--open {
-		background: linear-gradient(180deg, #faf8f5 0%, #f0ede8 100%);
-		color: #3d5a35;
-		border: 1px solid rgba(90, 122, 82, 0.3);
-		box-shadow: 
-			0 2px 4px rgba(45, 58, 40, 0.12),
-			inset 0 1px 0 rgba(255, 255, 255, 0.8);
+		background: rgba(255, 255, 255, 0.1);
+		color: #ffffff;
+		border: 1px solid rgba(255, 255, 255, 0.25);
+		box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+		text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
 	}
 
 	.hero__btn--open:hover {
-		background: linear-gradient(180deg, #ffffff 0%, #f5f2ed 100%);
-		border-color: rgba(90, 122, 82, 0.4);
+		background: rgba(255, 255, 255, 0.15);
+		border-color: rgba(255, 255, 255, 0.4);
+		box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
 	}
 
 	.hero__btn--open:active {
 		transform: translateY(1px);
-		box-shadow: 
-			0 1px 2px rgba(45, 58, 40, 0.1),
-			inset 0 1px 0 rgba(255, 255, 255, 0.6);
+		box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
 	}
 
 	/* ===== INDEX SECTION ===== */
@@ -728,43 +736,44 @@
 		position: relative;
 	}
 
-	/* Single continuous overlay for index, tagline, and flower garden */
+	/* Horizon glow - subtle lighter area near bottom */
 	.bottom-section-wrapper::before {
 		content: '';
 		position: absolute;
 		inset: 0;
 		background: linear-gradient(
 			to bottom,
-			rgba(245, 245, 240, 0) 0%,
-			rgba(245, 245, 240, 0.15) 5%,
-			rgba(245, 245, 240, 0.30) 12%,
-			rgba(245, 245, 240, 0.45) 20%,
-			rgba(245, 245, 240, 0.55) 100%
+			transparent 0%,
+			transparent 60%,
+			rgba(20, 30, 50, 0.3) 80%,
+			rgba(30, 40, 60, 0.5) 100%
 		);
 		z-index: 0;
 		pointer-events: none;
 	}
 
 	.index__title {
-		font-family: var(--font-serif);
-		font-size: 1.25rem;
+		font-family: 'VT323', monospace;
+		font-size: 1.5rem;
 		font-weight: 400;
-		font-style: italic;
-		letter-spacing: 0.02em;
-		color: #4a6741;
+		letter-spacing: 0.1em;
+		color: #e8e8e8;
 		text-align: center;
 		margin-bottom: 2rem;
-		position: relative;
+		text-transform: uppercase;
+		text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+		animation: star-twinkle 3s ease-in-out infinite;
 	}
 
-	/* Decorative vine flourish */
-	.index__title::before,
-	.index__title::after {
-		content: '✿';
-		font-style: normal;
-		margin: 0 0.75rem;
-		opacity: 0.6;
-		font-size: 0.9em;
+	@keyframes star-twinkle {
+		0%, 100% {
+			opacity: 1;
+			text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+		}
+		50% {
+			opacity: 0.85;
+			text-shadow: 0 0 4px rgba(255, 255, 255, 0.25);
+		}
 	}
 
 	/* Hide mobile title on desktop */
@@ -778,16 +787,16 @@
 		grid-template-columns: 100px minmax(200px, 450px) 100px 60px 70px 100px;
 		gap: 1.5rem;
 		padding: 0.75rem 1rem;
-		font-family: var(--font-serif);
-		letter-spacing: 0.02em;
-		font-size: 0.9rem;
+		font-family: 'VT323', monospace;
+		letter-spacing: 0.08em;
+		font-size: 1.1rem;
 		font-weight: 400;
-		color: #5a7a52;
-		text-transform: lowercase;
-		font-style: italic;
-		border-bottom: 1px solid rgba(90, 122, 82, 0.3);
+		color: #d0d0d0;
+		text-transform: uppercase;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 		margin-bottom: 0.5rem;
 		width: fit-content;
+		text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
 	}
 
 	.index__header--thumb {
@@ -813,11 +822,11 @@
 	}
 
 	.index__row:hover {
-		background-color: rgba(90, 122, 82, 0.08);
+		background-color: rgba(255, 255, 255, 0.05);
 	}
 
-	.index__row:hover .index__cell--headline {
-		color: #4a6741;
+	.index__row:hover .index__cell {
+		text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 	}
 
 	/* Thumbnail */
@@ -843,17 +852,18 @@
 
 	/* Cell Styles */
 	.index__cell {
-		font-family: var(--font-serif);
-		font-size: 0.95rem;
-		color: #3d4a38;
-		letter-spacing: 0.01em;
+		font-family: 'VT323', monospace;
+		font-size: 1.1rem;
+		color: #e0e0e0;
+		letter-spacing: 0.05em;
+		text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
 	}
 
 	.index__cell--headline {
-		font-size: 1.05rem;
-		line-height: 1.4;
-		font-weight: 500;
-		color: #2d3a28;
+		font-size: 1.25rem;
+		line-height: 1.3;
+		color: #ffffff;
+		text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
 	}
 
 	.index__cell--type,
@@ -1009,14 +1019,14 @@
 		.index__cell--excerpt {
 			display: block;
 			grid-column: 2;
-			font-family: var(--font-serif);
-			font-size: 0.85rem;
-			color: #5a7a52;
+			font-family: 'VT323', monospace;
+			font-size: 0.95rem;
+			color: #a0a0a0;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			line-height: 1.4;
-			font-style: italic;
+			text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
 		}
 	}
 
@@ -1061,14 +1071,15 @@
 		position: relative;
 		z-index: 3;
 		text-align: center;
-		font-family: var(--font-serif);
-		font-size: 0.9rem;
-		color: #4a6741;
+		font-family: 'VT323', monospace;
+		font-size: 1rem;
+		color: #b0b0b0;
 		line-height: 1.7;
 		padding: 0.5rem 1rem 0;
 		margin: 0 auto;
-		font-style: italic;
 		white-space: nowrap;
+		letter-spacing: 0.05em;
+		text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
 	}
 
 	@media (max-width: 768px) {
