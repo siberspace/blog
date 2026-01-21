@@ -25,6 +25,7 @@
 		"vite": "^7.2.2"
 	},
 	"dependencies": {
-		"@tryghost/content-api": "^1.12.2"
+		"@tryghost/content-api": "^1.12.2",
+		"astronomy-engine": "^2.1.19"
 	}
 }

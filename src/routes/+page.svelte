@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import { Header } from '$lib/components';
 	import { extractColors, defaultColors, type ColorPalette } from '$lib/utils/colorExtractor';
+	import { getVisibleStars, getUserLocation, generateStarfieldCSS, type StarPosition } from '$lib/utils/starfield';
 	import { onMount } from 'svelte';
 
 	let { data }: { data: PageData } = $props();
@@ -9,7 +10,37 @@
 	// Flower colors for each post
 	let flowerColors = $state<Map<string, ColorPalette>>(new Map());
 	
-	// Extract colors for all posts on mount
+	// Dynamic starfield based on user location
+	let starfieldCSS = $state('');
+	let userLocationName = $state('Lebanon');
+	
+	// Extract colors for all posts on mount and initialize starfield
+	onMount(async () => {
+		// Initialize starfield based on user's location (or Lebanon default)
+		try {
+			const location = await getUserLocation();
+			const stars = getVisibleStars(location, new Date());
+			starfieldCSS = generateStarfieldCSS(stars);
+			
+			// Update location name if we got user's location
+			if (location.latitude !== 33.8938) {
+				userLocationName = 'your location';
+			}
+			
+			// Update starfield every 5 minutes to reflect sky movement
+			const interval = setInterval(() => {
+				const newStars = getVisibleStars(location, new Date());
+				starfieldCSS = generateStarfieldCSS(newStars);
+			}, 5 * 60 * 1000);
+			
+			return () => clearInterval(interval);
+		} catch (e) {
+			// Use static fallback
+			const stars = getVisibleStars();
+			starfieldCSS = generateStarfieldCSS(stars);
+		}
+	});
+	
 	onMount(async () => {
 		const colorPromises = data.posts.map(async (post) => {
 			if (post.feature_image) {
@@ -158,6 +189,7 @@
 <main class="landing">
 	<!-- Background layers (bottom to top) -->
 	<div class="bg-base"></div>
+	<div class="bg-stars" style="background-image: {starfieldCSS}"></div>
 	<div class="bg-color-wash" style="background-image: url('{featuredPost?.feature_image || ''}')"></div>
 	<div class="bg-paper"></div>
 	<div class="bg-gradient"></div>
@@ -395,35 +427,20 @@
 		z-index: 0;
 	}
 
-	/* Stars layer */
-	.bg-base::before {
-		content: '';
-		position: absolute;
+	/* Layer 1.25: Dynamic stars based on user location */
+	.bg-stars {
+		position: fixed;
 		inset: 0;
-		background-image: 
-			radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
-			radial-gradient(1px 1px at 30% 60%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
-			radial-gradient(1.5px 1.5px at 50% 10%, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
-			radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
-			radial-gradient(1px 1px at 90% 80%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
-			radial-gradient(1px 1px at 15% 70%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
-			radial-gradient(1.5px 1.5px at 85% 15%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
-			radial-gradient(1px 1px at 45% 85%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
-			radial-gradient(1px 1px at 65% 25%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
-			radial-gradient(2px 2px at 25% 45%, rgba(255, 255, 255, 1) 0%, transparent 100%),
-			radial-gradient(1px 1px at 55% 55%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
-			radial-gradient(1px 1px at 80% 70%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
-			radial-gradient(1.5px 1.5px at 35% 30%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
-			radial-gradient(1px 1px at 5% 50%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
-			radial-gradient(1px 1px at 95% 35%, rgba(255, 255, 255, 0.7) 0%, transparent 100%);
+		pointer-events: none;
+		z-index: 0;
 		animation: starTwinkle 4s ease-in-out infinite;
 	}
 
 	@keyframes starTwinkle {
 		0%, 100% { opacity: 1; }
-		25% { opacity: 0.4; }
-		50% { opacity: 0.9; }
-		75% { opacity: 0.3; }
+		25% { opacity: 0.6; }
+		50% { opacity: 0.95; }
+		75% { opacity: 0.5; }
 	}
 
 	/* Layer 1.5: Nebula color wash from featured image */
