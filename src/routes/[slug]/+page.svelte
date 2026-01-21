@@ -549,15 +549,19 @@
 		transition: color 0.8s ease-out;
 	}
 
-	/* Smaller tag pills on mobile */
+	/* Smaller tag pills on mobile - single line only */
 	@media (max-width: 768px) {
 		.tags-container {
 			gap: 0.4rem;
+			flex-wrap: nowrap;
+			overflow: hidden;
+			max-width: 100%;
 		}
 
 		.tags-container :global(.tag-pill) {
 			font-size: 0.85rem;
 			padding: 0.25rem 0.6rem;
+			flex-shrink: 0;
 		}
 
 		.tags-container :global(.tag-pill svg) {
