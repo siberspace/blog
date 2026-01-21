@@ -1085,6 +1085,10 @@
 			height: 140px;
 		}
 
+		.flowers-row {
+			bottom: 35px;
+		}
+
 		.garden-flower {
 			width: 40px;
 			min-width: 15px;
@@ -1094,6 +1098,10 @@
 	@media (max-width: 480px) {
 		.flower-garden {
 			height: 120px;
+		}
+
+		.flowers-row {
+			bottom: 40px;
 		}
 
 		.garden-flower {
