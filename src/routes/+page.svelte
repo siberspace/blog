@@ -748,11 +748,11 @@
 	}
 
 	.index__cell--type {
-		text-align: center;
+		text-align: left;
 	}
 
 	.index__header--type {
-		text-align: center;
+		text-align: left;
 	}
 
 	/* Excerpt - hidden on desktop */
