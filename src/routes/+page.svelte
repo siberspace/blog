@@ -645,15 +645,15 @@
 	}
 
 	.hero__title {
-		font-family: 'VT323', monospace;
-		font-size: clamp(1.4rem, 3vw, 2rem);
-		font-weight: 400;
+		font-family: 'Caveat', cursive;
+		font-size: clamp(1.8rem, 4vw, 2.8rem);
+		font-weight: 600;
 		color: #ffffff;
 		text-align: center;
 		white-space: nowrap;
-		line-height: 1.4;
+		line-height: 1.3;
 		text-transform: lowercase;
-		letter-spacing: 0.08em;
+		letter-spacing: 0.02em;
 		/* Starlight glow */
 		text-shadow: 
 			0 0 10px rgba(255, 255, 255, 0.6),
@@ -968,14 +968,14 @@
 		}
 
 		.hero__title {
-			font-size: 1.2rem;
+			font-size: 1.6rem;
 			line-height: 1.3;
 			color: #ffffff;
 			text-wrap: balance;
 			white-space: normal;
 			padding: 0.5rem 0.75rem;
 			text-transform: lowercase;
-			letter-spacing: 0.08em;
+			letter-spacing: 0.02em;
 			/* Starlight glow - mobile */
 			text-shadow: 
 				0 0 8px rgba(255, 255, 255, 0.6),
@@ -1070,10 +1070,10 @@
 		}
 
 		.hero__title {
-			font-size: 1rem;
+			font-size: 1.3rem;
 			padding: 0.4rem 0.6rem;
 			text-transform: lowercase;
-			letter-spacing: 0.06em;
+			letter-spacing: 0.01em;
 			/* Starlight glow - small mobile */
 			text-shadow: 
 				0 0 6px rgba(255, 255, 255, 0.5),

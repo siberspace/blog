@@ -48,10 +48,10 @@
 
 	.header-landing__logo,
 	.header-landing__subscribe {
-		font-family: 'VT323', monospace;
-		font-size: 1.5rem;
-		font-weight: 400;
-		letter-spacing: 0.1em;
+		font-family: 'Caveat', cursive;
+		font-size: 1.8rem;
+		font-weight: 600;
+		letter-spacing: 0.02em;
 		text-transform: lowercase;
 		color: #e8e8e8;
 		text-decoration: none;
@@ -94,10 +94,10 @@
 
 	.header-article__logo,
 	.header-article__subscribe {
-		font-family: 'VT323', monospace;
-		font-size: 1.5rem;
-		font-weight: 400;
-		letter-spacing: 0.1em;
+		font-family: 'Caveat', cursive;
+		font-size: 1.8rem;
+		font-weight: 600;
+		letter-spacing: 0.02em;
 		text-transform: lowercase;
 		color: var(--headline, #e8e8e8);
 		text-decoration: none;
