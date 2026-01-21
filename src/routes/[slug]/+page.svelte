@@ -602,6 +602,9 @@
 		max-width: 65ch;
 		width: 100%;
 		text-align: left;
+		word-break: normal;
+		overflow-wrap: break-word;
+		white-space: normal;
 	}
 
 	.article-body :global(p) {
@@ -667,6 +670,7 @@
 		text-decoration-thickness: 2px;
 		text-underline-offset: 2px;
 		font-weight: 500;
+		display: inline;
 	}
 
 	.article-body :global(a:hover) {
