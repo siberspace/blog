@@ -377,12 +377,12 @@ export async function extractColors(imageUrl: string): Promise<ColorPalette> {
 				
 				// ===== HEADLINE COLOR =====
 				// Start with the vibrant color, boost saturation significantly
-				let headline = saturate(...vibrant, 2.0);
-				// Lighten significantly for bright, vibrant headlines
-				headline = lighten(...headline, 0.35);
-				headline = saturate(...headline, 0.8); // Re-saturate heavily after lightening
-				// Lower contrast threshold to preserve brightness
-				headline = ensureContrastOnGray(headline, 2.5, true);
+				let headline = saturate(...vibrant, 1.8);
+				// Lighten moderately - balance between vibrancy and embossed look
+				headline = lighten(...headline, 0.15);
+				headline = saturate(...headline, 0.6); // Re-saturate to stay punchy
+				// Moderate contrast threshold
+				headline = ensureContrastOnGray(headline, 2.8, false);
 				
 				// ===== BODY TEXT COLOR =====
 				// Body text must be highly readable - use dark text on the gray bg
