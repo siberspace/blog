@@ -382,7 +382,7 @@
 		position: fixed;
 		inset: 0;
 		pointer-events: none;
-		z-index: 1;
+		z-index: 2;
 		animation: starTwinkle 4s ease-in-out infinite;
 	}
 
@@ -407,7 +407,7 @@
 		inset: -50px; /* Extend beyond viewport to avoid edge artifacts */
 		background-size: cover;
 		background-position: center;
-		filter: blur(100px) saturate(2) brightness(0.5);
+		filter: blur(80px) saturate(2.5) brightness(0.6);
 		pointer-events: none;
 		mix-blend-mode: screen;
 		/* GPU acceleration hints to prevent tiling artifacts on resize */
@@ -441,10 +441,10 @@
 		position: fixed;
 		inset: 0;
 		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23fff' surfaceScale='2'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
-		opacity: 0.06;
-		mix-blend-mode: overlay;
+		opacity: 0.04;
+		mix-blend-mode: soft-light;
 		pointer-events: none;
-		z-index: 2;
+		z-index: 1;
 		transform: translateZ(0);
 		contain: strict;
 	}
@@ -456,11 +456,11 @@
 		background: radial-gradient(
 			ellipse at center,
 			transparent 0%,
-			transparent 50%,
-			rgba(0, 0, 0, 0.3) 100%
+			transparent 60%,
+			rgba(0, 0, 0, 0.25) 100%
 		);
 		pointer-events: none;
-		z-index: 3;
+		z-index: 1;
 		transform: translateZ(0);
 		contain: strict;
 	}
