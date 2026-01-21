@@ -198,37 +198,33 @@ function ensureContrastOnGray(
 	let lightVersion: [number, number, number] = [r, g, b];
 	let darkVersion: [number, number, number] = [r, g, b];
 	
-	// Lighten version - go more aggressively light for vibrancy
-	for (let i = 0; i < 20; i++) {
-		lightVersion = lighten(...lightVersion, 0.1);
-		lightVersion = saturate(...lightVersion, 0.05); // Maintain saturation while lightening
+	// Lighten version - boost saturation to maintain vibrancy
+	for (let i = 0; i < 12; i++) {
+		lightVersion = lighten(...lightVersion, 0.08);
+		lightVersion = saturate(...lightVersion, 0.1); // Maintain saturation while lightening
 		if (getContrastRatio(...lightVersion, ...EFFECTIVE_BG) >= minContrast) break;
 	}
 	
-	// Darken version
-	for (let i = 0; i < 15; i++) {
-		darkVersion = darken(...darkVersion, 0.12);
+	// Darken version - also boost saturation
+	for (let i = 0; i < 12; i++) {
+		darkVersion = darken(...darkVersion, 0.1);
+		darkVersion = saturate(...darkVersion, 0.1); // Maintain saturation while darkening
 		if (getContrastRatio(...darkVersion, ...EFFECTIVE_BG) >= minContrast) break;
 	}
 	
 	const lightContrast = getContrastRatio(...lightVersion, ...EFFECTIVE_BG);
 	const darkContrast = getContrastRatio(...darkVersion, ...EFFECTIVE_BG);
 	
-	// If we prefer light and it meets even 90% of contrast, use it for vibrancy
-	if (preferLight && lightContrast >= minContrast * 0.9) {
+	// If we have a preference, use it if it meets contrast
+	if (preferLight && lightContrast >= minContrast) {
 		return lightVersion;
 	}
 	if (!preferLight && darkContrast >= minContrast) {
 		return darkVersion;
 	}
 	
-	// For preferLight, strongly bias toward light even if contrast is slightly lower
-	if (preferLight) {
-		return lightVersion;
-	}
-	
-	// Otherwise pick whichever has better contrast
-	return lightContrast > darkContrast ? lightVersion : darkVersion;
+	// Otherwise pick whichever has better contrast while staying saturated
+	return darkContrast >= minContrast ? darkVersion : lightVersion;
 }
 
 // Find the most vibrant colors from sampled pixels
@@ -381,12 +377,12 @@ export async function extractColors(imageUrl: string): Promise<ColorPalette> {
 				
 				// ===== HEADLINE COLOR =====
 				// Start with the vibrant color, boost saturation significantly
-				let headline = saturate(...vibrant, 1.5);
-				// Lighten first to ensure vibrancy - we want punchy, readable colors
-				headline = lighten(...headline, 0.25);
-				headline = saturate(...headline, 0.8); // Re-saturate after lightening
-				// Ensure minimum contrast - STRONGLY prefer lighter for vibrant feel
-				headline = ensureContrastOnGray(headline, 3.5, true);
+				let headline = saturate(...vibrant, 1.8);
+				// Only lighten slightly - keep close to original vibrant color
+				headline = lighten(...headline, 0.1);
+				headline = saturate(...headline, 0.5); // Re-saturate to stay punchy
+				// Ensure minimum contrast but don't over-lighten
+				headline = ensureContrastOnGray(headline, 3.0, false);
 				
 				// ===== BODY TEXT COLOR =====
 				// Body text must be highly readable - use dark text on the gray bg
@@ -400,10 +396,9 @@ export async function extractColors(imageUrl: string): Promise<ColorPalette> {
 				
 				// ===== TAG COLOR =====
 				// Tags should be colorful and punchy - use the vibrant with heavy saturation
-				let tagColor = saturate(...vibrant, 1.5); // Heavy saturation boost
-				tagColor = lighten(...tagColor, 0.2); // Lighten for vibrancy
-				// Prefer lighter, more vibrant version for tags
-				tagColor = ensureContrastOnGray(tagColor, 3.5, true);
+				let tagColor = saturate(...vibrant, 1.8); // Heavy saturation boost
+				// Keep close to original - don't over-lighten
+				tagColor = ensureContrastOnGray(tagColor, 3.0, false);
 				const tagTextColor: [number, number, number] = [35, 35, 35];
 				
 				// ===== LINK COLOR =====
