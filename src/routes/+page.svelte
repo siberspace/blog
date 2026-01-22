@@ -186,13 +186,27 @@
 		// Only trigger if horizontal swipe is dominant
 		if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
 			if (deltaX < 0) {
-				// Swipe left - next story
-				dig();
+				// Swipe left - next story (sequential)
+				goToNext();
 			} else {
-				// Swipe right - previous story (cycle backwards)
+				// Swipe right - previous story (sequential)
 				goToPrevious();
 			}
 		}
+	}
+
+	// Sequential navigation for swiping
+	function goToNext() {
+		if (isTransitioning) return;
+		
+		previousIndex = featuredIndex;
+		featuredIndex = (featuredIndex + 1) % data.posts.length;
+		isTransitioning = true;
+		rotationSide = rotationSide === 0 ? 1 : 0;
+		
+		setTimeout(() => {
+			isTransitioning = false;
+		}, 250);
 	}
 
 	function goToPrevious() {
