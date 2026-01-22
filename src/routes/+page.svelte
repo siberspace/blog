@@ -161,6 +161,53 @@
 		}
 	}
 
+	// Touch/swipe handling for mobile
+	let touchStartX = 0;
+	let touchStartY = 0;
+	let touchEndX = 0;
+	let touchEndY = 0;
+	const minSwipeDistance = 50;
+
+	function handleTouchStart(e: TouchEvent) {
+		touchStartX = e.touches[0].clientX;
+		touchStartY = e.touches[0].clientY;
+	}
+
+	function handleTouchEnd(e: TouchEvent) {
+		touchEndX = e.changedTouches[0].clientX;
+		touchEndY = e.changedTouches[0].clientY;
+		handleSwipe();
+	}
+
+	function handleSwipe() {
+		const deltaX = touchEndX - touchStartX;
+		const deltaY = touchEndY - touchStartY;
+		
+		// Only trigger if horizontal swipe is dominant
+		if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+			if (deltaX < 0) {
+				// Swipe left - next story
+				dig();
+			} else {
+				// Swipe right - previous story (cycle backwards)
+				goToPrevious();
+			}
+		}
+	}
+
+	function goToPrevious() {
+		if (isTransitioning) return;
+		
+		previousIndex = featuredIndex;
+		featuredIndex = (featuredIndex - 1 + data.posts.length) % data.posts.length;
+		isTransitioning = true;
+		rotationSide = rotationSide === 0 ? 1 : 0;
+		
+		setTimeout(() => {
+			isTransitioning = false;
+		}, 250);
+	}
+
 	// Get story type from tags
 	function getStoryType(post: typeof data.posts[0]): string {
 		const typeTags = ['interview', 'essays', 'essay', 'review', 'profile', 'mini-interview'];
@@ -222,7 +269,14 @@
 	<section class="hero">
 
 		<!-- Stacked Feature Images with Crossfade -->
-		<div class="hero__stack">
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<div 
+			class="hero__stack"
+			ontouchstart={handleTouchStart}
+			ontouchend={handleTouchEnd}
+			onclick={openStory}
+		>
 			<!-- Background cards (static stack effect) -->
 			{#each [2, 3] as i}
 				{@const rotation = [-5, 7][i - 2]}
@@ -489,6 +543,8 @@
 		width: min(70vw, 500px);
 		height: min(45vw, 320px);
 		margin-bottom: 5rem;
+		cursor: pointer;
+		touch-action: pan-y pinch-zoom; /* Allow vertical scroll but capture horizontal swipes */
 	}
 
 	.hero__card {
