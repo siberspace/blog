@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { TagPill, Header, FlowerGarden } from '$lib/components';
+	import { TagPill, Header, FlowerGarden, CosmicBackground } from '$lib/components';
 	import { sketchPaths } from '$lib/design-system';
 	import { onMount } from 'svelte';
 	import { extractColors, defaultColors, type ColorPalette } from '$lib/utils/colorExtractor';
-	import { getVisibleStars, getUserLocation, generateStarfieldCSS } from '$lib/utils/starfield';
+	import { getVisibleStars, getUserLocation, type StarPosition } from '$lib/utils/starfield';
 
 	let { data }: { data: PageData } = $props();
 
@@ -23,18 +23,16 @@
 	let readingProgress = $state(0);
 	let articleElement: HTMLElement | null = $state(null);
 	
-	// Color wash images with crossfade - track both current and previous for smooth blending
+	// Current wash image for WebGL background (changes based on visible image in article)
 	let currentWashImage = $state(data.post.feature_image || '');
-	let previousWashImage = $state('');
-	let washTransitionKey = $state(0); // Increments on each change to trigger animations
-	let currentImageIsGif = $state(false); // Track if current image is a GIF
 	
 	// Dynamic colors extracted from the feature image
 	let colors = $state<ColorPalette>(defaultColors);
 	let colorsLoaded = $state(false);
 	
 	// Dynamic starfield based on user location
-	let starfieldCSS = $state('');
+	let starPositions = $state<StarPosition[]>([]);
+	let washColor = $state({ r: 0.3, g: 0.25, b: 0.4 });
 	
 	// Track if mobile for limiting tags
 	let isMobile = $state(false);
@@ -84,14 +82,10 @@
 		});
 	}
 	
-	// Update wash image with crossfade
+	// Update wash image for WebGL background
 	function setWashImage(newImage: string) {
 		if (newImage && newImage !== currentWashImage) {
-			previousWashImage = currentWashImage;
 			currentWashImage = newImage;
-			washTransitionKey++;
-			// Check if the image is a GIF
-			currentImageIsGif = newImage.toLowerCase().endsWith('.gif') || newImage.toLowerCase().includes('.gif?');
 		}
 	}
 	
@@ -106,11 +100,9 @@
 		// Initialize starfield based on user's location (or Lebanon default)
 		try {
 			const location = await getUserLocation();
-			const stars = getVisibleStars(location, new Date());
-			starfieldCSS = generateStarfieldCSS(stars);
+			starPositions = getVisibleStars(location, new Date());
 		} catch (e) {
-			const stars = getVisibleStars();
-			starfieldCSS = generateStarfieldCSS(stars);
+			starPositions = getVisibleStars();
 		}
 		
 		// Extract colors from feature image
@@ -204,37 +196,12 @@
 	<!-- Header - hides on scroll down, shows on scroll up -->
 	<Header variant="article" hidden={headerHidden} />
 
-	<!-- Background layers (night sky theme) -->
-	<div class="bg-base"></div>
-	<div class="bg-stars" style="background-image: {starfieldCSS}"></div>
-	
-	<!-- Color wash layers - nebula effect -->
-	<div class="bg-color-wash-container">
-		<!-- Previous image (fades out) -->
-		{#if previousWashImage}
-			{#key `prev-${washTransitionKey}`}
-				<div 
-					class="bg-color-wash bg-color-wash--outgoing"
-					style="background-image: url('{previousWashImage}');"
-				></div>
-			{/key}
-		{/if}
-		
-		<!-- Current image (fades in) -->
-		{#if currentWashImage}
-			{#key `curr-${washTransitionKey}`}
-				<div 
-					class="bg-color-wash bg-color-wash--incoming"
-					class:bg-color-wash--gif={currentImageIsGif}
-					style="background-image: url('{currentWashImage}');"
-				></div>
-			{/key}
-		{/if}
-	</div>
-	
-	<div class="bg-paper"></div>
-	<div class="bg-gradient"></div>
-	<div class="bg-shimmer" style="--scroll-y: {scrollY}px"></div>
+	<!-- WebGL Background with stars, nebula, noise, vignette -->
+	<CosmicBackground 
+		stars={starPositions} 
+		washColor={washColor}
+		washImageUrl={currentWashImage}
+	/>
 
 	<!-- Hero Image Section -->
 	{#if data.post.feature_image}
@@ -340,117 +307,6 @@
 	.article-page ::-moz-selection {
 		background-color: var(--highlight);
 		color: var(--text);
-	}
-
-	/* Layer 1: Base - night sky */
-	.bg-base {
-		position: fixed;
-		inset: 0;
-		background: radial-gradient(ellipse at 20% 20%, #0a0a15 0%, #050510 50%, #020208 100%);
-		pointer-events: none;
-		z-index: 0;
-		transform: translateZ(0);
-		contain: strict;
-	}
-
-	/* Layer 1.25: Dynamic stars based on user location */
-	.bg-stars {
-		position: fixed;
-		inset: 0;
-		pointer-events: none;
-		z-index: 2;
-		contain: strict;
-	}
-
-	/* Layer 1.5: Color wash container */
-	.bg-color-wash-container {
-		position: fixed;
-		inset: 0;
-		pointer-events: none;
-		z-index: 0;
-	}
-
-	/* Color wash from currently visible image - nebula effect */
-	.bg-color-wash {
-		position: absolute;
-		inset: -50px;
-		background-size: cover;
-		background-position: center;
-		filter: blur(60px) saturate(2) brightness(0.5);
-		pointer-events: none;
-		mix-blend-mode: screen;
-		transform: translateZ(0);
-		backface-visibility: hidden;
-		contain: strict;
-	}
-
-	/* Incoming wash - slow fade in */
-	.bg-color-wash--incoming {
-		animation: washFadeIn 2.5s ease-out forwards;
-	}
-
-	/* Outgoing wash - slow fade out, slightly faster than incoming for smooth overlap */
-	.bg-color-wash--outgoing {
-		animation: washFadeOut 2s ease-in forwards;
-	}
-
-	/* Reduce intensity for GIF images (50% less) */
-	.bg-color-wash--gif {
-		filter: blur(100px) saturate(1.5) brightness(0.4);
-		opacity: 0.15;
-	}
-
-	@keyframes washFadeIn {
-		0% { opacity: 0; }
-		100% { opacity: 0.35; }
-	}
-
-	@keyframes washFadeOut {
-		0% { opacity: 0.35; }
-		100% { opacity: 0; }
-	}
-
-	/* Layer 2: Cosmic dust texture overlay */
-	.bg-paper {
-		position: fixed;
-		inset: 0;
-		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23fff' surfaceScale='2'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
-		opacity: 0.04;
-		mix-blend-mode: soft-light;
-		pointer-events: none;
-		z-index: 1;
-		transform: translateZ(0);
-		contain: strict;
-	}
-
-	/* Layer 3: Subtle vignette */
-	.bg-gradient {
-		position: fixed;
-		inset: 0;
-		background: radial-gradient(
-			ellipse at center,
-			transparent 0%,
-			transparent 60%,
-			rgba(0, 0, 0, 0.25) 100%
-		);
-		pointer-events: none;
-		z-index: 1;
-		transform: translateZ(0);
-		contain: strict;
-	}
-
-	/* Layer 4: Subtle shimmer - static for performance */
-	.bg-shimmer {
-		position: fixed;
-		inset: 0;
-		background: radial-gradient(
-			ellipse at 30% 20%,
-			rgba(255, 255, 255, 0.08) 0%,
-			transparent 50%
-		);
-		pointer-events: none;
-		z-index: 2;
-		contain: strict;
 	}
 
 	/* Hero Image Section */
@@ -911,17 +767,6 @@
 
 	/* Responsive */
 	@media (max-width: 768px) {
-		/* Mobile performance: reduce blur and hide expensive layers */
-		.bg-color-wash {
-			filter: blur(30px) saturate(1.5) brightness(0.4);
-			opacity: 0.25;
-		}
-
-		.bg-paper,
-		.bg-shimmer {
-			display: none;
-		}
-
 		.hero-image-container::after {
 			display: none; /* Hide grain overlay */
 		}
@@ -961,13 +806,6 @@
 
 	/* Respect reduced motion preferences */
 	@media (prefers-reduced-motion: reduce) {
-		.bg-color-wash,
-		.bg-color-wash--incoming,
-		.bg-color-wash--outgoing {
-			animation: none !important;
-			transition: none !important;
-		}
-
 		.progress-bar::after {
 			transition: none;
 		}

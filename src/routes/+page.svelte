@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { Header, FlowerGarden } from '$lib/components';
+	import { Header, FlowerGarden, CosmicBackground } from '$lib/components';
 	import { extractColors, defaultColors, type ColorPalette } from '$lib/utils/colorExtractor';
-	import { getVisibleStars, getUserLocation, generateStarfieldCSS, type StarPosition } from '$lib/utils/starfield';
+	import { getVisibleStars, getUserLocation, type StarPosition } from '$lib/utils/starfield';
 	import { onMount } from 'svelte';
 
 	let { data }: { data: PageData } = $props();
@@ -11,54 +11,23 @@
 	let flowerColors = $state<Map<string, ColorPalette>>(new Map());
 	
 	// Dynamic starfield based on user location
-	// Static fallback stars for instant display
-	const staticStars = `
-		radial-gradient(2px 2px at 15% 20%, rgba(255, 255, 255, 0.9) 0%, transparent 100%),
-		radial-gradient(1.5px 1.5px at 85% 15%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
-		radial-gradient(2.5px 2.5px at 45% 75%, rgba(255, 255, 255, 0.95) 0%, transparent 100%),
-		radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
-		radial-gradient(1.5px 1.5px at 25% 60%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
-		radial-gradient(2px 2px at 90% 70%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
-		radial-gradient(1px 1px at 10% 85%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
-		radial-gradient(1.5px 1.5px at 55% 25%, rgba(255, 255, 255, 0.65) 0%, transparent 100%),
-		radial-gradient(2px 2px at 35% 90%, rgba(255, 255, 255, 0.75) 0%, transparent 100%),
-		radial-gradient(1px 1px at 80% 55%, rgba(255, 255, 255, 0.55) 0%, transparent 100%),
-		radial-gradient(1.5px 1.5px at 5% 45%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
-		radial-gradient(2px 2px at 60% 10%, rgba(255, 255, 255, 0.85) 0%, transparent 100%),
-		radial-gradient(1px 1px at 95% 35%, rgba(255, 255, 255, 0.45) 0%, transparent 100%),
-		radial-gradient(1.5px 1.5px at 40% 50%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
-		radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.8) 0%, transparent 100%),
-		radial-gradient(1px 1px at 75% 80%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
-		radial-gradient(1.5px 1.5px at 50% 5%, rgba(255, 255, 255, 0.65) 0%, transparent 100%),
-		radial-gradient(2px 2px at 30% 65%, rgba(255, 255, 255, 0.9) 0%, transparent 100%)
-	`;
-	let starfieldCSS = $state(staticStars);
-	let userLocationName = $state('Lebanon');
+	let starPositions = $state<StarPosition[]>([]);
+	let washColor = $state({ r: 0.3, g: 0.25, b: 0.4 }); // Default purple-ish nebula
 	
-	// Extract colors for all posts on mount and initialize starfield
+	// Initialize starfield on mount
 	onMount(async () => {
-		// Initialize starfield based on user's location (or Lebanon default)
 		try {
 			const location = await getUserLocation();
-			const stars = getVisibleStars(location, new Date());
-			starfieldCSS = generateStarfieldCSS(stars);
-			
-			// Update location name if we got user's location
-			if (location.latitude !== 33.8938) {
-				userLocationName = 'your location';
-			}
+			starPositions = getVisibleStars(location, new Date());
 			
 			// Update starfield every 5 minutes to reflect sky movement
 			const interval = setInterval(() => {
-				const newStars = getVisibleStars(location, new Date());
-				starfieldCSS = generateStarfieldCSS(newStars);
+				starPositions = getVisibleStars(location, new Date());
 			}, 5 * 60 * 1000);
 			
 			return () => clearInterval(interval);
 		} catch (e) {
-			// Use static fallback
-			const stars = getVisibleStars();
-			starfieldCSS = generateStarfieldCSS(stars);
+			starPositions = getVisibleStars();
 		}
 	});
 	
@@ -291,12 +260,12 @@
 </svelte:head>
 
 <main class="landing">
-	<!-- Background layers (bottom to top) -->
-	<div class="bg-base"></div>
-	<div class="bg-stars" style="background-image: {starfieldCSS}"></div>
-	<div class="bg-color-wash" style="background-image: url('{featuredPost?.feature_image || ''}')"></div>
-	<div class="bg-paper"></div>
-	<div class="bg-gradient"></div>
+	<!-- WebGL Background with stars, nebula, noise, vignette -->
+	<CosmicBackground 
+		stars={starPositions} 
+		washColor={washColor}
+		washImageUrl={featuredPost?.feature_image || ''}
+	/>
 
 	<!-- Header -->
 	<Header variant="landing" />
@@ -479,68 +448,6 @@
 		min-height: 100vh;
 		background-color: #050510;
 	}
-
-	/* Layer 1: Base - night sky */
-	.bg-base {
-		position: fixed;
-		inset: 0;
-		background: radial-gradient(ellipse at 20% 20%, #0a0a15 0%, #050510 50%, #020208 100%);
-		pointer-events: none;
-		z-index: 0;
-	}
-
-	/* Layer 1.25: Dynamic stars based on user location */
-	.bg-stars {
-		position: fixed;
-		inset: 0;
-		pointer-events: none;
-		z-index: 2;
-		contain: strict;
-	}
-
-	/* Layer 1.5: Nebula color wash from featured image */
-	.bg-color-wash {
-		position: fixed;
-		inset: -50px;
-		background-size: cover;
-		background-position: center;
-		filter: blur(60px) saturate(2) brightness(0.5);
-		opacity: 0.4;
-		pointer-events: none;
-		z-index: 1;
-		mix-blend-mode: screen;
-		/* GPU acceleration */
-		transform: translateZ(0) scale(1.05);
-		backface-visibility: hidden;
-		contain: strict;
-	}
-
-	/* Layer 2: Cosmic dust texture overlay - hidden on mobile for performance */
-	.bg-paper {
-		position: fixed;
-		inset: 0;
-		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='3' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23fff' surfaceScale='1.5'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
-		opacity: 0.03;
-		mix-blend-mode: soft-light;
-		pointer-events: none;
-		z-index: 1;
-		contain: strict;
-	}
-
-	/* Layer 3: Subtle vignette */
-	.bg-gradient {
-		position: fixed;
-		inset: 0;
-		background: radial-gradient(
-			ellipse at center,
-			transparent 0%,
-			transparent 60%,
-			rgba(0, 0, 0, 0.25) 100%
-		);
-		pointer-events: none;
-		z-index: 1;
-	}
-
 
 	/* ===== HERO SECTION ===== */
 	.hero {
@@ -956,16 +863,6 @@
 	}
 
 	@media (max-width: 768px) {
-		/* Mobile performance optimizations */
-		.bg-color-wash {
-			filter: blur(30px) saturate(1.5) brightness(0.4);
-			opacity: 0.3;
-		}
-
-		.bg-paper {
-			display: none; /* Hide texture on mobile */
-		}
-
 		.hero__card::after {
 			display: none; /* Hide grain overlay on mobile */
 		}
@@ -1181,8 +1078,6 @@
 
 	/* Respect reduced motion preferences */
 	@media (prefers-reduced-motion: reduce) {
-		.bg-color-wash,
-		.bg-stars,
 		.hero__title,
 		.hero__card {
 			animation: none !important;

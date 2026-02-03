@@ -18,6 +18,7 @@
 		"@sveltejs/vite-plugin-svelte": "^6.2.1",
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.1.17",
+		"@types/three": "^0.182.0",
 		"svelte": "^5.43.8",
 		"svelte-check": "^4.3.4",
 		"tailwindcss": "^4.1.17",
@@ -26,6 +27,7 @@
 	},
 	"dependencies": {
 		"@tryghost/content-api": "^1.12.2",
-		"astronomy-engine": "^2.1.19"
+		"astronomy-engine": "^2.1.19",
+		"three": "^0.182.0"
 	}
 }
