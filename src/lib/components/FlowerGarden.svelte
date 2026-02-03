@@ -21,37 +21,25 @@
 			return;
 		}
 		
-		// Extract colors in small batches to avoid overwhelming the browser
-		const batchSize = 3;
-		const newFlowerColors = new Map<string, ColorPalette>();
-		
-		for (let i = 0; i < posts.length; i += batchSize) {
-			const batch = posts.slice(i, i + batchSize);
-			const batchPromises = batch.map(async (post) => {
-				if (post.feature_image) {
-					try {
-						const colors = await extractColors(post.feature_image);
-						return { slug: post.slug, colors };
-					} catch (e) {
-						return { slug: post.slug, colors: defaultColors };
-					}
+		// Extract all colors in parallel on desktop
+		const colorPromises = posts.map(async (post) => {
+			if (post.feature_image) {
+				try {
+					const colors = await extractColors(post.feature_image);
+					return { slug: post.slug, colors };
+				} catch {
+					return { slug: post.slug, colors: defaultColors };
 				}
-				return { slug: post.slug, colors: defaultColors };
-			});
-			
-			const results = await Promise.all(batchPromises);
-			results.forEach(({ slug, colors }) => {
-				newFlowerColors.set(slug, colors);
-			});
-			
-			// Update state incrementally
-			flowerColors = new Map(newFlowerColors);
-			
-			// Small delay between batches
-			if (i + batchSize < posts.length) {
-				await new Promise(resolve => setTimeout(resolve, 100));
 			}
-		}
+			return { slug: post.slug, colors: defaultColors };
+		});
+		
+		const results = await Promise.all(colorPromises);
+		const newFlowerColors = new Map<string, ColorPalette>();
+		results.forEach(({ slug, colors }) => {
+			newFlowerColors.set(slug, colors);
+		});
+		flowerColors = newFlowerColors;
 	});
 </script>
 

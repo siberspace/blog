@@ -25,6 +25,18 @@
 	const MOBILE_BREAKPOINT = 768;
 	const MOBILE_MAX_STARS = 50;
 	const MOBILE_FRAME_INTERVAL = 1000 / 30; // 30fps on mobile
+	
+	// Color transition settings
+	const COLOR_TRANSITION_SPEED = 0.02; // How fast colors blend (0-1 per frame)
+	type ColorSet = { r: number; g: number; b: number }[];
+	let targetColors: ColorSet = [];
+	let currentColors: ColorSet = [
+		{ r: 0.3, g: 0.25, b: 0.4 },
+		{ r: 0.25, g: 0.3, b: 0.35 },
+		{ r: 0.35, g: 0.2, b: 0.3 },
+		{ r: 0.3, g: 0.35, b: 0.25 },
+		{ r: 0.25, g: 0.25, b: 0.35 }
+	];
 
 	// Vertex shader
 	const vertexShader = `
@@ -265,15 +277,11 @@
 				};
 			};
 			
-			// Apply colors to uniforms (5 color regions) with saturation boost
-			if (colors.length >= 5 && uniforms) {
+			// Set target colors for smooth transition (5 color regions) with saturation boost
+			if (colors.length >= 5) {
 				const boosted = colors.map(c => boostSaturation(c, 1.6));
-				(uniforms.uWashColor1.value as THREE.Vector3).set(boosted[0].r, boosted[0].g, boosted[0].b);
-				(uniforms.uWashColor2.value as THREE.Vector3).set(boosted[1].r, boosted[1].g, boosted[1].b);
-				(uniforms.uWashColor3.value as THREE.Vector3).set(boosted[2].r, boosted[2].g, boosted[2].b);
-				(uniforms.uWashColor4.value as THREE.Vector3).set(boosted[3].r, boosted[3].g, boosted[3].b);
-				(uniforms.uWashColor5.value as THREE.Vector3).set(boosted[4].r, boosted[4].g, boosted[4].b);
-				uniforms.uHasImageColors.value = 1.0;
+				targetColors = boosted;
+				if (uniforms) uniforms.uHasImageColors.value = 1.0;
 			}
 		};
 		img.onerror = () => {
@@ -387,6 +395,22 @@
 			
 			if (uniforms) {
 				uniforms.uTime.value = (performance.now() - startTime) / 1000;
+				
+				// Smoothly interpolate colors toward targets
+				if (targetColors.length === 5) {
+					for (let i = 0; i < 5; i++) {
+						currentColors[i].r += (targetColors[i].r - currentColors[i].r) * COLOR_TRANSITION_SPEED;
+						currentColors[i].g += (targetColors[i].g - currentColors[i].g) * COLOR_TRANSITION_SPEED;
+						currentColors[i].b += (targetColors[i].b - currentColors[i].b) * COLOR_TRANSITION_SPEED;
+					}
+					
+					// Update uniforms with interpolated colors
+					(uniforms.uWashColor1.value as THREE.Vector3).set(currentColors[0].r, currentColors[0].g, currentColors[0].b);
+					(uniforms.uWashColor2.value as THREE.Vector3).set(currentColors[1].r, currentColors[1].g, currentColors[1].b);
+					(uniforms.uWashColor3.value as THREE.Vector3).set(currentColors[2].r, currentColors[2].g, currentColors[2].b);
+					(uniforms.uWashColor4.value as THREE.Vector3).set(currentColors[3].r, currentColors[3].g, currentColors[3].b);
+					(uniforms.uWashColor5.value as THREE.Vector3).set(currentColors[4].r, currentColors[4].g, currentColors[4].b);
+				}
 			}
 			renderer?.render(scene, camera);
 		};
