@@ -714,7 +714,7 @@
 
 	.home-button:hover {
 		background: var(--headline);
-		color: white;
+		color: #0a0a15;
 	}
 
 	.home-button svg {
