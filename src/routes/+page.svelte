@@ -63,20 +63,42 @@
 	});
 	
 	onMount(async () => {
-		const colorPromises = data.posts.map(async (post) => {
-			if (post.feature_image) {
-				const colors = await extractColors(post.feature_image);
-				return { slug: post.slug, colors };
-			}
-			return { slug: post.slug, colors: defaultColors };
-		});
+		// Skip color extraction on mobile for performance
+		if (window.innerWidth <= 768) {
+			return;
+		}
 		
-		const results = await Promise.all(colorPromises);
+		// Extract colors in small batches to avoid overwhelming the browser
+		const batchSize = 3;
 		const newColors = new Map<string, ColorPalette>();
-		results.forEach(({ slug, colors }) => {
-			newColors.set(slug, colors);
-		});
-		flowerColors = newColors;
+		
+		for (let i = 0; i < data.posts.length; i += batchSize) {
+			const batch = data.posts.slice(i, i + batchSize);
+			const batchPromises = batch.map(async (post) => {
+				if (post.feature_image) {
+					try {
+						const colors = await extractColors(post.feature_image);
+						return { slug: post.slug, colors };
+					} catch {
+						return { slug: post.slug, colors: defaultColors };
+					}
+				}
+				return { slug: post.slug, colors: defaultColors };
+			});
+			
+			const results = await Promise.all(batchPromises);
+			results.forEach(({ slug, colors }) => {
+				newColors.set(slug, colors);
+			});
+			
+			// Update state incrementally
+			flowerColors = new Map(newColors);
+			
+			// Small delay between batches
+			if (i + batchSize < data.posts.length) {
+				await new Promise(resolve => setTimeout(resolve, 100));
+			}
+		}
 	});
 
 	// Current featured post index
@@ -473,14 +495,7 @@
 		inset: 0;
 		pointer-events: none;
 		z-index: 2;
-		animation: starTwinkle 4s ease-in-out infinite;
-	}
-
-	@keyframes starTwinkle {
-		0%, 100% { opacity: 1; }
-		25% { opacity: 0.7; }
-		50% { opacity: 1; }
-		75% { opacity: 0.6; }
+		contain: strict;
 	}
 
 	/* Layer 1.5: Nebula color wash from featured image */
@@ -489,37 +504,27 @@
 		inset: -50px;
 		background-size: cover;
 		background-position: center;
-		filter: blur(80px) saturate(2.5) brightness(0.6);
-		opacity: 0.45;
+		filter: blur(60px) saturate(2) brightness(0.5);
+		opacity: 0.4;
 		pointer-events: none;
 		z-index: 1;
-		transition: background-image 0.5s ease-out;
-		animation: nebulaDrift 20s ease-in-out infinite;
 		mix-blend-mode: screen;
 		/* GPU acceleration */
-		transform: translateZ(0);
-		will-change: opacity;
+		transform: translateZ(0) scale(1.05);
 		backface-visibility: hidden;
+		contain: strict;
 	}
 
-	@keyframes nebulaDrift {
-		0%, 100% {
-			transform: scale(1.05) translate(0, 0);
-		}
-		50% {
-			transform: scale(1.08) translate(10px, -10px);
-		}
-	}
-
-	/* Layer 2: Cosmic dust texture overlay */
+	/* Layer 2: Cosmic dust texture overlay - hidden on mobile for performance */
 	.bg-paper {
 		position: fixed;
 		inset: 0;
-		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23fff' surfaceScale='2'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
-		opacity: 0.04;
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='3' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23fff' surfaceScale='1.5'%3E%3CfeDistantLight azimuth='45' elevation='60'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
+		opacity: 0.03;
 		mix-blend-mode: soft-light;
 		pointer-events: none;
 		z-index: 1;
+		contain: strict;
 	}
 
 	/* Layer 3: Subtle vignette */
@@ -567,22 +572,18 @@
 		border-radius: 2px;
 		overflow: hidden;
 		transform: rotate(var(--rotation)) translate(var(--offset-x), var(--offset-y));
-		/* Layered shadows for depth */
+		/* Simplified shadows for better performance */
 		box-shadow: 
-			0 1px 2px rgba(0, 0, 0, 0.1),
-			0 4px 8px rgba(0, 0, 0, 0.1),
-			0 8px 16px rgba(0, 0, 0, 0.15),
-			0 16px 32px rgba(0, 0, 0, 0.1),
+			0 4px 12px rgba(0, 0, 0, 0.15),
+			0 12px 24px rgba(0, 0, 0, 0.1),
 			inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-		/* Polaroid frame with paper texture */
-		background: 
-			url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='0.03'/%3E%3C/svg%3E"),
-			linear-gradient(175deg, #fcfcfa 0%, #f5f5f0 40%, #eeeee8 100%);
+		/* Polaroid frame - simplified gradient */
+		background: linear-gradient(175deg, #fcfcfa 0%, #f5f5f0 40%, #eeeee8 100%);
 		padding: 12px 12px 40px 12px;
 		border: 1px solid rgba(0, 0, 0, 0.08);
-		/* Subtle worn edges */
 		border-top-color: rgba(255, 255, 255, 0.3);
 		border-left-color: rgba(255, 255, 255, 0.2);
+		contain: layout style;
 	}
 
 	/* Background stack cards */
@@ -631,7 +632,7 @@
 			inset 0 0 10px rgba(0, 0, 0, 0.05);
 	}
 
-	/* Grain overlay for print texture - covers image area only */
+	/* Grain overlay - disabled on mobile, simplified on desktop */
 	.hero__card::after {
 		content: '';
 		position: absolute;
@@ -639,9 +640,9 @@
 		left: 12px;
 		right: 12px;
 		bottom: 40px;
-		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
-		opacity: 0.35;
-		mix-blend-mode: overlay;
+		background: linear-gradient(45deg, rgba(0,0,0,0.02) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.02) 75%);
+		background-size: 4px 4px;
+		opacity: 0.5;
 		pointer-events: none;
 		border-radius: 1px;
 	}
@@ -688,35 +689,6 @@
 			/* Outer glow */
 			0 0 15px rgba(192, 192, 210, 0.4),
 			0 0 30px rgba(160, 160, 180, 0.2);
-		transition: color 0.5s ease, text-shadow 0.5s ease;
-		animation: silver-shimmer 3s ease-in-out infinite;
-	}
-
-	@keyframes silver-shimmer {
-		0%, 100% {
-			color: #c8c8d0;
-			text-shadow: 
-				-1px -1px 0 rgba(255, 255, 255, 0.9),
-				-2px -2px 1px rgba(255, 255, 255, 0.4),
-				1px 1px 0 rgba(0, 0, 0, 0.5),
-				2px 2px 1px rgba(0, 0, 0, 0.3),
-				3px 3px 3px rgba(0, 0, 0, 0.2),
-				0 0 2px rgba(255, 255, 255, 0.8),
-				0 0 15px rgba(192, 192, 210, 0.4),
-				0 0 30px rgba(160, 160, 180, 0.2);
-		}
-		50% {
-			color: #e0e0e8;
-			text-shadow: 
-				-1px -1px 0 rgba(255, 255, 255, 1),
-				-2px -2px 1px rgba(255, 255, 255, 0.5),
-				1px 1px 0 rgba(0, 0, 0, 0.4),
-				2px 2px 1px rgba(0, 0, 0, 0.25),
-				3px 3px 3px rgba(0, 0, 0, 0.15),
-				0 0 4px rgba(255, 255, 255, 1),
-				0 0 20px rgba(200, 200, 220, 0.5),
-				0 0 40px rgba(180, 180, 200, 0.3);
-		}
 	}
 
 	/* Action Buttons */
@@ -986,12 +958,16 @@
 	@media (max-width: 768px) {
 		/* Mobile performance optimizations */
 		.bg-color-wash {
-			filter: blur(40px) saturate(1.8) brightness(0.5);
-			animation: none; /* Disable nebula drift on mobile */
+			filter: blur(30px) saturate(1.5) brightness(0.4);
+			opacity: 0.3;
 		}
 
-		.hero__title {
-			animation: none; /* Disable shimmer on mobile */
+		.bg-paper {
+			display: none; /* Hide texture on mobile */
+		}
+
+		.hero__card::after {
+			display: none; /* Hide grain overlay on mobile */
 		}
 
 		.hero {
@@ -1200,6 +1176,17 @@
 			white-space: normal;
 			max-width: 90%;
 			padding: 0.5rem 1.5rem 0;
+		}
+	}
+
+	/* Respect reduced motion preferences */
+	@media (prefers-reduced-motion: reduce) {
+		.bg-color-wash,
+		.bg-stars,
+		.hero__title,
+		.hero__card {
+			animation: none !important;
+			transition: none !important;
 		}
 	}
 

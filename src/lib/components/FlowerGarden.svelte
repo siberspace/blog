@@ -16,26 +16,42 @@
 	let flowerColors = $state(new Map<string, ColorPalette>());
 
 	onMount(async () => {
-		// Extract colors for all posts in parallel
-		const colorPromises = posts.map(async (post) => {
-			if (post.feature_image) {
-				try {
-					const colors = await extractColors(post.feature_image);
-					return { slug: post.slug, colors };
-				} catch (e) {
-					console.warn('Color extraction failed for', post.slug, e);
-					return { slug: post.slug, colors: defaultColors };
-				}
-			}
-			return { slug: post.slug, colors: defaultColors };
-		});
-
-		const results = await Promise.all(colorPromises);
+		// Skip color extraction on mobile for performance
+		if (window.innerWidth <= 768) {
+			return;
+		}
+		
+		// Extract colors in small batches to avoid overwhelming the browser
+		const batchSize = 3;
 		const newFlowerColors = new Map<string, ColorPalette>();
-		results.forEach(({ slug, colors }) => {
-			newFlowerColors.set(slug, colors);
-		});
-		flowerColors = newFlowerColors;
+		
+		for (let i = 0; i < posts.length; i += batchSize) {
+			const batch = posts.slice(i, i + batchSize);
+			const batchPromises = batch.map(async (post) => {
+				if (post.feature_image) {
+					try {
+						const colors = await extractColors(post.feature_image);
+						return { slug: post.slug, colors };
+					} catch (e) {
+						return { slug: post.slug, colors: defaultColors };
+					}
+				}
+				return { slug: post.slug, colors: defaultColors };
+			});
+			
+			const results = await Promise.all(batchPromises);
+			results.forEach(({ slug, colors }) => {
+				newFlowerColors.set(slug, colors);
+			});
+			
+			// Update state incrementally
+			flowerColors = new Map(newFlowerColors);
+			
+			// Small delay between batches
+			if (i + batchSize < posts.length) {
+				await new Promise(resolve => setTimeout(resolve, 100));
+			}
+		}
 	});
 </script>
 
@@ -132,51 +148,16 @@
 		transform-origin: bottom center;
 		cursor: pointer;
 		text-decoration: none;
-		transition: transform 0.3s ease;
-		animation: gentleBreeze 4s ease-in-out infinite;
-		animation-delay: var(--animation-delay, 0s);
+		contain: layout style;
 	}
 
 	.garden-flower:hover {
-		transform: translateX(var(--flower-x, 0)) scale(1.1) translateY(-5px);
-	}
-
-	.garden-flower:hover .flower-svg {
-		filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+		transform: translateX(var(--flower-x, 0)) scale(1.08);
 	}
 
 	.flower-svg {
 		width: 100%;
 		height: 100%;
-		transition: filter 0.3s ease;
-	}
-
-	/* Gentle swaying animation */
-	@keyframes gentleBreeze {
-		0%, 100% {
-			transform: translateX(var(--flower-x, 0)) rotate(-3deg) translateX(-2px);
-		}
-		25% {
-			transform: translateX(var(--flower-x, 0)) rotate(-1deg) translateX(-1px);
-		}
-		50% {
-			transform: translateX(var(--flower-x, 0)) rotate(3deg) translateX(2px);
-		}
-		75% {
-			transform: translateX(var(--flower-x, 0)) rotate(1deg) translateX(1px);
-		}
-	}
-
-	.garden-flower .stem {
-		transition: stroke 0.3s ease;
-	}
-
-	.garden-flower .leaf {
-		transition: fill 0.3s ease;
-	}
-
-	.garden-flower .petal {
-		transition: fill 0.3s ease;
 	}
 
 	/* Responsive flower garden */
@@ -208,13 +189,6 @@
 		.garden-flower {
 			width: 32px;
 			min-width: 10px;
-		}
-	}
-
-	/* Respect reduced motion preferences */
-	@media (prefers-reduced-motion: reduce) {
-		.garden-flower {
-			animation: none;
 		}
 	}
 </style>

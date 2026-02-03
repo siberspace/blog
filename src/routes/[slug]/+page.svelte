@@ -40,41 +40,48 @@
 	let isMobile = $state(false);
 	const maxMobileTags = 4; // Max total tags (including author, year) on mobile
 	
+	// Throttle scroll handler using requestAnimationFrame
+	let scrollTicking = false;
+	
 	function handleScroll() {
-		scrollY = window.scrollY;
+		if (scrollTicking) return;
+		scrollTicking = true;
 		
-		// Determine scroll direction for header show/hide
-		const scrollDelta = scrollY - lastScrollY;
-		const scrollThreshold = 10; // Minimum scroll to trigger hide/show
-		
-		if (scrollY < 100) {
-			// Always show header near top of page
-			headerHidden = false;
-		} else if (scrollDelta > scrollThreshold) {
-			// Scrolling down - hide header
-			headerHidden = true;
-		} else if (scrollDelta < -scrollThreshold) {
-			// Scrolling up - show header
-			headerHidden = false;
-		}
-		
-		lastScrollY = scrollY;
-		
-		// Calculate reading progress
-		if (articleElement) {
-			const articleTop = articleElement.offsetTop;
-			const articleHeight = articleElement.offsetHeight;
-			const windowHeight = window.innerHeight;
-			const scrollableDistance = articleTop + articleHeight - windowHeight;
+		requestAnimationFrame(() => {
+			scrollY = window.scrollY;
 			
-			if (scrollY <= articleTop) {
-				readingProgress = 0;
-			} else if (scrollY >= scrollableDistance) {
-				readingProgress = 100;
-			} else {
-				readingProgress = ((scrollY - articleTop) / (scrollableDistance - articleTop)) * 100;
+			// Determine scroll direction for header show/hide
+			const scrollDelta = scrollY - lastScrollY;
+			const scrollThreshold = 10;
+			
+			if (scrollY < 100) {
+				headerHidden = false;
+			} else if (scrollDelta > scrollThreshold) {
+				headerHidden = true;
+			} else if (scrollDelta < -scrollThreshold) {
+				headerHidden = false;
 			}
-		}
+			
+			lastScrollY = scrollY;
+			
+			// Calculate reading progress (skip on mobile for performance)
+			if (articleElement && !isMobile) {
+				const articleTop = articleElement.offsetTop;
+				const articleHeight = articleElement.offsetHeight;
+				const windowHeight = window.innerHeight;
+				const scrollableDistance = articleTop + articleHeight - windowHeight;
+				
+				if (scrollY <= articleTop) {
+					readingProgress = 0;
+				} else if (scrollY >= scrollableDistance) {
+					readingProgress = 100;
+				} else {
+					readingProgress = ((scrollY - articleTop) / (scrollableDistance - articleTop)) * 100;
+				}
+			}
+			
+			scrollTicking = false;
+		});
 	}
 	
 	// Update wash image with crossfade
@@ -352,14 +359,7 @@
 		inset: 0;
 		pointer-events: none;
 		z-index: 2;
-		animation: starTwinkle 4s ease-in-out infinite;
-	}
-
-	@keyframes starTwinkle {
-		0%, 100% { opacity: 1; }
-		25% { opacity: 0.7; }
-		50% { opacity: 1; }
-		75% { opacity: 0.6; }
+		contain: strict;
 	}
 
 	/* Layer 1.5: Color wash container */
@@ -373,16 +373,15 @@
 	/* Color wash from currently visible image - nebula effect */
 	.bg-color-wash {
 		position: absolute;
-		inset: -50px; /* Extend beyond viewport to avoid edge artifacts */
+		inset: -50px;
 		background-size: cover;
 		background-position: center;
-		filter: blur(80px) saturate(2.5) brightness(0.6);
+		filter: blur(60px) saturate(2) brightness(0.5);
 		pointer-events: none;
 		mix-blend-mode: screen;
-		/* GPU acceleration hints to prevent tiling artifacts on resize */
-		will-change: opacity;
 		transform: translateZ(0);
 		backface-visibility: hidden;
+		contain: strict;
 	}
 
 	/* Incoming wash - slow fade in */
@@ -440,27 +439,18 @@
 		contain: strict;
 	}
 
-	/* Layer 4: Scroll-based shimmer */
+	/* Layer 4: Subtle shimmer - static for performance */
 	.bg-shimmer {
 		position: fixed;
 		inset: 0;
-		background: 
-			linear-gradient(
-				120deg,
-				transparent 0%,
-				transparent 20%,
-				rgba(255, 255, 255, 0.35) 35%,
-				rgba(255, 255, 255, 0.5) 50%,
-				rgba(255, 255, 255, 0.35) 65%,
-				transparent 80%,
-				transparent 100%
-			);
-		background-size: 300% 100%;
-		background-position: calc(var(--scroll-y) * 0.15px) 0;
+		background: radial-gradient(
+			ellipse at 30% 20%,
+			rgba(255, 255, 255, 0.08) 0%,
+			transparent 50%
+		);
 		pointer-events: none;
 		z-index: 2;
-		transform: translateZ(0);
-		will-change: background-position;
+		contain: strict;
 	}
 
 	/* Hero Image Section */
@@ -921,6 +911,21 @@
 
 	/* Responsive */
 	@media (max-width: 768px) {
+		/* Mobile performance: reduce blur and hide expensive layers */
+		.bg-color-wash {
+			filter: blur(30px) saturate(1.5) brightness(0.4);
+			opacity: 0.25;
+		}
+
+		.bg-paper,
+		.bg-shimmer {
+			display: none;
+		}
+
+		.hero-image-container::after {
+			display: none; /* Hide grain overlay */
+		}
+
 		.hero-image-section {
 			margin-top: 4rem;
 			margin-bottom: 2rem;
@@ -930,17 +935,8 @@
 		.hero-image-container {
 			padding: 10px 10px 35px 10px;
 			box-shadow: 
-				0 1px 2px rgba(0, 0, 0, 0.1),
-				0 4px 8px rgba(0, 0, 0, 0.12),
-				0 8px 16px rgba(0, 0, 0, 0.1),
+				0 4px 12px rgba(0, 0, 0, 0.15),
 				inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-		}
-
-		.hero-image-container::after {
-			top: 10px;
-			left: 10px;
-			right: 10px;
-			bottom: 35px;
 		}
 
 		.content-section {
@@ -955,12 +951,25 @@
 			text-shadow: 
 				-1px -1px 0 rgba(255, 255, 255, 0.9),
 				1px 1px 0 rgba(0, 0, 0, 0.5),
-				2px 2px 2px rgba(0, 0, 0, 0.2),
-				0 0 10px rgba(192, 192, 210, 0.4);
+				0 0 8px rgba(192, 192, 210, 0.3);
 		}
 
 		.progress-bar {
 			height: 3px;
+		}
+	}
+
+	/* Respect reduced motion preferences */
+	@media (prefers-reduced-motion: reduce) {
+		.bg-color-wash,
+		.bg-color-wash--incoming,
+		.bg-color-wash--outgoing {
+			animation: none !important;
+			transition: none !important;
+		}
+
+		.progress-bar::after {
+			transition: none;
 		}
 	}
 </style>
