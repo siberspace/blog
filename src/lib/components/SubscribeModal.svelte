@@ -32,50 +32,14 @@
 		status = 'loading';
 		errorMessage = '';
 
-		try {
-			// Try Ghost Portal API first (if loaded)
-			const ghost = (window as any).__GHOST__;
-			if (ghost?.portal?.api) {
-				await ghost.portal.api.signup({ email });
-				status = 'success';
-				return;
-			}
-
-			// Fallback: direct API call
-			const response = await fetch(`${GHOST_URL}/members/api/send-magic-link/`, {
-				method: 'POST',
-				mode: 'cors',
-				credentials: 'include',
-				headers: {
-					'Content-Type': 'application/json',
-					'Accept': 'application/json',
-				},
-				body: JSON.stringify({
-					email: email,
-					emailType: 'signup',
-					autoRedirect: false
-				})
-			});
-
-			if (response.ok) {
-				status = 'success';
-			} else {
-				// Try to parse error response
-				let errorMsg = 'Something went wrong';
-				try {
-					const data = await response.json();
-					errorMsg = data.errors?.[0]?.message || data.message || errorMsg;
-				} catch {
-					// Response wasn't JSON
-					errorMsg = `Error: ${response.status} ${response.statusText}`;
-				}
-				errorMessage = errorMsg;
-				status = 'error';
-			}
-		} catch (err) {
-			errorMessage = 'Could not connect. Please try again.';
-			status = 'error';
-		}
+		// Close our modal and trigger Ghost Portal with pre-filled email
+		close();
+		
+		// Small delay to let our modal close
+		setTimeout(() => {
+			// Trigger Ghost Portal signup - it will handle everything
+			window.location.hash = '#/portal/signup';
+		}, 100);
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
