@@ -13,8 +13,9 @@
 
 	function openSubscribe(e: Event) {
 		e.preventDefault();
-		if (typeof window !== 'undefined' && (window as any).openSubscribeModal) {
-			(window as any).openSubscribeModal();
+		// Trigger Ghost Portal signup directly
+		if (typeof window !== 'undefined') {
+			window.location.hash = '#/portal/signup';
 		}
 	}
 </script>
