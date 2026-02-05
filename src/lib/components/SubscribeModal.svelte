@@ -2,14 +2,9 @@
 	import { onMount } from 'svelte';
 
 	let isOpen = $state(false);
-	let email = $state('');
-	let status = $state<'idle' | 'loading' | 'success' | 'error'>('idle');
-	let hiddenForm: HTMLFormElement;
 
 	function open() {
 		isOpen = true;
-		status = 'idle';
-		email = '';
 	}
 
 	function close() {
@@ -24,42 +19,24 @@
 
 	function handleSubmit(e: Event) {
 		e.preventDefault();
+		const form = e.target as HTMLFormElement;
+		const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement;
+		const email = emailInput?.value;
+		
 		if (!email || !email.includes('@')) return;
 		
-		status = 'loading';
+		// Close our modal and open Ghost Portal
+		close();
 		
-		// Submit via hidden form to Ghost
-		if (hiddenForm) {
-			const emailInput = hiddenForm.querySelector('input[name="email"]') as HTMLInputElement;
-			if (emailInput) {
-				emailInput.value = email;
-			}
-			hiddenForm.submit();
-		}
-		
-		// Show success after a delay (form submits to iframe)
-		setTimeout(() => {
-			status = 'success';
-		}, 1500);
+		// Trigger Ghost Portal signup
+		window.location.hash = '#/portal/signup';
 	}
 
 	// Expose open function globally for header buttons
 	onMount(() => {
 		(window as any).openSubscribeModal = open;
 		
-		// Listen for hash changes
-		const checkHash = () => {
-			if (window.location.hash === '#/portal/signup' || window.location.hash === '#subscribe') {
-				open();
-				history.replaceState(null, '', window.location.pathname);
-			}
-		};
-		
-		checkHash();
-		window.addEventListener('hashchange', checkHash);
-		
 		return () => {
-			window.removeEventListener('hashchange', checkHash);
 			delete (window as any).openSubscribeModal;
 		};
 	});
@@ -149,39 +126,19 @@
 			<h2 id="modal-title">magic email box</h2>
 			<p>receive new dispatches from iris falls</p>
 			
-			{#if status === 'success'}
-				<p class="success-message">check your inbox for a magic link!</p>
-			{:else}
-				<form onsubmit={handleSubmit}>
-					<input
-						type="email"
-						bind:value={email}
-						placeholder="your@email.com"
-						required
-						disabled={status === 'loading'}
-					/>
-					
-					<button type="submit" disabled={status === 'loading'}>
-						{status === 'loading' ? 'sending...' : 'tag along'}
-					</button>
-				</form>
-			{/if}
+			<form onsubmit={handleSubmit}>
+				<input
+					type="email"
+					placeholder="your@email.com"
+					required
+				/>
+				
+				<button type="submit">tag along</button>
+			</form>
+			<p class="helper-text">takes you to secure signup</p>
 		</div>
 	</div>
 </div>
-
-<!-- Hidden form for Ghost submission -->
-<iframe name="ghost-subscribe-frame" title="Subscribe form target" style="display:none;"></iframe>
-<form
-	bind:this={hiddenForm}
-	action="https://siberspace.ghost.io/members/api/send-magic-link/"
-	method="POST"
-	target="ghost-subscribe-frame"
-	style="display:none;"
->
-	<input type="hidden" name="email" value="" />
-	<input type="hidden" name="emailType" value="signup" />
-</form>
 
 <style>
 	.modal-wrapper {
@@ -360,11 +317,12 @@
 		cursor: not-allowed;
 	}
 
-	.success-message {
-		color: #88ddaa;
-		font-size: 1rem;
+	.helper-text {
+		font-size: 0.75rem;
+		color: #6a7a8a;
 		text-align: center;
-		padding: 1rem 0;
+		margin-top: 0.5rem;
+		font-style: italic;
 	}
 
 	@media (max-width: 480px) {
