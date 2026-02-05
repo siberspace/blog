@@ -311,6 +311,7 @@
 			alpha: false,
 			powerPreference: isMobile ? 'low-power' : 'high-performance'
 		});
+		renderer.setClearColor(0x020208, 1); // Dark space color to prevent white flash
 		
 		const pixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio, 2);
 		renderer.setPixelRatio(pixelRatio);
@@ -373,20 +374,35 @@
 		updateStarGeometry();
 		if (washImageUrl) extractColorsFromImage(washImageUrl);
 
-		// Resize handler
+		// Resize handler - update size and render immediately to prevent flashing
+		let resizeTimeout: number;
+		let justResized = false;
+		
 		const handleResize = () => {
 			if (!renderer || !starUniforms) return;
-			const wasMobile = isMobile;
-			isMobile = window.innerWidth < MOBILE_BREAKPOINT;
 			
-			if (wasMobile !== isMobile) {
-				const newPixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio, 2);
-				renderer.setPixelRatio(newPixelRatio);
-				updateStarGeometry();
-			}
-			
+			// Update size and render immediately to prevent blank frame
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			(starUniforms.uResolution.value as THREE.Vector2).set(window.innerWidth, window.innerHeight);
+			renderer.render(scene, camera);
+			justResized = true;
+			
+			// Debounce expensive operations
+			clearTimeout(resizeTimeout);
+			resizeTimeout = window.setTimeout(() => {
+				if (!renderer) return;
+				
+				// Check for mobile breakpoint change
+				const wasMobile = isMobile;
+				isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+				
+				if (wasMobile !== isMobile) {
+					const newPixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio, 2);
+					renderer.setPixelRatio(newPixelRatio);
+					renderer.setSize(window.innerWidth, window.innerHeight);
+					updateStarGeometry();
+				}
+			}, 150);
 		};
 		window.addEventListener('resize', handleResize);
 
@@ -396,6 +412,12 @@
 		
 		const animate = (currentTime: number) => {
 			animationId = requestAnimationFrame(animate);
+			
+			// Skip if we just rendered from resize handler
+			if (justResized) {
+				justResized = false;
+				return;
+			}
 			
 			if (isMobile) {
 				const elapsed = currentTime - lastFrameTime;
@@ -434,6 +456,7 @@
 
 		// Cleanup
 		return () => {
+			clearTimeout(resizeTimeout);
 			window.removeEventListener('resize', handleResize);
 			cancelAnimationFrame(animationId);
 			renderer?.dispose();

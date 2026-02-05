@@ -11,5 +11,6 @@ export { default as BackLink } from './BackLink.svelte';
 export { default as InlinePhoto } from './InlinePhoto.svelte';
 export { default as FlowerGarden } from './FlowerGarden.svelte';
 export { default as CosmicBackground } from './CosmicBackground.svelte';
+export { default as SubscribeModal } from './SubscribeModal.svelte';
 
 
