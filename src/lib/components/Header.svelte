@@ -10,24 +10,31 @@
 		variant = 'default',
 		hidden = false
 	}: Props = $props();
+
+	function openSubscribe(e: Event) {
+		e.preventDefault();
+		if (typeof window !== 'undefined' && (window as any).openSubscribeModal) {
+			(window as any).openSubscribeModal();
+		}
+	}
 </script>
 
 {#if variant === 'landing'}
 	<header class="header-landing">
 		<a href="/" class="header-landing__logo">{siteName}</a>
-		<a href="#/portal/signup" class="header-landing__subscribe" data-portal="signup">subscribe</a>
+		<button class="header-landing__subscribe" onclick={openSubscribe}>subscribe</button>
 	</header>
 {:else if variant === 'article'}
 	<header class="header-article" class:header-article--hidden={hidden}>
 		<a href="/" class="header-article__logo">{siteName}</a>
-		<a href="#/portal/signup" class="header-article__subscribe" data-portal="signup">subscribe</a>
+		<button class="header-article__subscribe" onclick={openSubscribe}>subscribe</button>
 	</header>
 {:else}
 	<header class="header">
 		<a href="/" class="header__logo">
 			<span class="header__logo-name">{siteName}</span>
 		</a>
-		<a href="#/portal/signup" class="header__subscribe-link" data-portal="signup">subscribe</a>
+		<button class="header__subscribe-link" onclick={openSubscribe}>subscribe</button>
 	</header>
 {/if}
 
@@ -171,6 +178,9 @@
 		color: var(--color-text-on-green);
 		text-decoration: none;
 		cursor: pointer;
+		background: none;
+		border: none;
+		padding: 0;
 		transition: opacity var(--transition-base);
 	}
 

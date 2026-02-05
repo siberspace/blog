@@ -2,44 +2,13 @@
 	import { onMount } from 'svelte';
 
 	let isOpen = $state(false);
-	let email = $state('');
-	let status = $state<'idle' | 'loading' | 'success' | 'error'>('idle');
-	let errorMessage = $state('');
-
-	// Ghost Members API endpoint
-	const GHOST_URL = 'https://siberspace.ghost.io';
 
 	function open() {
 		isOpen = true;
-		status = 'idle';
-		email = '';
-		errorMessage = '';
 	}
 
 	function close() {
 		isOpen = false;
-	}
-
-	async function handleSubmit(e: Event) {
-		e.preventDefault();
-		
-		if (!email || !email.includes('@')) {
-			errorMessage = 'Please enter a valid email';
-			status = 'error';
-			return;
-		}
-
-		status = 'loading';
-		errorMessage = '';
-
-		// Close our modal and trigger Ghost Portal with pre-filled email
-		close();
-		
-		// Small delay to let our modal close
-		setTimeout(() => {
-			// Trigger Ghost Portal signup - it will handle everything
-			window.location.hash = '#/portal/signup';
-		}, 100);
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
@@ -52,7 +21,7 @@
 	onMount(() => {
 		(window as any).openSubscribeModal = open;
 		
-		// Also listen for hash changes (for #/portal/signup links)
+		// Listen for hash changes
 		const checkHash = () => {
 			if (window.location.hash === '#/portal/signup' || window.location.hash === '#subscribe') {
 				open();
@@ -149,36 +118,24 @@
 			<circle cx="49" cy="1" r="0.5" fill="#d8d4c8" opacity="0.25"/>
 		</svg>
 
-		{#if status === 'success'}
-			<div class="modal-content">
-				<h2 id="modal-title">check your inbox</h2>
-				<p>we sent a magic link to <strong>{email}</strong></p>
-				<p class="modal-subtext">click it to confirm your subscription</p>
-			</div>
-		{:else}
-			<div class="modal-content">
-				<h2 id="modal-title">magic email box</h2>
-				<p>receive new dispatches from iris falls</p>
+		<div class="modal-content">
+			<h2 id="modal-title">magic email box</h2>
+			<p>receive new dispatches from iris falls</p>
+			
+			<form data-members-form>
+				<input
+					type="email"
+					data-members-email
+					placeholder="your@email.com"
+					required
+				/>
 				
-				<form onsubmit={handleSubmit}>
-					<input
-						type="email"
-						bind:value={email}
-						placeholder="your@email.com"
-						disabled={status === 'loading'}
-						required
-					/>
-					
-					<button type="submit" disabled={status === 'loading'}>
-						{status === 'loading' ? 'sending...' : 'tag along'}
-					</button>
-				</form>
+				<button type="submit">tag along</button>
 				
-				{#if status === 'error'}
-					<p class="error">{errorMessage}</p>
-				{/if}
-			</div>
-		{/if}
+				<p class="form-message success-message">check your inbox for a magic link!</p>
+				<p class="form-message error-message">something went wrong, please try again</p>
+			</form>
+		</div>
 	</div>
 {/if}
 
@@ -351,11 +308,39 @@
 		cursor: not-allowed;
 	}
 
-	.error {
-		color: #ff8888 !important;
-		font-size: 0.85rem !important;
-		margin-top: 0.5rem !important;
-		text-shadow: none !important;
+	/* Ghost form state messages */
+	.form-message {
+		display: none;
+		font-size: 0.85rem;
+		margin-top: 0.75rem;
+		text-align: center;
+	}
+
+	.success-message {
+		color: #88ddaa;
+	}
+
+	.error-message {
+		color: #ff8888;
+	}
+
+	/* Ghost adds these classes to the form */
+	form.success .success-message {
+		display: block;
+	}
+
+	form.error .error-message {
+		display: block;
+	}
+
+	form.loading button[type="submit"] {
+		opacity: 0.7;
+		cursor: wait;
+	}
+
+	form.success input,
+	form.success button {
+		display: none;
 	}
 
 	@media (max-width: 480px) {
