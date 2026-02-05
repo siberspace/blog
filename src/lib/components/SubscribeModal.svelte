@@ -2,9 +2,14 @@
 	import { onMount } from 'svelte';
 
 	let isOpen = $state(false);
+	let email = $state('');
+	let status = $state<'idle' | 'loading' | 'success' | 'error'>('idle');
+	let hiddenForm: HTMLFormElement;
 
 	function open() {
 		isOpen = true;
+		status = 'idle';
+		email = '';
 	}
 
 	function close() {
@@ -15,6 +20,27 @@
 		if (e.key === 'Escape') {
 			close();
 		}
+	}
+
+	function handleSubmit(e: Event) {
+		e.preventDefault();
+		if (!email || !email.includes('@')) return;
+		
+		status = 'loading';
+		
+		// Submit via hidden form to Ghost
+		if (hiddenForm) {
+			const emailInput = hiddenForm.querySelector('input[name="email"]') as HTMLInputElement;
+			if (emailInput) {
+				emailInput.value = email;
+			}
+			hiddenForm.submit();
+		}
+		
+		// Show success after a delay (form submits to iframe)
+		setTimeout(() => {
+			status = 'success';
+		}, 1500);
 	}
 
 	// Expose open function globally for header buttons
@@ -123,22 +149,39 @@
 			<h2 id="modal-title">magic email box</h2>
 			<p>receive new dispatches from iris falls</p>
 			
-			<form data-members-form>
-				<input
-					type="email"
-					data-members-email
-					placeholder="your@email.com"
-					required
-				/>
-				
-				<button type="submit">tag along</button>
-				
-				<p class="form-message success-message">check your inbox for a magic link!</p>
-				<p class="form-message error-message">something went wrong, please try again</p>
-			</form>
+			{#if status === 'success'}
+				<p class="success-message">check your inbox for a magic link!</p>
+			{:else}
+				<form onsubmit={handleSubmit}>
+					<input
+						type="email"
+						bind:value={email}
+						placeholder="your@email.com"
+						required
+						disabled={status === 'loading'}
+					/>
+					
+					<button type="submit" disabled={status === 'loading'}>
+						{status === 'loading' ? 'sending...' : 'tag along'}
+					</button>
+				</form>
+			{/if}
 		</div>
 	</div>
 </div>
+
+<!-- Hidden form for Ghost submission -->
+<iframe name="ghost-subscribe-frame" title="Subscribe form target" style="display:none;"></iframe>
+<form
+	bind:this={hiddenForm}
+	action="https://siberspace.ghost.io/members/api/send-magic-link/"
+	method="POST"
+	target="ghost-subscribe-frame"
+	style="display:none;"
+>
+	<input type="hidden" name="email" value="" />
+	<input type="hidden" name="emailType" value="signup" />
+</form>
 
 <style>
 	.modal-wrapper {
@@ -317,39 +360,11 @@
 		cursor: not-allowed;
 	}
 
-	/* Ghost form state messages */
-	.form-message {
-		display: none;
-		font-size: 0.85rem;
-		margin-top: 0.75rem;
-		text-align: center;
-	}
-
 	.success-message {
 		color: #88ddaa;
-	}
-
-	.error-message {
-		color: #ff8888;
-	}
-
-	/* Ghost adds these classes to the form */
-	form.success .success-message {
-		display: block;
-	}
-
-	form.error .error-message {
-		display: block;
-	}
-
-	form.loading button[type="submit"] {
-		opacity: 0.7;
-		cursor: wait;
-	}
-
-	form.success input,
-	form.success button {
-		display: none;
+		font-size: 1rem;
+		text-align: center;
+		padding: 1rem 0;
 	}
 
 	@media (max-width: 480px) {
