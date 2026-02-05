@@ -2,9 +2,15 @@
 	import { onMount } from 'svelte';
 
 	let isOpen = $state(false);
+	let email = $state('');
+	let status = $state<'idle' | 'loading' | 'success' | 'error'>('idle');
+	let errorMessage = $state('');
 
 	function open() {
 		isOpen = true;
+		status = 'idle';
+		email = '';
+		errorMessage = '';
 	}
 
 	function close() {
@@ -17,19 +23,37 @@
 		}
 	}
 
-	function handleSubmit(e: Event) {
+	async function handleSubmit(e: Event) {
 		e.preventDefault();
-		const form = e.target as HTMLFormElement;
-		const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement;
-		const email = emailInput?.value;
 		
-		if (!email || !email.includes('@')) return;
-		
-		// Close our modal and open Ghost Portal
-		close();
-		
-		// Trigger Ghost Portal signup
-		window.location.hash = '#/portal/signup';
+		if (!email || !email.includes('@')) {
+			errorMessage = 'Please enter a valid email';
+			status = 'error';
+			return;
+		}
+
+		status = 'loading';
+		errorMessage = '';
+
+		try {
+			const response = await fetch('/api/subscribe', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email })
+			});
+
+			const data = await response.json();
+
+			if (response.ok) {
+				status = 'success';
+			} else {
+				errorMessage = data.error || 'Something went wrong';
+				status = 'error';
+			}
+		} catch (err) {
+			errorMessage = 'Could not connect. Please try again.';
+			status = 'error';
+		}
 	}
 
 	// Expose open function globally for header buttons
@@ -126,16 +150,27 @@
 			<h2 id="modal-title">magic email box</h2>
 			<p>receive new dispatches from iris falls</p>
 			
-			<form onsubmit={handleSubmit}>
-				<input
-					type="email"
-					placeholder="your@email.com"
-					required
-				/>
+			{#if status === 'success'}
+				<p class="success-message">check your inbox for a magic link!</p>
+			{:else}
+				<form onsubmit={handleSubmit}>
+					<input
+						type="email"
+						bind:value={email}
+						placeholder="your@email.com"
+						required
+						disabled={status === 'loading'}
+					/>
+					
+					<button type="submit" disabled={status === 'loading'}>
+						{status === 'loading' ? 'sending...' : 'tag along'}
+					</button>
+				</form>
 				
-				<button type="submit">tag along</button>
-			</form>
-			<p class="helper-text">takes you to secure signup</p>
+				{#if status === 'error'}
+					<p class="error-message">{errorMessage}</p>
+				{/if}
+			{/if}
 		</div>
 	</div>
 </div>
@@ -317,12 +352,18 @@
 		cursor: not-allowed;
 	}
 
-	.helper-text {
-		font-size: 0.75rem;
-		color: #6a7a8a;
+	.success-message {
+		color: #88ddaa;
+		font-size: 1rem;
 		text-align: center;
-		margin-top: 0.5rem;
-		font-style: italic;
+		padding: 1rem 0;
+	}
+
+	.error-message {
+		color: #ff8888;
+		font-size: 0.85rem;
+		text-align: center;
+		margin-top: 0.75rem;
 	}
 
 	@media (max-width: 480px) {
