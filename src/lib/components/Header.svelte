@@ -6,7 +6,7 @@
 	}
 
 	let { 
-		siteName = 'siberspace',
+		siteName = 'iris falls',
 		variant = 'default',
 		hidden = false
 	}: Props = $props();

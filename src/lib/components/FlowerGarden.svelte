@@ -16,12 +16,14 @@
 	let flowerColors = $state(new Map<string, ColorPalette>());
 
 	onMount(async () => {
-		// Skip color extraction on mobile for performance
-		if (window.innerWidth <= 768) {
-			return;
+		const isMobile = window.innerWidth <= 768;
+		
+		// On mobile, delay color extraction to not block initial render
+		if (isMobile) {
+			await new Promise(resolve => setTimeout(resolve, 500));
 		}
 		
-		// Extract all colors in parallel on desktop
+		// Extract all colors in parallel
 		const colorPromises = posts.map(async (post) => {
 			if (post.feature_image) {
 				try {

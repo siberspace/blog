@@ -32,12 +32,14 @@
 	});
 	
 	onMount(async () => {
-		// Skip color extraction on mobile for performance
-		if (window.innerWidth <= 768) {
-			return;
+		const isMobile = window.innerWidth <= 768;
+		
+		// On mobile, delay color extraction to not block initial render
+		if (isMobile) {
+			await new Promise(resolve => setTimeout(resolve, 500));
 		}
 		
-		// Extract all colors in parallel on desktop
+		// Extract all colors in parallel
 		const colorPromises = data.posts.map(async (post) => {
 			if (post.feature_image) {
 				try {
@@ -235,14 +237,14 @@
 <svelte:window onscroll={handleScroll} />
 
 <svelte:head>
-	<title>siberspace</title>
-	<meta property="og:title" content="siberspace" />
+	<title>iris falls</title>
+	<meta property="og:title" content="iris falls" />
 	<meta property="og:description" content="music blog (most of the time). writings about lifesources in wasteland." />
 	<meta property="og:image" content="https://siberrr.space/site.png" />
 	<meta property="og:url" content="https://siberrr.space" />
 	<meta property="og:type" content="website" />
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="siberspace" />
+	<meta name="twitter:title" content="iris falls" />
 	<meta name="twitter:description" content="music blog (most of the time). writings about lifesources in wasteland." />
 	<meta name="twitter:image" content="https://siberrr.space/site.png" />
 </svelte:head>
