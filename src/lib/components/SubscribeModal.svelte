@@ -41,7 +41,8 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
-{#if isOpen}
+<!-- Always render so Ghost can find the form, use CSS to show/hide -->
+<div class="modal-wrapper" class:modal-wrapper--open={isOpen}>
 	<!-- Backdrop -->
 	<div class="modal-backdrop" onclick={close} role="button" tabindex="-1" onkeydown={(e) => e.key === 'Enter' && close()}></div>
 	
@@ -137,9 +138,17 @@
 			</form>
 		</div>
 	</div>
-{/if}
+</div>
 
 <style>
+	.modal-wrapper {
+		display: none;
+	}
+
+	.modal-wrapper--open {
+		display: block;
+	}
+
 	.modal-backdrop {
 		position: fixed;
 		inset: 0;
