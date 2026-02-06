@@ -11,7 +11,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			return json({ error: 'Invalid email' }, { status: 400 });
 		}
 
-		const ghostUrl = env.GHOST_URL || '';
+		const ghostUrl = env.GHOST_API_URL || env.GHOST_URL || '';
 		const adminKey = env.GHOST_ADMIN_API_KEY || '';
 
 		// Use Admin API if key is available
