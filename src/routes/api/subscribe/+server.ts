@@ -1,9 +1,7 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { GHOST_ADMIN_API_KEY } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import GhostAdminAPI from '@tryghost/admin-api';
-
-const GHOST_URL = 'https://siberspace.ghost.io';
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
@@ -13,11 +11,14 @@ export const POST: RequestHandler = async ({ request }) => {
 			return json({ error: 'Invalid email' }, { status: 400 });
 		}
 
-		// If we have Admin API key, use it
-		if (GHOST_ADMIN_API_KEY) {
+		const ghostUrl = env.GHOST_URL || '';
+		const adminKey = env.GHOST_ADMIN_API_KEY || '';
+
+		// Use Admin API if key is available
+		if (adminKey) {
 			const api = new GhostAdminAPI({
-				url: GHOST_URL,
-				key: GHOST_ADMIN_API_KEY,
+				url: ghostUrl,
+				key: adminKey,
 				version: 'v5.0'
 			});
 
@@ -25,7 +26,7 @@ export const POST: RequestHandler = async ({ request }) => {
 				await api.members.add({ email });
 				return json({ success: true });
 			} catch (err: any) {
-				// Member might already exist, which is fine
+				// Member already exists -- treat as success
 				if (err.message?.includes('already exists')) {
 					return json({ success: true });
 				}
@@ -34,31 +35,31 @@ export const POST: RequestHandler = async ({ request }) => {
 			}
 		}
 
-		// Fallback: try direct API call
-		const response = await fetch(`${GHOST_URL}/members/api/send-magic-link/`, {
+		// Fallback: use Ghost's public magic link endpoint
+		const response = await fetch(`${ghostUrl}/members/api/send-magic-link/`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'Accept': 'application/json',
+				Accept: 'application/json'
 			},
 			body: JSON.stringify({
-				email: email,
+				email,
 				emailType: 'subscribe'
 			})
 		});
 
 		if (response.ok) {
 			return json({ success: true });
-		} else {
-			let errorMsg = 'Subscription failed';
-			try {
-				const data = await response.json();
-				errorMsg = data.errors?.[0]?.message || errorMsg;
-			} catch {
-				errorMsg = `Error ${response.status}`;
-			}
-			return json({ error: errorMsg }, { status: response.status });
 		}
+
+		let errorMsg = 'Subscription failed';
+		try {
+			const data = await response.json();
+			errorMsg = data.errors?.[0]?.message || errorMsg;
+		} catch {
+			errorMsg = `Error ${response.status}`;
+		}
+		return json({ error: errorMsg }, { status: response.status });
 	} catch (err) {
 		console.error('Subscribe error:', err);
 		return json({ error: 'Server error' }, { status: 500 });
