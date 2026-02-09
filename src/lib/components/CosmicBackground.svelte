@@ -406,11 +406,31 @@
 		};
 		window.addEventListener('resize', handleResize);
 
+		// Visibility tracking — pause rendering when off-screen
+		let isVisible = true;
+		const observer = new IntersectionObserver(
+			(entries) => {
+				isVisible = entries[0].isIntersecting;
+				// Resume animation loop when becoming visible again
+				if (isVisible && animationId === 0) {
+					animationId = requestAnimationFrame(animate);
+				}
+			},
+			{ threshold: 0 }
+		);
+		observer.observe(container);
+
 		// Animation loop
 		const startTime = performance.now();
 		let lastFrameTime = 0;
 		
 		const animate = (currentTime: number) => {
+			// Stop the loop entirely when not visible (saves GPU + CPU)
+			if (!isVisible) {
+				animationId = 0;
+				return;
+			}
+			
 			animationId = requestAnimationFrame(animate);
 			
 			// Skip if we just rendered from resize handler
@@ -456,6 +476,7 @@
 
 		// Cleanup
 		return () => {
+			observer.disconnect();
 			clearTimeout(resizeTimeout);
 			window.removeEventListener('resize', handleResize);
 			cancelAnimationFrame(animationId);
@@ -507,7 +528,7 @@
 
 <style>
 	.cosmic-background {
-		position: fixed;
+		position: absolute;
 		inset: 0;
 		z-index: 0;
 		pointer-events: none;

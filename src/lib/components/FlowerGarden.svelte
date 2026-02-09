@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { extractColors, defaultColors, type ColorPalette } from '$lib/utils/colorExtractor';
+	import { defaultColors, type ColorPalette } from '$lib/utils/colorExtractor';
 
 	interface Post {
 		slug: string;
@@ -9,40 +8,14 @@
 
 	interface Props {
 		posts: Post[];
+		colors?: Map<string, ColorPalette>;
 	}
 
-	let { posts }: Props = $props();
+	let { posts, colors = new Map() }: Props = $props();
 
-	let flowerColors = $state(new Map<string, ColorPalette>());
-
-	onMount(async () => {
-		const isMobile = window.innerWidth <= 768;
-		
-		// On mobile, delay color extraction to not block initial render
-		if (isMobile) {
-			await new Promise(resolve => setTimeout(resolve, 500));
-		}
-		
-		// Extract all colors in parallel
-		const colorPromises = posts.map(async (post) => {
-			if (post.feature_image) {
-				try {
-					const colors = await extractColors(post.feature_image);
-					return { slug: post.slug, colors };
-				} catch {
-					return { slug: post.slug, colors: defaultColors };
-				}
-			}
-			return { slug: post.slug, colors: defaultColors };
-		});
-		
-		const results = await Promise.all(colorPromises);
-		const newFlowerColors = new Map<string, ColorPalette>();
-		results.forEach(({ slug, colors }) => {
-			newFlowerColors.set(slug, colors);
-		});
-		flowerColors = newFlowerColors;
-	});
+	// Use colors passed from parent (avoids duplicate extraction)
+	const flowerColors = $derived(colors);
+	const colorsLoaded = $derived(colors.size > 0);
 </script>
 
 <section class="flower-garden">
@@ -53,7 +26,7 @@
 			{@const randomHeight = 80 + (i * 17) % 40}
 			{@const randomX = (i * 7) % 10 - 5}
 			{@const randomDelay = (i * 0.15) % 1}
-			<a href="/{post.slug}" class="garden-flower" style="
+			<a href="/{post.slug}" class="garden-flower" class:garden-flower--loaded={colorsLoaded} style="
 				--flower-color: {colors.headlineColor};
 				--flower-accent: {colors.headlineAccent};
 				--flower-height: {randomHeight}px;
@@ -102,12 +75,13 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
-		height: 50px;
+		height: 70px;
 		background: linear-gradient(180deg, 
 			transparent 0%,
-			rgba(90, 140, 60, 0.2) 30%,
-			rgba(74, 124, 63, 0.4) 60%,
-			rgba(60, 100, 50, 0.5) 100%
+			#3D4D2F26 12%,
+			#3D4D2F66 28%,
+			#3D4D2F 48%,
+			#3D4D2F 100%
 		);
 		border-radius: 100% 100% 0 0 / 30px 30px 0 0;
 		z-index: 0;
@@ -138,7 +112,6 @@
 		transform-origin: bottom center;
 		cursor: pointer;
 		text-decoration: none;
-		contain: layout style;
 	}
 
 	.garden-flower:hover {
@@ -148,6 +121,24 @@
 	.flower-svg {
 		width: 100%;
 		height: 100%;
+	}
+
+	/* Petals start invisible, fade in when colors are extracted */
+	.flower-svg :global(.petal) {
+		opacity: 0;
+		transition: opacity 0.5s ease-in;
+	}
+
+	.garden-flower--loaded .flower-svg :global(.petal) {
+		opacity: 1;
+	}
+
+	/* Restore per-petal opacity variations after loaded */
+	.garden-flower--loaded .flower-svg :global(.petal:nth-child(n+6)) {
+		opacity: 0.95;
+	}
+	.garden-flower--loaded .flower-svg :global(.petal:nth-child(n+7)) {
+		opacity: 0.9;
 	}
 
 	/* Responsive flower garden */

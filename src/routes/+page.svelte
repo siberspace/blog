@@ -72,12 +72,6 @@
 	// Rotation angles for alternating effect
 	const rotations = [3, -3];
 	
-	// Scroll-based shimmer
-	let scrollY = $state(0);
-	
-	function handleScroll() {
-		scrollY = window.scrollY;
-	}
 
 	// Get the current featured post
 	const featuredPost = $derived(data.posts[featuredIndex]);
@@ -234,7 +228,6 @@
 	const heroTitle = $derived(featuredPost?.title || '');
 </script>
 
-<svelte:window onscroll={handleScroll} />
 
 <svelte:head>
 	<title>iris falls</title>
@@ -250,15 +243,18 @@
 </svelte:head>
 
 <main class="landing">
-	<!-- WebGL Background with stars, nebula, noise, vignette -->
+	<!-- Header -->
+	<Header variant="landing" />
+
+	<!-- First viewport: hero + flowers -->
+	<div class="landing__viewport">
+
+	<!-- WebGL Background — scoped to landing viewport only -->
 	<CosmicBackground 
 		stars={starPositions} 
 		washColor={washColor}
 		washImageUrl={featuredPost?.feature_image || ''}
 	/>
-
-	<!-- Header -->
-	<Header variant="landing" />
 
 	<!-- Hero Section -->
 	<section class="hero">
@@ -365,21 +361,87 @@
 		</div>
 	</section>
 
-	<!-- Bottom section wrapper with unified overlay -->
+	<!-- Flower Garden at bottom of viewport -->
+	<FlowerGarden posts={data.posts} colors={flowerColors} />
+
+	</div><!-- end .landing__viewport -->
+
+	<!-- Bottom section wrapper — underground -->
 	<div class="bottom-section-wrapper">
+		<!-- Roots hanging from top of underground -->
+		<svg class="underground-roots" viewBox="0 0 1200 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+			<!-- Root cluster 1 -->
+			<path d="M75 0 C73 10, 68 22, 62 38 C59 46, 56 55, 53 65" stroke="#5a7a42" stroke-width="2.2" fill="none" opacity="0.45" stroke-linecap="round"/>
+			<path d="M68 25 C62 32, 54 36, 46 42" stroke="#5a7a42" stroke-width="0.9" fill="none" opacity="0.3" stroke-linecap="round"/>
+			<path d="M64 35 C70 44, 76 48, 82 55" stroke="#4a6a35" stroke-width="0.7" fill="none" opacity="0.25" stroke-linecap="round"/>
+
+			<!-- Root cluster 2 -->
+			<path d="M190 0 C188 12, 182 28, 174 42 C168 52, 162 60, 158 68" stroke="#4a6a35" stroke-width="2" fill="none" opacity="0.4" stroke-linecap="round"/>
+			<path d="M195 0 C200 14, 210 30, 220 45" stroke="#5a7a42" stroke-width="1.2" fill="none" opacity="0.3" stroke-linecap="round"/>
+			<path d="M180 32 C172 40, 164 44, 155 50" stroke="#4a6a35" stroke-width="0.7" fill="none" opacity="0.25" stroke-linecap="round"/>
+
+			<!-- Root cluster 3 -->
+			<path d="M340 0 C338 14, 332 32, 325 50 C322 58, 318 64, 315 70" stroke="#5a7a42" stroke-width="2.4" fill="none" opacity="0.45" stroke-linecap="round"/>
+			<path d="M335 22 C326 32, 316 36, 306 42" stroke="#5a7a42" stroke-width="0.9" fill="none" opacity="0.28" stroke-linecap="round"/>
+			<path d="M330 38 C338 48, 346 52, 354 58" stroke="#4a6a35" stroke-width="0.7" fill="none" opacity="0.22" stroke-linecap="round"/>
+
+			<!-- Root cluster 4 -->
+			<path d="M480 0 C476 14, 468 32, 460 48 C456 56, 452 62, 448 68" stroke="#4a6a35" stroke-width="2" fill="none" opacity="0.4" stroke-linecap="round"/>
+			<path d="M484 0 C490 14, 498 30, 508 45" stroke="#5a7a42" stroke-width="1.1" fill="none" opacity="0.3" stroke-linecap="round"/>
+			<path d="M470 35 C462 42, 454 46, 444 52" stroke="#5a7a42" stroke-width="0.6" fill="none" opacity="0.22" stroke-linecap="round"/>
+
+			<!-- Root cluster 5 -->
+			<path d="M600 0 C597 16, 590 35, 582 52 C578 60, 574 66, 570 70" stroke="#5a7a42" stroke-width="2.3" fill="none" opacity="0.45" stroke-linecap="round"/>
+			<path d="M605 0 C610 14, 618 32, 628 48" stroke="#4a6a35" stroke-width="1.4" fill="none" opacity="0.35" stroke-linecap="round"/>
+			<path d="M588 38 C580 46, 572 50, 562 56" stroke="#5a7a42" stroke-width="0.7" fill="none" opacity="0.25" stroke-linecap="round"/>
+			<path d="M622 36 C630 44, 638 48, 648 54" stroke="#4a6a35" stroke-width="0.6" fill="none" opacity="0.22" stroke-linecap="round"/>
+
+			<!-- Root cluster 6 -->
+			<path d="M740 0 C736 14, 728 32, 720 50 C716 58, 712 64, 708 70" stroke="#4a6a35" stroke-width="2.1" fill="none" opacity="0.4" stroke-linecap="round"/>
+			<path d="M745 0 C750 14, 758 32, 766 48" stroke="#5a7a42" stroke-width="1.1" fill="none" opacity="0.3" stroke-linecap="round"/>
+			<path d="M726 36 C718 44, 710 48, 700 54" stroke="#5a7a42" stroke-width="0.7" fill="none" opacity="0.25" stroke-linecap="round"/>
+
+			<!-- Root cluster 7 -->
+			<path d="M880 0 C877 14, 870 32, 862 50 C858 58, 854 64, 850 70" stroke="#5a7a42" stroke-width="2.2" fill="none" opacity="0.42" stroke-linecap="round"/>
+			<path d="M885 0 C890 14, 898 30, 906 48" stroke="#4a6a35" stroke-width="1.2" fill="none" opacity="0.3" stroke-linecap="round"/>
+			<path d="M868 34 C860 42, 852 46, 842 52" stroke="#5a7a42" stroke-width="0.7" fill="none" opacity="0.25" stroke-linecap="round"/>
+			<path d="M900 38 C908 46, 914 50, 922 56" stroke="#4a6a35" stroke-width="0.5" fill="none" opacity="0.2" stroke-linecap="round"/>
+
+			<!-- Root cluster 8 -->
+			<path d="M1020 0 C1016 14, 1008 34, 1000 52 C996 60, 992 66, 988 70" stroke="#4a6a35" stroke-width="2" fill="none" opacity="0.4" stroke-linecap="round"/>
+			<path d="M1024 0 C1030 12, 1038 28, 1048 44" stroke="#5a7a42" stroke-width="1" fill="none" opacity="0.28" stroke-linecap="round"/>
+			<path d="M1006 38 C998 46, 990 50, 980 56" stroke="#4a6a35" stroke-width="0.6" fill="none" opacity="0.22" stroke-linecap="round"/>
+
+			<!-- Root cluster 9 -->
+			<path d="M1140 0 C1137 16, 1130 35, 1122 52 C1118 60, 1114 66, 1110 70" stroke="#5a7a42" stroke-width="2.1" fill="none" opacity="0.42" stroke-linecap="round"/>
+			<path d="M1145 0 C1150 12, 1156 28, 1164 42" stroke="#4a6a35" stroke-width="1" fill="none" opacity="0.28" stroke-linecap="round"/>
+			<path d="M1128 40 C1120 48, 1112 52, 1102 58" stroke="#5a7a42" stroke-width="0.6" fill="none" opacity="0.22" stroke-linecap="round"/>
+		</svg>
+
+		<!-- Glowing underground gems -->
+		<div class="underground-gems">
+			<div class="gem" style="--gem-x: 8%; --gem-y: 15%; --gem-size: 6px; --gem-color: #7dd3fc; --gem-delay: 0s;"></div>
+			<div class="gem" style="--gem-x: 22%; --gem-y: 40%; --gem-size: 4px; --gem-color: #a78bfa; --gem-delay: 1.2s;"></div>
+			<div class="gem" style="--gem-x: 35%; --gem-y: 22%; --gem-size: 5px; --gem-color: #fbbf24; --gem-delay: 0.6s;"></div>
+			<div class="gem" style="--gem-x: 48%; --gem-y: 55%; --gem-size: 7px; --gem-color: #34d399; --gem-delay: 2.1s;"></div>
+			<div class="gem" style="--gem-x: 55%; --gem-y: 12%; --gem-size: 4px; --gem-color: #f472b6; --gem-delay: 0.3s;"></div>
+			<div class="gem" style="--gem-x: 65%; --gem-y: 68%; --gem-size: 5px; --gem-color: #7dd3fc; --gem-delay: 1.8s;"></div>
+			<div class="gem" style="--gem-x: 72%; --gem-y: 35%; --gem-size: 6px; --gem-color: #fbbf24; --gem-delay: 0.9s;"></div>
+			<div class="gem" style="--gem-x: 85%; --gem-y: 50%; --gem-size: 4px; --gem-color: #a78bfa; --gem-delay: 2.5s;"></div>
+			<div class="gem" style="--gem-x: 92%; --gem-y: 20%; --gem-size: 5px; --gem-color: #34d399; --gem-delay: 1.5s;"></div>
+			<div class="gem" style="--gem-x: 15%; --gem-y: 72%; --gem-size: 5px; --gem-color: #f472b6; --gem-delay: 3.0s;"></div>
+			<div class="gem" style="--gem-x: 42%; --gem-y: 82%; --gem-size: 6px; --gem-color: #7dd3fc; --gem-delay: 0.4s;"></div>
+			<div class="gem" style="--gem-x: 78%; --gem-y: 78%; --gem-size: 4px; --gem-color: #fbbf24; --gem-delay: 2.0s;"></div>
+		</div>
+
 		<!-- Stories Index Section -->
 		<section class="index">
-		<!-- Mobile title (hidden on desktop) -->
-		<h2 class="index__title index__title--mobile">in the crates...</h2>
-
 		<!-- Column Headers (visible on desktop as teaser) -->
 		<div class="index__headers">
 			<span class="index__header index__header--thumb"></span>
 			<span class="index__header index__header--headline">headline</span>
-			<span class="index__header index__header--type">type</span>
-			<span class="index__header index__header--year">year</span>
-			<span class="index__header index__header--words">words</span>
 			<span class="index__header index__header--genre">genre</span>
+			<span class="index__header index__header--year">year</span>
 		</div>
 
 		<!-- Story Rows -->
@@ -405,17 +467,11 @@
 					<!-- Excerpt (mobile only) -->
 					<span class="index__cell index__cell--excerpt">{post.excerpt || ''}</span>
 
-					<!-- Type -->
-					<span class="index__cell index__cell--type">{getStoryType(post)}</span>
+					<!-- Genre -->
+					<span class="index__cell index__cell--genre">{getGenre(post)}</span>
 
 					<!-- Year -->
 					<span class="index__cell index__cell--year">{getYear(post)}</span>
-
-					<!-- Words -->
-					<span class="index__cell index__cell--words">{getWordCount(post)}</span>
-
-					<!-- Genre -->
-					<span class="index__cell index__cell--genre">{getGenre(post)}</span>
 				</a>
 			{/each}
 		</div>
@@ -425,9 +481,6 @@
 	<p class="tagline">
 		music blog (most of the time). writings about lifesources in wasteland. published from iris falls, constella.
 	</p>
-
-	<!-- Flower Garden Footer -->
-	<FlowerGarden posts={data.posts} />
 	</div>
 </main>
 
@@ -439,15 +492,25 @@
 		background-color: #050510;
 	}
 
-	/* ===== HERO SECTION ===== */
-	.hero {
+	/* ===== LANDING VIEWPORT (hero + flowers in one screen) ===== */
+	.landing__viewport {
 		position: relative;
 		min-height: 100vh;
 		display: flex;
 		flex-direction: column;
+		z-index: 3;
+		overflow: hidden;
+	}
+
+	/* ===== HERO SECTION ===== */
+	.hero {
+		position: relative;
+		flex: 1;
+		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		padding: 5rem 2rem 3rem;
+		padding: 7rem 2rem 1rem;
 		overflow: hidden;
 		z-index: 3;
 		gap: 0;
@@ -458,7 +521,7 @@
 		position: relative;
 		width: min(70vw, 500px);
 		height: min(45vw, 320px);
-		margin-bottom: 5rem;
+		margin-bottom: 4rem;
 		cursor: pointer;
 		touch-action: pan-y pinch-zoom; /* Allow vertical scroll but capture horizontal swipes */
 	}
@@ -557,7 +620,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-bottom: 4rem;
+		margin-bottom: 2.5rem;
 		padding: 1rem 2rem;
 		overflow: visible;
 	}
@@ -666,72 +729,128 @@
 	.index {
 		position: relative;
 		z-index: 3;
-		padding: 0 2rem 4rem;
+		padding: 2rem 2rem 4rem;
 		margin: 0 auto;
-		margin-top: -3rem; /* Pull up to peek above fold */
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
 
-	/* Wrapper for bottom sections with unified overlay */
+	/* Wrapper for bottom sections — underground */
 	.bottom-section-wrapper {
 		position: relative;
+		background: linear-gradient(180deg,
+			#3D4D2F 0%,
+			#3a2e22 5%,
+			#33271c 10%,
+			#2c2118 25%,
+			#261c14 45%,
+			#201710 65%,
+			#1a120c 85%,
+			#140e08 100%
+		);
 	}
 
-	/* Horizon glow - subtle lighter area near bottom */
+	/* Earthy soil texture overlay */
 	.bottom-section-wrapper::before {
 		content: '';
 		position: absolute;
 		inset: 0;
-		background: linear-gradient(
-			to bottom,
-			transparent 0%,
-			transparent 60%,
-			rgba(20, 30, 50, 0.3) 80%,
-			rgba(30, 40, 60, 0.5) 100%
-		);
+		background:
+			/* Irregular horizontal soil strata */
+			repeating-linear-gradient(
+				178deg,
+				transparent,
+				transparent 40px,
+				rgba(90, 65, 40, 0.06) 40px,
+				rgba(90, 65, 40, 0.06) 42px,
+				transparent 42px,
+				transparent 55px,
+				rgba(60, 45, 30, 0.04) 55px,
+				rgba(60, 45, 30, 0.04) 56px
+			),
+			/* Cross-hatched fine texture */
+			repeating-linear-gradient(
+				92deg,
+				transparent,
+				transparent 80px,
+				rgba(80, 55, 35, 0.04) 80px,
+				rgba(80, 55, 35, 0.04) 81px
+			),
+			/* Scattered pebble-like dots via radial gradients */
+			radial-gradient(1.5px 1.5px at 12% 8%, rgba(100, 75, 50, 0.15) 50%, transparent 100%),
+			radial-gradient(2px 2px at 35% 22%, rgba(85, 60, 40, 0.12) 50%, transparent 100%),
+			radial-gradient(1px 1px at 58% 15%, rgba(110, 80, 55, 0.1) 50%, transparent 100%),
+			radial-gradient(1.5px 1.5px at 78% 32%, rgba(90, 65, 45, 0.12) 50%, transparent 100%),
+			radial-gradient(2px 2px at 22% 48%, rgba(100, 70, 45, 0.1) 50%, transparent 100%),
+			radial-gradient(1px 1px at 45% 62%, rgba(85, 60, 40, 0.08) 50%, transparent 100%),
+			radial-gradient(1.5px 1.5px at 68% 55%, rgba(95, 68, 42, 0.1) 50%, transparent 100%),
+			radial-gradient(2px 2px at 88% 72%, rgba(80, 55, 35, 0.12) 50%, transparent 100%),
+			radial-gradient(1px 1px at 8% 78%, rgba(100, 75, 50, 0.08) 50%, transparent 100%),
+			radial-gradient(1.5px 1.5px at 52% 85%, rgba(90, 65, 45, 0.1) 50%, transparent 100%);
 		z-index: 0;
 		pointer-events: none;
 	}
 
-	.index__title {
-		font-family: var(--font-serif);
-		font-size: 1.5rem;
-		font-weight: 500;
-		letter-spacing: 0.05em;
-		color: #e8e8e8;
-		text-align: center;
-		margin-bottom: 2rem;
-		text-transform: lowercase;
-		text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
-		animation: star-twinkle 3s ease-in-out infinite;
+	/* Additional depth variation — darker patches in the soil */
+	.bottom-section-wrapper::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(ellipse 200px 120px at 20% 30%, rgba(30, 20, 12, 0.15) 0%, transparent 70%),
+			radial-gradient(ellipse 180px 100px at 70% 50%, rgba(25, 18, 10, 0.12) 0%, transparent 70%),
+			radial-gradient(ellipse 250px 140px at 45% 75%, rgba(35, 25, 15, 0.1) 0%, transparent 70%),
+			radial-gradient(ellipse 160px 90px at 85% 20%, rgba(28, 20, 12, 0.1) 0%, transparent 70%);
+		z-index: 0;
+		pointer-events: none;
 	}
 
-	@keyframes star-twinkle {
-		0%, 100% {
-			opacity: 1;
-			text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
-		}
-		33% {
-			opacity: 0.7;
-			text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
-		}
-		66% {
-			opacity: 0.95;
-			text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-		}
+	/* Roots SVG at top of underground */
+	.underground-roots {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 70px;
+		z-index: 1;
+		pointer-events: none;
 	}
 
-	/* Hide mobile title on desktop */
-	.index__title--mobile {
-		display: none;
+	/* Glowing gems container */
+	.underground-gems {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		pointer-events: none;
+		overflow: hidden;
 	}
 
-	/* Headers Row - reordered: thumb, headline, type, year, words, genre */
+	.gem {
+		position: absolute;
+		left: var(--gem-x);
+		top: var(--gem-y);
+		width: var(--gem-size);
+		height: var(--gem-size);
+		background: var(--gem-color);
+		transform: rotate(45deg);
+		border-radius: 1px;
+		box-shadow: 0 0 6px var(--gem-color);
+		animation: gem-glow 4s ease-in-out infinite;
+		animation-delay: var(--gem-delay);
+		opacity: 0.6;
+		will-change: opacity;
+	}
+
+	@keyframes gem-glow {
+		0%, 100% { opacity: 0.4; }
+		50% { opacity: 0.85; }
+	}
+
+	/* Headers Row */
 	.index__headers {
 		display: grid;
-		grid-template-columns: 100px minmax(200px, 450px) 100px 60px 70px 100px;
+		grid-template-columns: 100px minmax(200px, 550px) 100px 60px;
 		gap: 1.5rem;
 		padding: 0.75rem 1rem;
 		font-family: var(--font-serif);
@@ -758,7 +877,7 @@
 	/* Story Row */
 	.index__row {
 		display: grid;
-		grid-template-columns: 100px minmax(200px, 450px) 100px 60px 70px 100px;
+		grid-template-columns: 100px minmax(200px, 550px) 100px 60px;
 		gap: 1.5rem;
 		padding: 0.75rem 1rem;
 		align-items: center;
@@ -808,7 +927,7 @@
 	}
 
 	.index__cell--headline {
-		font-size: 1.1rem;
+		font-size: 1rem;
 		line-height: 1.3;
 		color: #ffffff;
 		font-weight: 500;
@@ -816,17 +935,8 @@
 		text-transform: lowercase;
 	}
 
-	.index__cell--type,
 	.index__cell--genre {
 		text-transform: lowercase;
-	}
-
-	.index__cell--type {
-		text-align: left;
-	}
-
-	.index__header--type {
-		text-align: left;
 	}
 
 	/* Excerpt - hidden on desktop */
@@ -837,12 +947,12 @@
 	/* ===== RESPONSIVE ===== */
 	@media (max-width: 1024px) {
 		.index__headers {
-			grid-template-columns: 80px minmax(150px, 350px) 90px 50px 60px 90px;
+			grid-template-columns: 80px minmax(150px, 420px) 90px 50px;
 			gap: 1rem;
 		}
 
 		.index__row {
-			grid-template-columns: 80px minmax(150px, 350px) 90px 50px 60px 90px;
+			grid-template-columns: 80px minmax(150px, 420px) 90px 50px;
 			gap: 1rem;
 		}
 
@@ -858,9 +968,8 @@
 		}
 
 		.hero {
-			min-height: auto;
-			padding: 6.5rem 1rem 3rem;
-			justify-content: flex-start;
+			padding: 6.5rem 1rem 1rem;
+			justify-content: center;
 			gap: 0;
 			overflow: visible;
 		}
@@ -937,7 +1046,7 @@
 		}
 
 		.index {
-			padding: 0 1rem 2rem;
+			padding: 5rem 1rem 2rem;
 			margin-top: 0;
 		}
 
@@ -945,14 +1054,6 @@
 			display: none;
 		}
 
-		/* Show mobile title */
-		.index__title--mobile {
-			display: block;
-			margin-top: 0;
-			margin-bottom: 1rem;
-			font-size: 1.1rem;
-			letter-spacing: 0.03em;
-		}
 
 		.index__row {
 			grid-template-columns: 70px 1fr;
@@ -972,9 +1073,7 @@
 			font-size: 1rem;
 		}
 
-		.index__cell--type,
 		.index__cell--year,
-		.index__cell--words,
 		.index__cell--genre {
 			display: none;
 		}
@@ -997,7 +1096,7 @@
 
 	@media (max-width: 480px) {
 		.hero {
-			padding: 5.5rem 1rem 2.5rem;
+			padding: 5.5rem 1rem 1rem;
 		}
 
 		.hero__stack {
@@ -1028,9 +1127,6 @@
 				0 0 8px rgba(192, 192, 210, 0.3);
 		}
 
-		.index__title--mobile {
-			font-size: 1rem;
-		}
 
 		.hero__actions {
 			margin-bottom: 2.5rem;
