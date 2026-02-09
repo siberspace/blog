@@ -533,6 +533,8 @@
 		inset: 0;
 		z-index: 0;
 		pointer-events: none;
+		/* Immediate dark sky while WebGL initializes */
+		background: radial-gradient(ellipse at 20% 20%, #0a0a15 0%, #050510 50%, #020208 100%);
 	}
 
 	.cosmic-background--fixed {

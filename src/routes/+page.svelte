@@ -4,6 +4,7 @@
 	import { extractColors, defaultColors, type ColorPalette } from '$lib/utils/colorExtractor';
 	import { getVisibleStars, getUserLocation, type StarPosition } from '$lib/utils/starfield';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 
 	let { data }: { data: PageData } = $props();
 	
@@ -132,7 +133,7 @@
 	// Open the featured post in the same tab
 	function openStory() {
 		if (featuredPost) {
-			window.location.href = `/${featuredPost.slug}`;
+			goto(`/${featuredPost.slug}`);
 		}
 	}
 
