@@ -63,12 +63,14 @@
 			{@const randomHeight = 80 + (i * 17) % 40}
 			{@const randomX = (i * 7) % 10 - 5}
 			{@const randomDelay = (i * 0.15) % 1}
+			{@const swayDuration = 3.5 + (i * 0.7) % 3}
 			<a href="/{post.slug}" class="garden-flower" class:garden-flower--loaded={colorsLoaded} style="
 				--flower-color: {colors.headlineColor};
 				--flower-accent: {colors.headlineAccent};
 				--flower-height: {randomHeight}px;
 				--flower-x: {randomX}px;
 				--animation-delay: {randomDelay}s;
+				--sway-duration: {swayDuration}s;
 			">
 			<svg class="flower-svg" viewBox="0 0 40 120" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<!-- Stem -->
@@ -163,9 +165,21 @@
 		transform-origin: bottom center;
 		cursor: pointer;
 		text-decoration: none;
+		will-change: transform;
+	}
+
+	/* Gentle sway after colors have loaded */
+	.garden-flower--loaded {
+		animation: sway var(--sway-duration, 4s) ease-in-out var(--animation-delay, 0s) infinite alternate;
+	}
+
+	@keyframes sway {
+		0%   { transform: translateX(var(--flower-x, 0)) rotate(-1.5deg); }
+		100% { transform: translateX(var(--flower-x, 0)) rotate(1.5deg); }
 	}
 
 	.garden-flower:hover {
+		animation-play-state: paused;
 		transform: translateX(var(--flower-x, 0)) scale(1.08);
 	}
 
@@ -206,6 +220,12 @@
 		.garden-flower {
 			width: 40px;
 			min-width: 15px;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.garden-flower--loaded {
+			animation: none;
 		}
 	}
 

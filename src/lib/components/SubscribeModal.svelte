@@ -127,7 +127,7 @@
 		<p class="modal-subtitle">receive new dispatches from iris falls</p>
 
 		{#if status === 'success'}
-			<p class="success-message">you're in! check your inbox.</p>
+			<p class="success-message">welcome to iris falls</p>
 		{:else}
 			<form onsubmit={handleSubmit}>
 				<input
