@@ -495,7 +495,8 @@
 	/* ===== LANDING VIEWPORT (hero + flowers in one screen) ===== */
 	.landing__viewport {
 		position: relative;
-		min-height: 100vh;
+		min-height: 100vh;      /* fallback */
+		min-height: 100dvh;     /* dynamic viewport height — respects mobile browser chrome */
 		display: flex;
 		flex-direction: column;
 		z-index: 3;
