@@ -532,17 +532,20 @@
 		border-radius: 2px;
 		overflow: hidden;
 		transform: rotate(var(--rotation)) translate(var(--offset-x), var(--offset-y));
-		/* Simplified shadows for better performance */
+		/* Matte lunar shadows */
 		box-shadow: 
-			0 4px 12px rgba(0, 0, 0, 0.15),
-			0 12px 24px rgba(0, 0, 0, 0.1),
-			inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-		/* Polaroid frame - simplified gradient */
-		background: linear-gradient(175deg, #fcfcfa 0%, #f5f5f0 40%, #eeeee8 100%);
+			0 4px 12px rgba(0, 0, 0, 0.2),
+			0 12px 24px rgba(0, 0, 0, 0.15),
+			inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+		/* Moon-textured frame — cratered, rough surface */
+		background:
+			url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='moon'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.06' numOctaves='5' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23fff' surfaceScale='3'%3E%3CfeDistantLight azimuth='45' elevation='55'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23moon)'/%3E%3C/svg%3E"),
+			linear-gradient(175deg, #d0ccc6 0%, #c8c4be 40%, #bfbab4 100%);
+		background-blend-mode: multiply, normal;
 		padding: 12px 12px 40px 12px;
-		border: 1px solid rgba(0, 0, 0, 0.08);
-		border-top-color: rgba(255, 255, 255, 0.3);
-		border-left-color: rgba(255, 255, 255, 0.2);
+		border: 1px solid rgba(0, 0, 0, 0.12);
+		border-top-color: rgba(255, 255, 255, 0.1);
+		border-left-color: rgba(255, 255, 255, 0.08);
 		contain: layout style;
 	}
 
@@ -596,15 +599,12 @@
 	.hero__card::after {
 		content: '';
 		position: absolute;
-		top: 12px;
-		left: 12px;
-		right: 12px;
-		bottom: 40px;
-		background: linear-gradient(45deg, rgba(0,0,0,0.02) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.02) 75%);
-		background-size: 4px 4px;
-		opacity: 0.5;
+		inset: 0;
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='craters'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.03' numOctaves='3' seed='5' stitchTiles='stitch' result='t'/%3E%3CfeDiffuseLighting in='t' lighting-color='%23fff' surfaceScale='2'%3E%3CfeDistantLight azimuth='220' elevation='35'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23craters)'/%3E%3C/svg%3E");
+		opacity: 0.12;
+		mix-blend-mode: overlay;
 		pointer-events: none;
-		border-radius: 1px;
+		border-radius: 2px;
 	}
 
 	.hero__card-placeholder {
@@ -964,7 +964,7 @@
 
 	@media (max-width: 768px) {
 		.hero__card::after {
-			display: none; /* Hide grain overlay on mobile */
+			display: none; /* Hide crater overlay on mobile for performance */
 		}
 
 		.hero {
@@ -985,17 +985,10 @@
 			transform: rotate(calc(var(--rotation) * 0.4)) translate(calc(var(--offset-x) * 0.5), calc(var(--offset-y) * 0.5));
 			padding: 8px 8px 28px 8px;
 			box-shadow: 
-				0 1px 2px rgba(0, 0, 0, 0.1),
-				0 4px 8px rgba(0, 0, 0, 0.12),
-				0 8px 16px rgba(0, 0, 0, 0.1),
-				inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-		}
-
-		.hero__card::after {
-			top: 8px;
-			left: 8px;
-			right: 8px;
-			bottom: 28px;
+				0 1px 2px rgba(0, 0, 0, 0.12),
+				0 4px 8px rgba(0, 0, 0, 0.15),
+				0 8px 16px rgba(0, 0, 0, 0.12),
+				inset 0 0 0 1px rgba(255, 255, 255, 0.15);
 		}
 
 		.hero__title-container {

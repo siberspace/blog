@@ -328,37 +328,34 @@
 		width: 100%;
 		overflow: visible;
 		border-radius: 2px;
-		/* Layered shadows for depth */
+		/* Matte lunar shadows */
 		box-shadow: 
-			0 1px 2px rgba(0, 0, 0, 0.1),
-			0 4px 8px rgba(0, 0, 0, 0.1),
-			0 8px 16px rgba(0, 0, 0, 0.15),
-			0 16px 32px rgba(0, 0, 0, 0.1),
-			inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-		/* Polaroid frame with paper texture */
-		background: 
-			url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='0.03'/%3E%3C/svg%3E"),
-			linear-gradient(175deg, #fcfcfa 0%, #f5f5f0 40%, #eeeee8 100%);
+			0 1px 2px rgba(0, 0, 0, 0.12),
+			0 4px 8px rgba(0, 0, 0, 0.12),
+			0 8px 16px rgba(0, 0, 0, 0.18),
+			0 16px 32px rgba(0, 0, 0, 0.12),
+			inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+		/* Moon-textured frame — cratered, rough surface */
+		background:
+			url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='moon'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.06' numOctaves='5' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23fff' surfaceScale='3'%3E%3CfeDistantLight azimuth='45' elevation='55'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23moon)'/%3E%3C/svg%3E"),
+			linear-gradient(175deg, #d0ccc6 0%, #c8c4be 40%, #bfbab4 100%);
+		background-blend-mode: multiply, normal;
 		padding: 16px 16px 50px 16px;
-		border: 1px solid rgba(0, 0, 0, 0.08);
-		/* Subtle worn edges */
-		border-top-color: rgba(255, 255, 255, 0.3);
-		border-left-color: rgba(255, 255, 255, 0.2);
+		border: 1px solid rgba(0, 0, 0, 0.12);
+		border-top-color: rgba(255, 255, 255, 0.1);
+		border-left-color: rgba(255, 255, 255, 0.08);
 	}
 
-	/* Grain overlay for print texture - covers image area only */
+	/* Crater highlight overlay — adds subtle depth variation to the frame */
 	.hero-image-container::after {
 		content: '';
 		position: absolute;
-		top: 16px;
-		left: 16px;
-		right: 16px;
-		bottom: 50px;
-		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
-		opacity: 0.35;
+		inset: 0;
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='craters'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.03' numOctaves='3' seed='5' stitchTiles='stitch' result='t'/%3E%3CfeDiffuseLighting in='t' lighting-color='%23fff' surfaceScale='2'%3E%3CfeDistantLight azimuth='220' elevation='35'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23craters)'/%3E%3C/svg%3E");
+		opacity: 0.12;
 		mix-blend-mode: overlay;
 		pointer-events: none;
-		border-radius: 1px;
+		border-radius: 2px;
 	}
 
 	.hero-image {
@@ -769,7 +766,7 @@
 	/* Responsive */
 	@media (max-width: 768px) {
 		.hero-image-container::after {
-			display: none; /* Hide grain overlay */
+			display: none; /* Hide crater overlay on mobile for performance */
 		}
 
 		.hero-image-section {
@@ -781,8 +778,8 @@
 		.hero-image-container {
 			padding: 10px 10px 35px 10px;
 			box-shadow: 
-				0 4px 12px rgba(0, 0, 0, 0.15),
-				inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+				0 4px 12px rgba(0, 0, 0, 0.2),
+				inset 0 0 0 1px rgba(255, 255, 255, 0.15);
 		}
 
 		.content-section {
