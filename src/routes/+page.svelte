@@ -742,9 +742,14 @@
 		position: relative;
 		background: linear-gradient(180deg,
 			#3D4D2F 0%,
-			#3a2e22 5%,
-			#33271c 10%,
-			#2c2118 25%,
+			#3b4a2d 2%,
+			#39442a 4%,
+			#383e27 6%,
+			#373824 9%,
+			#363323 12%,
+			#342e21 16%,
+			#33291f 20%,
+			#2c2118 30%,
 			#261c14 45%,
 			#201710 65%,
 			#1a120c 85%,
@@ -752,57 +757,43 @@
 		);
 	}
 
-	/* Earthy soil texture overlay */
+	/* Primary stone / earth crust texture — coarse rocky grain */
 	.bottom-section-wrapper::before {
 		content: '';
 		position: absolute;
 		inset: 0;
-		background:
-			/* Irregular horizontal soil strata */
-			repeating-linear-gradient(
-				178deg,
-				transparent,
-				transparent 40px,
-				rgba(90, 65, 40, 0.06) 40px,
-				rgba(90, 65, 40, 0.06) 42px,
-				transparent 42px,
-				transparent 55px,
-				rgba(60, 45, 30, 0.04) 55px,
-				rgba(60, 45, 30, 0.04) 56px
-			),
-			/* Cross-hatched fine texture */
-			repeating-linear-gradient(
-				92deg,
-				transparent,
-				transparent 80px,
-				rgba(80, 55, 35, 0.04) 80px,
-				rgba(80, 55, 35, 0.04) 81px
-			),
-			/* Scattered pebble-like dots via radial gradients */
-			radial-gradient(1.5px 1.5px at 12% 8%, rgba(100, 75, 50, 0.15) 50%, transparent 100%),
-			radial-gradient(2px 2px at 35% 22%, rgba(85, 60, 40, 0.12) 50%, transparent 100%),
-			radial-gradient(1px 1px at 58% 15%, rgba(110, 80, 55, 0.1) 50%, transparent 100%),
-			radial-gradient(1.5px 1.5px at 78% 32%, rgba(90, 65, 45, 0.12) 50%, transparent 100%),
-			radial-gradient(2px 2px at 22% 48%, rgba(100, 70, 45, 0.1) 50%, transparent 100%),
-			radial-gradient(1px 1px at 45% 62%, rgba(85, 60, 40, 0.08) 50%, transparent 100%),
-			radial-gradient(1.5px 1.5px at 68% 55%, rgba(95, 68, 42, 0.1) 50%, transparent 100%),
-			radial-gradient(2px 2px at 88% 72%, rgba(80, 55, 35, 0.12) 50%, transparent 100%),
-			radial-gradient(1px 1px at 8% 78%, rgba(100, 75, 50, 0.08) 50%, transparent 100%),
-			radial-gradient(1.5px 1.5px at 52% 85%, rgba(90, 65, 45, 0.1) 50%, transparent 100%);
+		background-image:
+			url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='rock'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.035' numOctaves='6' seed='2' stitchTiles='stitch' result='coarse'/%3E%3CfeDiffuseLighting in='coarse' lighting-color='%23a08060' surfaceScale='4'%3E%3CfeDistantLight azimuth='200' elevation='40'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23rock)'/%3E%3C/svg%3E"),
+			url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='fine'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.08' numOctaves='4' seed='8' stitchTiles='stitch' result='grain'/%3E%3CfeDiffuseLighting in='grain' lighting-color='%23806040' surfaceScale='2'%3E%3CfeDistantLight azimuth='120' elevation='50'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23fine)'/%3E%3C/svg%3E");
+		background-blend-mode: overlay, soft-light;
+		opacity: 0.22;
 		z-index: 0;
 		pointer-events: none;
 	}
 
-	/* Additional depth variation — darker patches in the soil */
+	/* Horizontal strata lines + darker depth patches */
 	.bottom-section-wrapper::after {
 		content: '';
 		position: absolute;
 		inset: 0;
 		background:
-			radial-gradient(ellipse 200px 120px at 20% 30%, rgba(30, 20, 12, 0.15) 0%, transparent 70%),
-			radial-gradient(ellipse 180px 100px at 70% 50%, rgba(25, 18, 10, 0.12) 0%, transparent 70%),
-			radial-gradient(ellipse 250px 140px at 45% 75%, rgba(35, 25, 15, 0.1) 0%, transparent 70%),
-			radial-gradient(ellipse 160px 90px at 85% 20%, rgba(28, 20, 12, 0.1) 0%, transparent 70%);
+			/* Sediment strata — faint horizontal bands */
+			repeating-linear-gradient(
+				178deg,
+				transparent,
+				transparent 50px,
+				rgba(100, 75, 50, 0.07) 50px,
+				rgba(100, 75, 50, 0.07) 52px,
+				transparent 52px,
+				transparent 85px,
+				rgba(70, 50, 30, 0.05) 85px,
+				rgba(70, 50, 30, 0.05) 86px
+			),
+			/* Darker depth pockets */
+			radial-gradient(ellipse 200px 120px at 20% 30%, rgba(30, 20, 12, 0.18) 0%, transparent 70%),
+			radial-gradient(ellipse 180px 100px at 70% 50%, rgba(25, 18, 10, 0.14) 0%, transparent 70%),
+			radial-gradient(ellipse 250px 140px at 45% 75%, rgba(35, 25, 15, 0.12) 0%, transparent 70%),
+			radial-gradient(ellipse 160px 90px at 85% 20%, rgba(28, 20, 12, 0.12) 0%, transparent 70%);
 		z-index: 0;
 		pointer-events: none;
 	}

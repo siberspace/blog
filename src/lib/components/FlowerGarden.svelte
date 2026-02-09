@@ -54,7 +54,9 @@
 </script>
 
 <section class="flower-garden">
-	<div class="garden-ground"></div>
+	<div class="garden-ground">
+		<div class="ground-texture"></div>
+	</div>
 	<div class="flowers-row">
 		{#each posts as post, i}
 			{@const colors = flowerColors.get(post.slug) || defaultColors}
@@ -113,13 +115,27 @@
 		height: 70px;
 		background: linear-gradient(180deg, 
 			transparent 0%,
-			#3D4D2F26 12%,
-			#3D4D2F66 28%,
-			#3D4D2F 48%,
+			#3D4D2F26 10%,
+			#3D4D2F66 24%,
+			#3D4D2F 40%,
 			#3D4D2F 100%
 		);
 		border-radius: 100% 100% 0 0 / 30px 30px 0 0;
 		z-index: 0;
+		overflow: hidden;
+	}
+
+	/* Grassy earth texture overlay on the ground */
+	.ground-texture {
+		position: absolute;
+		inset: 0;
+		background-image:
+			url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grass'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='6' seed='3' stitchTiles='stitch' result='n'/%3E%3CfeDiffuseLighting in='n' lighting-color='%2360804a' surfaceScale='3.5'%3E%3CfeDistantLight azimuth='180' elevation='45'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grass)'/%3E%3C/svg%3E"),
+			url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='soil'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.09' numOctaves='4' seed='12' stitchTiles='stitch' result='g'/%3E%3CfeDiffuseLighting in='g' lighting-color='%23506838' surfaceScale='2'%3E%3CfeDistantLight azimuth='100' elevation='55'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23soil)'/%3E%3C/svg%3E");
+		background-blend-mode: overlay, soft-light;
+		opacity: 0.28;
+		border-radius: inherit;
+		pointer-events: none;
 	}
 
 	.flowers-row {
