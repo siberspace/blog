@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { defaultColors, type ColorPalette } from '$lib/utils/colorExtractor';
+	import { onMount } from 'svelte';
+	import { extractColors, defaultColors, type ColorPalette } from '$lib/utils/colorExtractor';
 
 	interface Post {
 		slug: string;
@@ -13,9 +14,43 @@
 
 	let { posts, colors = new Map() }: Props = $props();
 
-	// Use colors passed from parent (avoids duplicate extraction)
-	const flowerColors = $derived(colors);
-	const colorsLoaded = $derived(colors.size > 0);
+	// Self-extracted colors (fallback when parent doesn't provide them)
+	let selfExtracted = $state(new Map<string, ColorPalette>());
+
+	// Use parent colors if available, otherwise self-extracted
+	const flowerColors = $derived(colors.size > 0 ? colors : selfExtracted);
+	const colorsLoaded = $derived(flowerColors.size > 0);
+
+	// Only self-extract if parent doesn't provide colors
+	onMount(async () => {
+		// Wait a tick to see if parent colors arrive
+		await new Promise(resolve => setTimeout(resolve, 100));
+		if (colors.size > 0) return; // Parent provided colors, skip
+
+		const isMobile = window.innerWidth <= 768;
+		if (isMobile) {
+			await new Promise(resolve => setTimeout(resolve, 500));
+		}
+
+		const colorPromises = posts.map(async (post) => {
+			if (post.feature_image) {
+				try {
+					const extracted = await extractColors(post.feature_image);
+					return { slug: post.slug, colors: extracted };
+				} catch {
+					return { slug: post.slug, colors: defaultColors };
+				}
+			}
+			return { slug: post.slug, colors: defaultColors };
+		});
+
+		const results = await Promise.all(colorPromises);
+		const newColors = new Map<string, ColorPalette>();
+		results.forEach(({ slug, colors }) => {
+			newColors.set(slug, colors);
+		});
+		selfExtracted = newColors;
+	});
 </script>
 
 <section class="flower-garden">

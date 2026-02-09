@@ -8,9 +8,10 @@
 		washColor?: { r: number; g: number; b: number };
 		washImageUrl?: string;
 		forceCSSFallback?: boolean;
+		fixed?: boolean;
 	}
 
-	let { stars = [], washColor = { r: 0.4, g: 0.3, b: 0.5 }, washImageUrl = '', forceCSSFallback = false }: Props = $props();
+	let { stars = [], washColor = { r: 0.4, g: 0.3, b: 0.5 }, washImageUrl = '', forceCSSFallback = false, fixed = false }: Props = $props();
 
 	let container: HTMLDivElement;
 	let animationId: number;
@@ -513,7 +514,7 @@
 	});
 </script>
 
-<div class="cosmic-background" bind:this={container}>
+<div class="cosmic-background" class:cosmic-background--fixed={fixed} bind:this={container}>
 	{#if useFallback}
 		<div class="fallback-bg">
 			<div 
@@ -532,6 +533,10 @@
 		inset: 0;
 		z-index: 0;
 		pointer-events: none;
+	}
+
+	.cosmic-background--fixed {
+		position: fixed;
 	}
 
 	.cosmic-background :global(canvas) {

@@ -201,6 +201,7 @@
 		stars={starPositions} 
 		washColor={washColor}
 		washImageUrl={currentWashImage}
+		fixed={true}
 	/>
 
 	<!-- Hero Image Section -->
