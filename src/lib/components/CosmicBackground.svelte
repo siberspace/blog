@@ -347,8 +347,9 @@
 		
 		const pixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio, 2);
 		renderer.setPixelRatio(pixelRatio);
-		renderer.setSize(window.innerWidth, window.innerHeight);
 		container.appendChild(renderer.domElement);
+		// Size from container (not window) so canvas matches its parent exactly
+		renderer.setSize(container.clientWidth, container.clientHeight, false);
 
 		// ===== Pass 1: Nebula background =====
 		nebulaUniforms = {
@@ -385,7 +386,7 @@
 
 		starUniforms = {
 			uTime: { value: 0 },
-			uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+			uResolution: { value: new THREE.Vector2(container.clientWidth, container.clientHeight) },
 			uPixelRatio: { value: pixelRatio }
 		};
 
@@ -413,28 +414,31 @@
 		// Resize handler - update size and render immediately to prevent flashing
 		let resizeTimeout: number;
 		let justResized = false;
-		let lastWidth = window.innerWidth;
+		let lastWidth = container.clientWidth;
 		
 		const handleResize = () => {
-			if (!renderer || !starUniforms) return;
+			if (!renderer || !starUniforms || !container) return;
 			
-			const newWidth = window.innerWidth;
+			const newWidth = container.clientWidth;
 			
 			// On mobile, ignore height-only changes (caused by browser chrome
 			// hiding/showing during scroll — resizing the canvas causes a jump)
 			if (isMobile && newWidth === lastWidth) return;
 			lastWidth = newWidth;
 			
+			const w = container.clientWidth;
+			const h = container.clientHeight;
+			
 			// Update size and render immediately to prevent blank frame
-			renderer.setSize(window.innerWidth, window.innerHeight);
-			(starUniforms.uResolution.value as THREE.Vector2).set(window.innerWidth, window.innerHeight);
+			renderer.setSize(w, h, false);
+			(starUniforms.uResolution.value as THREE.Vector2).set(w, h);
 			renderer.render(scene, camera);
 			justResized = true;
 			
 			// Debounce expensive operations
 			clearTimeout(resizeTimeout);
 			resizeTimeout = window.setTimeout(() => {
-				if (!renderer) return;
+				if (!renderer || !container) return;
 				
 				// Check for mobile breakpoint change
 				const wasMobile = isMobile;
@@ -443,7 +447,7 @@
 				if (wasMobile !== isMobile) {
 					const newPixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio, 2);
 					renderer.setPixelRatio(newPixelRatio);
-					renderer.setSize(window.innerWidth, window.innerHeight);
+					renderer.setSize(container.clientWidth, container.clientHeight, false);
 					if (starUniforms) {
 						(starUniforms.uPixelRatio.value as number) = newPixelRatio;
 					}
