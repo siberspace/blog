@@ -67,19 +67,23 @@ const BRIGHT_STARS = [
 	{ name: 'Rigel Kent', ra: 14.66, dec: -60.83, mag: -0.01 },
 	{ name: 'Nunki', ra: 18.92, dec: -26.30, mag: 2.02 },
 	{ name: 'Ascella', ra: 19.04, dec: -29.88, mag: 2.60 },
-	// Add more dimmer stars for density
-	...generateDimStars(150)
+	// Sparse background fill — real sky is mostly dark
+	...generateDimStars(80)
 ];
 
-// Generate random dimmer stars for background density
+// Generate random dimmer stars for sparse background fill
+// Uses seeded positions so they're consistent across renders
 function generateDimStars(count: number) {
 	const stars = [];
+	// Simple seeded pseudo-random for consistency
+	let seed = 42;
+	const rand = () => { seed = (seed * 16807 + 0) % 2147483647; return seed / 2147483647; };
 	for (let i = 0; i < count; i++) {
 		stars.push({
 			name: `dim_${i}`,
-			ra: Math.random() * 24,
-			dec: (Math.random() * 180) - 90,
-			mag: 3 + Math.random() * 2.5 // magnitude 3-5.5
+			ra: rand() * 24,
+			dec: (rand() * 180) - 90,
+			mag: 3.5 + rand() * 2.5 // magnitude 3.5-6 (very faint)
 		});
 	}
 	return stars;

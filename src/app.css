@@ -22,6 +22,17 @@ body {
   overscroll-behavior: none;
 }
 
+/* Global text selection — subtle default, overridden per-page with image colors */
+::selection {
+  background-color: rgba(200, 200, 210, 0.3);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: rgba(200, 200, 210, 0.3);
+  color: #ffffff;
+}
+
 /* Serif font for article content */
 .font-serif {
   font-family: var(--font-serif);

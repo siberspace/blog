@@ -165,7 +165,6 @@
 		transform-origin: bottom center;
 		cursor: pointer;
 		text-decoration: none;
-		will-change: transform;
 	}
 
 	/* Gentle sway after colors have loaded */
@@ -211,6 +210,7 @@
 		.flower-garden {
 			padding: 0 0.5rem;
 			height: 140px;
+			contain: content; /* Help browser isolate compositing during scroll */
 		}
 
 		.flowers-row {

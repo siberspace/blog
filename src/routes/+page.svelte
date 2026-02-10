@@ -501,7 +501,9 @@
 		display: flex;
 		flex-direction: column;
 		z-index: 3;
-		overflow: hidden;
+		/* Note: overflow left visible intentionally — hero and flower-garden
+		   clip their own content. Keeping it visible prevents mobile browsers
+		   from creating a scroll-boundary "catch" at the flower bed. */
 	}
 
 	/* ===== HERO SECTION ===== */
@@ -1132,7 +1134,7 @@
 		font-size: 1rem;
 		color: #b0b0b0;
 		line-height: 1.7;
-		padding: 0.5rem 1rem 0;
+		padding: 0.5rem 1rem 4rem;
 		margin: 0 auto;
 		white-space: nowrap;
 		letter-spacing: 0.05em;
@@ -1143,7 +1145,7 @@
 		.tagline {
 			white-space: normal;
 			max-width: 90%;
-			padding: 0.5rem 1.5rem 0;
+			padding: 0.5rem 1.5rem 2.5rem;
 		}
 	}
 

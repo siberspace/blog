@@ -189,7 +189,8 @@
 		--dynamic-headline-accent: {colors.headlineAccent};
 		--dynamic-headline-glow: {colors.headlineColor}40;
 		--dynamic-tag: {colors.tagColor};
-		--dynamic-highlight: {colors.headlineAccent}90;
+		--dynamic-highlight-bg: {colors.highlightBg};
+		--dynamic-highlight-text: {colors.highlightText};
 		--dynamic-image-card-bg: {colors.imageCardBg};
 	"
 >
@@ -289,25 +290,27 @@
 		--border: #3a3a3a;
 		--link: #88ccff;
 		--tag-color: #c8c8d0;
-		--highlight: rgba(255, 255, 255, 0.2);
+		--highlight-bg: rgba(200, 200, 208, 0.35);
+		--highlight-text: #ffffff;
 		--image-card-bg: rgba(255, 255, 255, 0.08);
 	}
 	
-	/* Apply dynamic colors once loaded (for in-line images only) */
+	/* Apply dynamic colors once loaded */
 	.article-page.colors-loaded {
-		--highlight: var(--dynamic-highlight);
+		--highlight-bg: var(--dynamic-highlight-bg);
+		--highlight-text: var(--dynamic-highlight-text);
 		--image-card-bg: var(--dynamic-image-card-bg);
 	}
 
-	/* Custom text selection color */
+	/* Custom text selection color — image-matched, always legible */
 	.article-page ::selection {
-		background-color: var(--highlight);
-		color: var(--text);
+		background-color: var(--highlight-bg);
+		color: var(--highlight-text);
 	}
 
 	.article-page ::-moz-selection {
-		background-color: var(--highlight);
-		color: var(--text);
+		background-color: var(--highlight-bg);
+		color: var(--highlight-text);
 	}
 
 	/* Hero Image Section */

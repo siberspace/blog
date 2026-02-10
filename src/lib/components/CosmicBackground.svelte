@@ -26,7 +26,7 @@
 	let isMobile = false;
 	let prefersReducedMotion = false;
 	const MOBILE_BREAKPOINT = 768;
-	const MOBILE_MAX_STARS = 50;
+	const MOBILE_MAX_STARS = 80;
 	const MOBILE_FRAME_INTERVAL = 1000 / 30; // 30fps on mobile
 	
 	// Color transition settings
@@ -78,38 +78,46 @@
 			float baseGrad = uv.y * 0.5 + 0.25 + (uv.x * 0.15 - 0.075);
 			vec3 color = mix(spaceBlack, spaceDark, baseGrad);
 			
-			// Nebula regions
+			// Nebula regions — vibrant clouds reflecting image colors
 			if (uHasImageColors > 0.5) {
 				vec3 nebula = vec3(0.0);
 				
+				// Primary cloud — large center bloom
 				vec2 c1 = vec2(0.5 + sin(t * 0.7) * 0.06, 0.45 + cos(t * 0.5) * 0.05);
 				nebula += uWashColor1 * exp(-pow(ellipseDist(uv, c1, vec2(0.55, 0.5)), 2.0) * 2.0) * 0.5;
 				
+				// Secondary cloud — upper left
 				vec2 c2 = vec2(0.15 + sin(t * 0.4 + 1.0) * 0.06, 0.2 + cos(t * 0.6) * 0.05);
 				nebula += uWashColor2 * exp(-pow(ellipseDist(uv, c2, vec2(0.45, 0.4)), 2.0) * 2.5) * 0.5;
 				
+				// Tertiary cloud — lower right
 				vec2 c3 = vec2(0.85 + sin(t * 0.5 + 2.5) * 0.04, 0.8 + cos(t * 0.4 + 1.0) * 0.04);
 				nebula += uWashColor3 * exp(-pow(ellipseDist(uv, c3, vec2(0.4, 0.45)), 2.0) * 2.5) * 0.45;
 				
+				// Wisp — upper right
 				vec2 c4 = vec2(0.85 + sin(t * 0.6 + 3.5) * 0.04, 0.15 + cos(t * 0.5 + 2.0) * 0.04);
 				nebula += uWashColor4 * exp(-pow(ellipseDist(uv, c4, vec2(0.4, 0.35)), 2.0) * 2.8) * 0.45;
 				
+				// Wisp — lower left
 				vec2 c5 = vec2(0.1 + sin(t * 0.35 + 4.5) * 0.04, 0.85 + cos(t * 0.45 + 3.0) * 0.04);
 				nebula += uWashColor5 * exp(-pow(ellipseDist(uv, c5, vec2(0.45, 0.4)), 2.0) * 2.5) * 0.4;
 				
+				// Diffuse center haze — ties the clouds together
 				vec2 c6 = vec2(0.5 + sin(t * 0.2) * 0.08, 0.5 + cos(t * 0.25) * 0.06);
 				vec3 avgColor = (uWashColor1 + uWashColor2 + uWashColor3 + uWashColor4 + uWashColor5) / 5.0;
 				nebula += avgColor * exp(-pow(length(uv - c6), 2.0) * 1.2) * 0.15;
 				
+				// Screen blend — nebula lightens space
 				color = 1.0 - (1.0 - color) * (1.0 - nebula);
 			} else {
+				// Fallback single wash
 				vec2 center = vec2(0.5 + sin(t * 2.0) * 0.1, 0.5 + cos(t * 1.4) * 0.1);
 				float glow = exp(-pow(length(uv - center), 2.0) * 2.5);
 				vec3 wash = uWashColor1 * glow * 0.4;
 				color = 1.0 - (1.0 - color) * (1.0 - wash);
 			}
 			
-			// Vignette
+			// Vignette — soft darkening at edges
 			float vignette = 1.0 - smoothstep(0.3, 1.1, length(uv - 0.5) * 1.2);
 			color *= mix(0.55, 1.0, vignette);
 			
@@ -137,9 +145,12 @@
 			vec2 pos = position.xy * 2.0 - 1.0;
 			gl_Position = vec4(pos, 0.0, 1.0);
 			
-			// Size in pixels, scale by resolution
-			float baseSize = aSize * min(uResolution.x, uResolution.y) * 0.012;
-			gl_PointSize = max(2.0, baseSize);
+			// Dramatic size range:
+			//   dim stars (brightness ~0.1): tiny 2px specks
+			//   medium stars (brightness ~0.3): 4-5px dots
+			//   bright stars (brightness ~0.7+): 12-24px with spike room
+			float baseSize = 1.5 + pow(aBrightness, 0.6) * 22.0;
+			gl_PointSize = clamp(baseSize, 2.0, 24.0);
 		}
 	`;
 
@@ -152,26 +163,45 @@
 		uniform float uTime;
 		
 		void main() {
-			// Distance from center of point sprite (0-1)
 			vec2 coord = gl_PointCoord - 0.5;
 			float dist = length(coord) * 2.0;
 			
-			// Soft circular falloff
-			float alpha = 1.0 - smoothstep(0.0, 1.0, dist);
-			alpha = pow(alpha, 1.5); // Softer edges
+			// Core dot — all stars have this
+			float core = exp(-dist * dist * 16.0);
+			
+			// Soft glow — scales with brightness
+			float glow = exp(-dist * dist * 4.0) * 0.35 * vBrightness;
+			
+			// Diffraction spikes — only on bright stars (brightness > 0.4)
+			float spikeMask = smoothstep(0.35, 0.7, vBrightness);
+			float spikeIntensity = 0.0;
+			if (spikeMask > 0.0) {
+				float ax = abs(coord.x);
+				float ay = abs(coord.y);
+				// 4-point cross spikes
+				float spikeH = exp(-ay * 80.0) * exp(-ax * 5.0);
+				float spikeV = exp(-ax * 80.0) * exp(-ay * 5.0);
+				spikeIntensity = (spikeH + spikeV) * spikeMask * 0.5;
+			}
+			
+			float shape = core + glow + spikeIntensity;
 			
 			// Twinkle
-			float twinkle = sin(uTime * (1.5 + vPhase * 2.0) + vPhase * 6.283) * 0.3 + 0.7;
+			float twinkle = sin(uTime * (1.0 + vPhase * 1.2) + vPhase * 6.283) * 0.1 + 0.9;
 			
-			// Color temperature variation
+			// Color temperature
 			vec3 starColor = mix(
-				vec3(0.85, 0.92, 1.0),
-				vec3(1.0, 0.95, 0.85),
+				vec3(0.85, 0.93, 1.0),
+				vec3(1.0, 0.95, 0.88),
 				vPhase
 			);
 			
-			float finalAlpha = alpha * vBrightness * twinkle;
-			gl_FragColor = vec4(starColor * finalAlpha, finalAlpha);
+			// Brightness: natural range — dim stars are subtle, bright stars pop
+			float intensity = shape * (vBrightness * 1.2 + 0.15) * twinkle;
+			
+			if (intensity < 0.005) discard;
+			
+			gl_FragColor = vec4(starColor * intensity, 1.0);
 		}
 	`;
 
@@ -179,7 +209,7 @@
 	function updateStarGeometry() {
 		if (!starGeometry) return;
 		
-		const maxStars = isMobile ? MOBILE_MAX_STARS : 256;
+		const maxStars = isMobile ? MOBILE_MAX_STARS : 200;
 		const starsToRender = isMobile 
 			? [...stars].sort((a, b) => b.brightness - a.brightness).slice(0, maxStars)
 			: stars.slice(0, maxStars);
@@ -343,7 +373,7 @@
 		scene.add(nebulaMesh);
 
 		// ===== Pass 2: Stars as points =====
-		const maxStars = isMobile ? MOBILE_MAX_STARS : 256;
+		const maxStars = isMobile ? MOBILE_MAX_STARS : 200;
 		starGeometry = new THREE.BufferGeometry();
 		
 		// Initialize with empty data
@@ -362,7 +392,10 @@
 			fragmentShader: starFragmentShader,
 			uniforms: starUniforms,
 			transparent: true,
-			blending: THREE.AdditiveBlending,
+			blending: THREE.CustomBlending,
+			blendSrc: THREE.OneFactor,
+			blendDst: THREE.OneFactor,
+			blendEquation: THREE.AddEquation,
 			depthTest: false,
 			depthWrite: false
 		});

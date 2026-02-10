@@ -19,14 +19,35 @@
 	}
 </script>
 
+{#snippet moonLogo()}
+	<a href="/" class="moon-logo" aria-label="Home">
+		<svg viewBox="0 0 40 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="moon-logo__svg">
+			<!-- Crescent moon -->
+			<path d="M22 4C14.3 4 8 10.3 8 18c0 4.5 2.1 8.5 5.4 11.1C10.6 26.8 9 23.1 9 19c0-7.2 5.8-13 13-13 1.8 0 3.5.4 5.1 1A14.4 14.4 0 0022 4z" fill="currentColor" opacity="0.9"/>
+			<!-- Moon surface highlight -->
+			<path d="M15 14.5c1.2-1.5 3-2.5 5-2.5.7 0 1.3.1 1.9.3" stroke="currentColor" stroke-width="0.6" opacity="0.4" stroke-linecap="round"/>
+			<!-- Waterfall streams flowing from moon -->
+			<path d="M16 27c0 0-1 4-1.5 8s-0.5 9-0.5 9" stroke="currentColor" stroke-width="1.4" opacity="0.7" stroke-linecap="round"/>
+			<path d="M19 28c0 0-0.5 3.5-0.8 7s-0.2 9-0.2 9" stroke="currentColor" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/>
+			<path d="M22 27.5c0 0 0 4 0.2 7.5s0.3 9 0.3 9" stroke="currentColor" stroke-width="0.8" opacity="0.4" stroke-linecap="round"/>
+			<!-- Mist/spray dots at base -->
+			<circle cx="14" cy="45" r="0.7" fill="currentColor" opacity="0.3"/>
+			<circle cx="20" cy="46.5" r="0.5" fill="currentColor" opacity="0.25"/>
+			<circle cx="23" cy="45.5" r="0.6" fill="currentColor" opacity="0.2"/>
+		</svg>
+	</a>
+{/snippet}
+
 {#if variant === 'landing'}
 	<header class="header-landing">
 		<a href="/" class="header-landing__logo">{siteName}</a>
+		{@render moonLogo()}
 		<button class="header-landing__subscribe" onclick={openSubscribe}>subscribe</button>
 	</header>
 {:else if variant === 'article'}
 	<header class="header-article" class:header-article--hidden={hidden}>
 		<a href="/" class="header-article__logo">{siteName}</a>
+		{@render moonLogo()}
 		<button class="header-article__subscribe" onclick={openSubscribe}>subscribe</button>
 	</header>
 {:else}
@@ -34,11 +55,37 @@
 		<a href="/" class="header__logo">
 			<span class="header__logo-name">{siteName}</span>
 		</a>
+		{@render moonLogo()}
 		<button class="header__subscribe-link" onclick={openSubscribe}>subscribe</button>
 	</header>
 {/if}
 
 <style>
+	/* ===== Moon waterfall logo — centered in header ===== */
+	.moon-logo {
+		pointer-events: auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-decoration: none;
+		color: #c8c8d0;
+		filter: drop-shadow(0 0 6px rgba(192, 192, 210, 0.5))
+				drop-shadow(0 0 12px rgba(192, 192, 210, 0.2));
+		transition: filter 0.3s ease, transform 0.3s ease;
+	}
+
+	.moon-logo:hover {
+		color: #e0e0e8;
+		filter: drop-shadow(0 0 8px rgba(200, 200, 220, 0.7))
+				drop-shadow(0 0 18px rgba(200, 200, 220, 0.35));
+		transform: scale(1.05);
+	}
+
+	.moon-logo__svg {
+		width: 32px;
+		height: 38px;
+	}
+
 	/* Landing variant - floating over hero */
 	.header-landing {
 		position: fixed;
@@ -211,6 +258,11 @@
 		.header-article__logo,
 		.header-article__subscribe {
 			font-size: 1.2rem;
+		}
+
+		.moon-logo__svg {
+			width: 26px;
+			height: 31px;
 		}
 	}
 </style>

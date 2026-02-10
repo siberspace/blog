@@ -8,6 +8,8 @@ export type ColorPalette = {
 	headlineAccent: string;
 	tagColor: string;
 	imageCardBg: string;
+	highlightBg: string;
+	highlightText: string;
 };
 
 // Default colors for when no image is available or during SSR
@@ -17,6 +19,8 @@ export const defaultColors: ColorPalette = {
 	headlineAccent: 'rgba(255, 255, 255, 0.3)',
 	tagColor: '#c8c8d0',
 	imageCardBg: 'rgba(255, 255, 255, 0.08)',
+	highlightBg: 'rgba(200, 200, 208, 0.35)',
+	highlightText: '#ffffff',
 };
 
 /**
@@ -110,12 +114,24 @@ export async function extractColors(imageUrl: string): Promise<ColorPalette> {
 		const tagColor = `rgb(${Math.min(255, headlineR + 20)}, ${Math.min(255, headlineG + 20)}, ${Math.min(255, headlineB + 20)})`;
 		const imageCardBg = `rgba(${avgR}, ${avgG}, ${avgB}, 0.15)`;
 
+		// Highlight colors for text selection — vivid and legible
+		// Boost the headline color to be more vivid for the highlight background
+		const hlR = Math.min(255, Math.round(headlineR * 1.15));
+		const hlG = Math.min(255, Math.round(headlineG * 1.15));
+		const hlB = Math.min(255, Math.round(headlineB * 1.15));
+		const highlightBg = `rgba(${hlR}, ${hlG}, ${hlB}, 0.45)`;
+		// Choose white or dark text based on perceived luminance of the highlight
+		const luminance = (0.299 * hlR + 0.587 * hlG + 0.114 * hlB) / 255;
+		const highlightText = luminance > 0.6 ? '#1a1a2e' : '#ffffff';
+
 		return {
 			headlineColor,
 			headlineShadow,
 			headlineAccent,
 			tagColor,
 			imageCardBg,
+			highlightBg,
+			highlightText,
 		};
 	} catch (error) {
 		console.warn('Failed to extract colors:', error);
