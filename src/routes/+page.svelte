@@ -14,6 +14,14 @@
 	// Dynamic starfield based on user location
 	let starPositions = $state<StarPosition[]>([]);
 	let washColor = $state({ r: 0.3, g: 0.25, b: 0.4 }); // Default purple-ish nebula
+	let viewportEl: HTMLDivElement;
+	
+	// Lock landing viewport height on mount — prevents browser chrome changes from shifting content
+	onMount(() => {
+		if (viewportEl) {
+			viewportEl.style.height = `${window.innerHeight}px`;
+		}
+	});
 	
 	// Initialize starfield on mount
 	onMount(async () => {
@@ -248,7 +256,7 @@
 	<Header variant="landing" />
 
 	<!-- First viewport: hero + flowers -->
-	<div class="landing__viewport">
+	<div class="landing__viewport" bind:this={viewportEl}
 
 	<!-- WebGL Background — absolute within landing viewport, scrolls with page -->
 	<CosmicBackground 
@@ -496,12 +504,11 @@
 	/* ===== LANDING VIEWPORT (hero + flowers in one screen) ===== */
 	.landing__viewport {
 		position: relative;
-		height: 100vh;          /* fallback */
-		height: 100svh;         /* small viewport height — stable, doesn't shift when mobile chrome hides */
+		height: 100vh;          /* fallback before JS sets exact pixel height */
+		height: 100svh;
 		display: flex;
 		flex-direction: column;
 		z-index: 3;
-		will-change: transform; /* Promote to single GPU layer — prevents Chromium from recompositing children during scroll */
 	}
 
 	/* ===== HERO SECTION ===== */
