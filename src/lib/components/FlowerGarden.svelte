@@ -105,7 +105,7 @@
 		z-index: 3;
 		padding: 0 2rem;
 		margin-top: 0;
-		overflow: hidden;
+		clip-path: inset(0); /* Clip without creating scroll boundary */
 		height: 160px;
 	}
 
@@ -211,7 +211,6 @@
 		.flower-garden {
 			padding: 0 0.5rem;
 			height: 140px;
-			transform: translateZ(0); /* Promote to own compositing layer for smoother scroll */
 		}
 
 		.flowers-row {

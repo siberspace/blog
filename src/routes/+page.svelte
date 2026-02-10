@@ -250,11 +250,12 @@
 	<!-- First viewport: hero + flowers -->
 	<div class="landing__viewport">
 
-	<!-- WebGL Background — scoped to landing viewport only -->
+	<!-- WebGL Background — fixed so it doesn't move during scroll -->
 	<CosmicBackground 
 		stars={starPositions} 
 		washColor={washColor}
 		washImageUrl={featuredPost?.feature_image || ''}
+		fixed={true}
 	/>
 
 	<!-- Hero Section -->
@@ -1084,7 +1085,7 @@
 
 	@media (max-width: 480px) {
 		.hero {
-			padding: 8rem 1rem 1rem;
+			padding: 6.5rem 1rem 1rem;
 		}
 
 		.hero__stack {
