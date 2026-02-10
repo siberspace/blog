@@ -1057,7 +1057,8 @@
 
 		.index__cell--headline {
 			grid-column: 2;
-			font-size: 1rem;
+			font-size: 0.8rem;
+			letter-spacing: -0.015em;
 		}
 
 		.index__cell--year,

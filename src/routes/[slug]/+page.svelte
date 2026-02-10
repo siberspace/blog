@@ -795,6 +795,13 @@
 			font-size: 0.9375rem;
 			line-height: 1.65;
 			letter-spacing: -0.01em;
+			text-wrap: pretty;
+		}
+
+		/* Hide soft-return <br> tags from Ghost CMS —
+		   they cause awkward line breaks on narrow mobile screens */
+		.article-body :global(br) {
+			display: none;
 		}
 
 		.article-body :global(p) {
