@@ -1084,7 +1084,7 @@
 
 	@media (max-width: 480px) {
 		.hero {
-			padding: 5.5rem 1rem 1rem;
+			padding: 8rem 1rem 1rem;
 		}
 
 		.hero__stack {

@@ -134,6 +134,7 @@
 		background-image:
 			url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grass'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='6' seed='3' stitchTiles='stitch' result='n'/%3E%3CfeDiffuseLighting in='n' lighting-color='%2360804a' surfaceScale='3.5'%3E%3CfeDistantLight azimuth='180' elevation='45'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grass)'/%3E%3C/svg%3E"),
 			url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='soil'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.09' numOctaves='4' seed='12' stitchTiles='stitch' result='g'/%3E%3CfeDiffuseLighting in='g' lighting-color='%23506838' surfaceScale='2'%3E%3CfeDistantLight azimuth='100' elevation='55'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23soil)'/%3E%3C/svg%3E");
+		background-size: 400px 400px, 300px 300px;
 		background-blend-mode: overlay, soft-light;
 		opacity: 0.28;
 		border-radius: inherit;
@@ -210,7 +211,7 @@
 		.flower-garden {
 			padding: 0 0.5rem;
 			height: 140px;
-			contain: content; /* Help browser isolate compositing during scroll */
+			transform: translateZ(0); /* Promote to own compositing layer for smoother scroll */
 		}
 
 		.flowers-row {
