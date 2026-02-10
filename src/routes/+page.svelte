@@ -250,12 +250,11 @@
 	<!-- First viewport: hero + flowers -->
 	<div class="landing__viewport">
 
-	<!-- WebGL Background — fixed so it doesn't move during scroll -->
+	<!-- WebGL Background — scoped to landing viewport only -->
 	<CosmicBackground 
 		stars={starPositions} 
 		washColor={washColor}
 		washImageUrl={featuredPost?.feature_image || ''}
-		fixed={true}
 	/>
 
 	<!-- Hero Section -->

@@ -105,7 +105,7 @@
 		z-index: 3;
 		padding: 0 2rem;
 		margin-top: 0;
-		clip-path: inset(0); /* Clip without creating scroll boundary */
+		overflow: hidden;
 		height: 160px;
 	}
 
