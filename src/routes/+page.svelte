@@ -501,6 +501,7 @@
 		display: flex;
 		flex-direction: column;
 		z-index: 3;
+		will-change: transform; /* Promote to single GPU layer — prevents Chromium from recompositing children during scroll */
 	}
 
 	/* ===== HERO SECTION ===== */
