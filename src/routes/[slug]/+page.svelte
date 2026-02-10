@@ -786,9 +786,31 @@
 		}
 
 		.content-section {
-			padding: 0 1.5rem 2rem;
-			margin: 0 0.5rem;
+			padding: 0 0.75rem 2rem;
+			margin: 0;
 			gap: 1.5rem;
+		}
+
+		.article-body {
+			font-size: 0.9375rem;
+			line-height: 1.65;
+			letter-spacing: -0.01em;
+		}
+
+		.article-body :global(p) {
+			margin-bottom: 1.2em;
+		}
+
+		.article-body :global(blockquote) {
+			font-size: 1.1rem;
+		}
+
+		.article-body :global(h2) {
+			font-size: 1.25rem;
+		}
+
+		.article-body :global(h3) {
+			font-size: 1.1rem;
 		}
 
 		.post-title {
