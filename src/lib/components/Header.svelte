@@ -21,19 +21,29 @@
 
 {#snippet moonLogo()}
 	<a href="/" class="moon-logo" aria-label="Home">
-		<svg viewBox="0 0 40 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="moon-logo__svg">
-			<!-- Crescent moon -->
-			<path d="M22 4C14.3 4 8 10.3 8 18c0 4.5 2.1 8.5 5.4 11.1C10.6 26.8 9 23.1 9 19c0-7.2 5.8-13 13-13 1.8 0 3.5.4 5.1 1A14.4 14.4 0 0022 4z" fill="currentColor" opacity="0.9"/>
-			<!-- Moon surface highlight -->
-			<path d="M15 14.5c1.2-1.5 3-2.5 5-2.5.7 0 1.3.1 1.9.3" stroke="currentColor" stroke-width="0.6" opacity="0.4" stroke-linecap="round"/>
-			<!-- Waterfall streams flowing from moon -->
-			<path d="M16 27c0 0-1 4-1.5 8s-0.5 9-0.5 9" stroke="currentColor" stroke-width="1.4" opacity="0.7" stroke-linecap="round"/>
-			<path d="M19 28c0 0-0.5 3.5-0.8 7s-0.2 9-0.2 9" stroke="currentColor" stroke-width="1.1" opacity="0.55" stroke-linecap="round"/>
-			<path d="M22 27.5c0 0 0 4 0.2 7.5s0.3 9 0.3 9" stroke="currentColor" stroke-width="0.8" opacity="0.4" stroke-linecap="round"/>
-			<!-- Mist/spray dots at base -->
-			<circle cx="14" cy="45" r="0.7" fill="currentColor" opacity="0.3"/>
-			<circle cx="20" cy="46.5" r="0.5" fill="currentColor" opacity="0.25"/>
-			<circle cx="23" cy="45.5" r="0.6" fill="currentColor" opacity="0.2"/>
+		<svg viewBox="0 -2 50 38" xmlns="http://www.w3.org/2000/svg" class="moon-logo__svg">
+			<!-- Crescent moon — upright, points facing left -->
+			<path d="M22.8-1a3.8 3.8 0 1 1 0 7.2 3.0 3.0 0 1 0 0-7.2z" fill="currentColor" opacity="0.9"/>
+			<!-- Stars -->
+			<circle cx="14" cy="3.5" r="0.5" fill="currentColor" opacity="0.5"/>
+			<circle cx="36" cy="3" r="0.4" fill="currentColor" opacity="0.4"/>
+			<circle cx="10" cy="8" r="0.35" fill="currentColor" opacity="0.3"/>
+			<circle cx="40" cy="7" r="0.4" fill="currentColor" opacity="0.35"/>
+			<circle cx="18" cy="9" r="0.3" fill="currentColor" opacity="0.25"/>
+			<circle cx="33" cy="8.5" r="0.35" fill="currentColor" opacity="0.3"/>
+			<!-- Left rock — darker, more opaque -->
+			<path d="M10 28 L16 11 L21 10 L24 14 L25 28 Z" fill="currentColor" opacity="0.55"/>
+			<path d="M12 28 L17 13 L20.5 12 L23 15 L24 28 Z" fill="currentColor" opacity="0.4"/>
+			<!-- Right rock — darker, more opaque -->
+			<path d="M25 28 L26 14 L29 10 L34 11 L40 28 Z" fill="currentColor" opacity="0.55"/>
+			<path d="M26 28 L27 15 L29.5 12 L33 13 L38 28 Z" fill="currentColor" opacity="0.4"/>
+			<!-- Waterfall stream — brighter to contrast with rocks -->
+			<rect x="23" y="10" width="4" height="18" rx="2" fill="currentColor" opacity="0.65"/>
+			<rect x="23.8" y="11" width="2.4" height="17" rx="1.2" fill="currentColor" opacity="0.8"/>
+			<rect x="24.3" y="11.5" width="1.4" height="16.5" rx="0.7" fill="currentColor" opacity="0.95"/>
+			<!-- Pool — brighter to contrast with rocks -->
+			<ellipse cx="25" cy="29" rx="10" ry="2.2" fill="currentColor" opacity="0.25"/>
+			<ellipse cx="25" cy="28.8" rx="6.5" ry="1.5" fill="currentColor" opacity="0.2"/>
 		</svg>
 	</a>
 {/snippet}
@@ -82,8 +92,8 @@
 	}
 
 	.moon-logo__svg {
-		width: 32px;
-		height: 38px;
+		width: 40px;
+		height: 29px;
 	}
 
 	/* Landing variant - floating over hero */
@@ -261,8 +271,8 @@
 		}
 
 		.moon-logo__svg {
-			width: 26px;
-			height: 31px;
+			width: 34px;
+			height: 24px;
 		}
 	}
 </style>

@@ -80,46 +80,39 @@
 
 		<!-- Waterfall illustration -->
 		<div class="modal-illustration">
-			<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-				<!-- Moon -->
-				<circle cx="100" cy="18" r="6" fill="#d8dce6" opacity="0.9"/>
-				<circle cx="97" cy="17" r="5.5" fill="#1e2026"/>
-				<!-- Stars — scattered across the sky -->
-				<circle cx="70" cy="12" r="1" fill="#d4d6dc" opacity="0.6"/>
-				<circle cx="130" cy="10" r="0.8" fill="#d4d6dc" opacity="0.5"/>
-				<circle cx="85" cy="25" r="0.7" fill="#d4d6dc" opacity="0.4"/>
-				<circle cx="118" cy="22" r="0.9" fill="#d4d6dc" opacity="0.5"/>
-				<circle cx="55" cy="28" r="0.6" fill="#d4d6dc" opacity="0.3"/>
-				<circle cx="148" cy="18" r="0.7" fill="#d4d6dc" opacity="0.4"/>
-				<circle cx="40" cy="15" r="0.8" fill="#d4d6dc" opacity="0.45"/>
-				<circle cx="160" cy="8" r="0.9" fill="#d4d6dc" opacity="0.35"/>
-				<circle cx="48" cy="38" r="0.6" fill="#d4d6dc" opacity="0.3"/>
-				<circle cx="155" cy="30" r="0.7" fill="#d4d6dc" opacity="0.4"/>
-				<circle cx="30" cy="22" r="0.5" fill="#d4d6dc" opacity="0.25"/>
-				<circle cx="170" cy="24" r="0.6" fill="#d4d6dc" opacity="0.3"/>
-				<circle cx="62" cy="6" r="0.7" fill="#d4d6dc" opacity="0.35"/>
-				<circle cx="140" cy="32" r="0.5" fill="#d4d6dc" opacity="0.25"/>
-				<circle cx="110" cy="8" r="0.6" fill="#d4d6dc" opacity="0.4"/>
-				<circle cx="78" cy="35" r="0.5" fill="#d4d6dc" opacity="0.2"/>
-				<circle cx="25" cy="34" r="0.7" fill="#d4d6dc" opacity="0.3"/>
-				<circle cx="175" cy="14" r="0.5" fill="#d4d6dc" opacity="0.25"/>
-				<circle cx="90" cy="10" r="0.4" fill="#d4d6dc" opacity="0.35"/>
-				<circle cx="52" cy="18" r="0.5" fill="#d4d6dc" opacity="0.3"/>
+			<svg viewBox="0 -2 50 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+				<!-- Crescent moon — upright, points facing left -->
+				<path d="M22.8-1a3.8 3.8 0 1 1 0 7.2 3.0 3.0 0 1 0 0-7.2z" fill="currentColor" opacity="0.9"/>
+				<!-- Stars -->
+				<circle cx="14" cy="3.5" r="0.5" fill="currentColor" opacity="0.5"/>
+				<circle cx="36" cy="3" r="0.4" fill="currentColor" opacity="0.4"/>
+				<circle cx="10" cy="8" r="0.35" fill="currentColor" opacity="0.3"/>
+				<circle cx="40" cy="7" r="0.4" fill="currentColor" opacity="0.35"/>
+				<circle cx="18" cy="9" r="0.3" fill="currentColor" opacity="0.25"/>
+				<circle cx="33" cy="8.5" r="0.35" fill="currentColor" opacity="0.3"/>
 				<!-- Left rock -->
-				<path d="M60 95 L70 42 L82 38 L90 50 L92 95 Z" fill="#3a3c44" opacity="0.9"/>
-				<path d="M65 95 L72 48 L80 44 L86 52 L88 95 Z" fill="#4a4c54" opacity="0.7"/>
+				<path d="M10 28 L16 11 L21 10 L24 14 L25 28 Z" fill="currentColor" opacity="0.55"/>
+				<path d="M12 28 L17 13 L20.5 12 L23 15 L24 28 Z" fill="currentColor" opacity="0.4"/>
 				<!-- Right rock -->
-				<path d="M108 95 L110 50 L118 38 L130 42 L140 95 Z" fill="#3a3c44" opacity="0.9"/>
-				<path d="M112 95 L114 52 L120 44 L128 48 L135 95 Z" fill="#4a4c54" opacity="0.7"/>
-				<!-- Waterfall stream -->
-				<rect x="95" y="38" width="10" height="57" rx="5" fill="#8a8e9a" opacity="0.25"/>
-				<rect x="97" y="40" width="6" height="55" rx="3" fill="#a0a4b0" opacity="0.3"/>
-				<rect x="98.5" y="42" width="3" height="53" rx="1.5" fill="#b8bcc8" opacity="0.35"/>
-				<!-- Pool at base -->
-				<ellipse cx="100" cy="98" rx="28" ry="6" fill="#8a8e9a" opacity="0.2"/>
-				<ellipse cx="100" cy="97" rx="18" ry="4" fill="#a0a4b0" opacity="0.15"/>
-				<!-- Mist -->
-				<ellipse cx="100" cy="92" rx="14" ry="5" fill="#b8bcc8" opacity="0.08"/>
+				<path d="M25 28 L26 14 L29 10 L34 11 L40 28 Z" fill="currentColor" opacity="0.55"/>
+				<path d="M26 28 L27 15 L29.5 12 L33 13 L38 28 Z" fill="currentColor" opacity="0.4"/>
+				<!-- Waterfall stream — organic flowing shape -->
+				<!-- Outer glow/mist of the fall -->
+				<path d="M23 10.5 C23 10, 27 10, 27 10.5 C27.3 14, 27.5 18, 27.2 22 C27 24, 26.8 26, 26.5 28 L23.5 28 C23.2 26, 23 24, 22.8 22 C22.5 18, 22.7 14, 23 10.5Z" fill="currentColor" opacity="0.35"/>
+				<!-- Main water body -->
+				<path d="M23.8 10.8 C23.8 10.3, 26.2 10.3, 26.2 10.8 C26.4 13, 26.6 16, 26.3 19 C26.1 21.5, 26.3 24, 26 27.5 L24 27.5 C23.7 24, 23.9 21.5, 23.7 19 C23.4 16, 23.6 13, 23.8 10.8Z" fill="currentColor" opacity="0.55"/>
+				<!-- Bright center stream -->
+				<path d="M24.4 11.2 C24.4 10.8, 25.6 10.8, 25.6 11.2 C25.7 14, 25.8 17, 25.6 20 C25.5 22.5, 25.6 25, 25.4 27.2 L24.6 27.2 C24.4 25, 24.5 22.5, 24.4 20 C24.2 17, 24.3 14, 24.4 11.2Z" fill="currentColor" opacity="0.85"/>
+				<!-- Bright highlight streak -->
+				<path d="M24.8 12 C24.8 11.6, 25.2 11.6, 25.2 12 Q25.3 18, 25.1 24 Q25.0 26, 25.0 27 L25.0 27 Q25.0 26, 24.9 24 Q24.7 18, 24.8 12Z" fill="currentColor" opacity="0.95"/>
+				<!-- Cascade splash at top -->
+				<ellipse cx="25" cy="10.3" rx="2.5" ry="0.6" fill="currentColor" opacity="0.3"/>
+				<!-- Mist at base -->
+				<ellipse cx="25" cy="27.8" rx="3.5" ry="1.2" fill="currentColor" opacity="0.2"/>
+				<ellipse cx="25" cy="28.2" rx="5" ry="1" fill="currentColor" opacity="0.12"/>
+				<!-- Pool -->
+				<ellipse cx="25" cy="29" rx="10" ry="2.2" fill="currentColor" opacity="0.25"/>
+				<ellipse cx="25" cy="28.8" rx="6.5" ry="1.5" fill="currentColor" opacity="0.2"/>
 			</svg>
 		</div>
 
@@ -164,26 +157,27 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		background: rgba(30, 32, 38, 0.88);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
+		background: rgba(58, 56, 52, 0.92);
+		backdrop-filter: blur(14px);
+		-webkit-backdrop-filter: blur(14px);
 		border-radius: 10px;
 		padding: 1.5rem 2rem 2.5rem;
 		max-width: 380px;
 		width: calc(100% - 2rem);
 		z-index: 1001;
 		box-shadow:
-			0 16px 48px rgba(0, 0, 0, 0.35),
-			0 0 30px rgba(200, 210, 225, 0.06),
-			0 0 60px rgba(200, 210, 225, 0.03),
-			inset 0 0 30px rgba(200, 210, 225, 0.04);
+			0 16px 48px rgba(0, 0, 0, 0.4),
+			0 0 30px rgba(200, 195, 180, 0.08),
+			0 0 60px rgba(200, 195, 180, 0.04),
+			inset 0 0 40px rgba(200, 195, 180, 0.05);
 		text-align: center;
-		border: 1px solid rgba(200, 210, 225, 0.18);
+		border: 1px solid rgba(210, 205, 195, 0.2);
 	}
 
 	.modal-illustration {
 		width: 120px;
 		margin: 0 auto 0.5rem;
+		color: #d0ccc4;
 	}
 
 	.modal-illustration svg {
@@ -198,7 +192,7 @@
 		right: 1rem;
 		background: none;
 		border: none;
-		color: rgba(190, 195, 210, 0.45);
+		color: rgba(200, 195, 185, 0.5);
 		font-size: 1.5rem;
 		cursor: pointer;
 		padding: 0.25rem 0.5rem;
@@ -207,22 +201,22 @@
 	}
 
 	.modal-close:hover {
-		color: rgba(220, 225, 235, 0.8);
+		color: rgba(230, 225, 215, 0.85);
 	}
 
 	h2 {
 		font-family: var(--font-serif);
 		font-size: var(--text-2xl);
-		color: #d8dce6;
+		color: #d8d4ca;
 		margin: 0 0 0.25rem;
 		font-weight: 400;
-		text-shadow: 0 0 12px rgba(200, 210, 225, 0.15);
+		text-shadow: 0 0 12px rgba(210, 205, 195, 0.2);
 	}
 
 	.modal-subtitle {
 		font-family: var(--font-serif);
 		font-size: var(--text-sm);
-		color: rgba(190, 200, 215, 0.65);
+		color: rgba(200, 195, 185, 0.7);
 		margin: 0 0 1.5rem;
 		font-style: italic;
 	}
@@ -235,10 +229,10 @@
 
 	input {
 		padding: 0.75rem 1rem;
-		border: 1px solid rgba(190, 200, 215, 0.2);
+		border: 1px solid rgba(180, 175, 165, 0.25);
 		border-radius: 4px;
-		background: rgba(230, 233, 240, 0.93);
-		color: #2a2c32;
+		background: rgba(235, 230, 222, 0.93);
+		color: #2e2b28;
 		font-size: var(--text-base);
 		font-family: var(--font-sans);
 		outline: none;
@@ -246,13 +240,13 @@
 	}
 
 	input::placeholder {
-		color: #7a7e88;
+		color: #8a8478;
 		opacity: 0.7;
 	}
 
 	input:focus {
-		border-color: rgba(190, 200, 215, 0.45);
-		box-shadow: 0 0 0 3px rgba(200, 210, 225, 0.1);
+		border-color: rgba(200, 195, 185, 0.5);
+		box-shadow: 0 0 0 3px rgba(210, 205, 195, 0.12);
 	}
 
 	input:disabled {
@@ -261,10 +255,10 @@
 
 	button[type='submit'] {
 		padding: 0.75rem 1.5rem;
-		border: 1px solid rgba(190, 200, 215, 0.2);
+		border: 1px solid rgba(200, 195, 185, 0.22);
 		border-radius: 4px;
-		background: rgba(200, 210, 225, 0.08);
-		color: rgba(210, 215, 228, 0.85);
+		background: rgba(200, 195, 185, 0.1);
+		color: rgba(220, 215, 205, 0.88);
 		font-family: var(--font-serif);
 		font-size: var(--text-base);
 		cursor: pointer;
@@ -272,9 +266,9 @@
 	}
 
 	button[type='submit']:hover:not(:disabled) {
-		background: rgba(200, 210, 225, 0.14);
-		border-color: rgba(200, 210, 225, 0.35);
-		box-shadow: 0 0 12px rgba(200, 210, 225, 0.06);
+		background: rgba(200, 195, 185, 0.18);
+		border-color: rgba(210, 205, 195, 0.4);
+		box-shadow: 0 0 12px rgba(210, 205, 195, 0.08);
 	}
 
 	button[type='submit']:disabled {
@@ -284,7 +278,7 @@
 
 	.success-message {
 		font-family: var(--font-serif);
-		color: rgba(190, 210, 200, 0.9);
+		color: rgba(200, 215, 205, 0.9);
 		font-size: var(--text-base);
 		padding: 1rem 0;
 		margin: 0;
