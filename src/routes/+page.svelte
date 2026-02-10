@@ -250,11 +250,12 @@
 	<!-- First viewport: hero + flowers -->
 	<div class="landing__viewport">
 
-	<!-- WebGL Background — scoped to landing viewport only -->
+	<!-- WebGL Background — fixed but clipped to landing viewport via clip-path -->
 	<CosmicBackground 
 		stars={starPositions} 
 		washColor={washColor}
 		washImageUrl={featuredPost?.feature_image || ''}
+		fixed={true}
 	/>
 
 	<!-- Hero Section -->
@@ -501,9 +502,7 @@
 		display: flex;
 		flex-direction: column;
 		z-index: 3;
-		/* Note: overflow left visible intentionally — hero and flower-garden
-		   clip their own content. Keeping it visible prevents mobile browsers
-		   from creating a scroll-boundary "catch" at the flower bed. */
+		clip-path: inset(0);    /* Clip fixed-position children to this container */
 	}
 
 	/* ===== HERO SECTION ===== */
@@ -1084,19 +1083,19 @@
 
 	@media (max-width: 480px) {
 		.hero {
-			padding: 6.5rem 1rem 1rem;
+			padding: 6rem 1rem 0.5rem;
 		}
 
 		.hero__stack {
 			width: 78vw;
 			height: 50vw;
-			margin-bottom: 3.5rem;
+			margin-bottom: 2rem;
 		}
 
 		.hero__title-container {
-			height: 5.5rem; /* Fixed height to prevent layout shift */
+			height: 5rem; /* Fixed height to prevent layout shift */
 			min-height: unset;
-			margin-bottom: 2.5rem;
+			margin-bottom: 1.5rem;
 			padding: 0.5rem 1rem;
 			overflow: hidden;
 			position: relative;

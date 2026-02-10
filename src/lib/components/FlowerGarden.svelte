@@ -105,7 +105,7 @@
 		z-index: 3;
 		padding: 0 2rem;
 		margin-top: 0;
-		overflow: hidden;
+		clip-path: inset(0);
 		height: 160px;
 	}
 
