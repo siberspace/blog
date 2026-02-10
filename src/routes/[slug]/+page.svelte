@@ -115,6 +115,15 @@
 		const articleBody = document.querySelector('.article-body');
 		if (!articleBody) return;
 		
+		// Replace &nbsp; with regular spaces so text wraps naturally
+		const walker = document.createTreeWalker(articleBody, NodeFilter.SHOW_TEXT);
+		let node: Text | null;
+		while ((node = walker.nextNode() as Text | null)) {
+			if (node.nodeValue && node.nodeValue.includes('\u00A0')) {
+				node.nodeValue = node.nodeValue.replace(/\u00A0/g, ' ');
+			}
+		}
+
 		// Make all links open in new tabs
 		const links = articleBody.querySelectorAll('a');
 		links.forEach((link) => {
@@ -475,6 +484,12 @@
 		white-space: normal;
 	}
 
+	/* Hide soft-return <br> tags from Ghost CMS — they create fixed
+	   line breaks that only look right at the author's screen width */
+	.article-body :global(p br) {
+		display: none;
+	}
+
 	.article-body :global(p) {
 		margin-bottom: 1.5em;
 	}
@@ -796,12 +811,6 @@
 			line-height: 1.65;
 			letter-spacing: -0.01em;
 			text-wrap: pretty;
-		}
-
-		/* Hide soft-return <br> tags from Ghost CMS —
-		   they cause awkward line breaks on narrow mobile screens */
-		.article-body :global(br) {
-			display: none;
 		}
 
 		.article-body :global(p) {
