@@ -136,6 +136,7 @@
 		
 		uniform float uTime;
 		uniform vec2 uResolution;
+		uniform float uPixelRatio;
 		
 		void main() {
 			vBrightness = aBrightness;
@@ -150,7 +151,7 @@
 			//   medium stars (brightness ~0.3): 4-5px dots
 			//   bright stars (brightness ~0.7+): 12-24px with spike room
 			float baseSize = 1.5 + pow(aBrightness, 0.6) * 22.0;
-			gl_PointSize = clamp(baseSize, 2.0, 24.0);
+			gl_PointSize = clamp(baseSize, 2.0, 24.0) * uPixelRatio;
 		}
 	`;
 
@@ -384,7 +385,8 @@
 
 		starUniforms = {
 			uTime: { value: 0 },
-			uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+			uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+			uPixelRatio: { value: pixelRatio }
 		};
 
 		const starMaterial = new THREE.ShaderMaterial({
@@ -434,6 +436,9 @@
 					const newPixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio, 2);
 					renderer.setPixelRatio(newPixelRatio);
 					renderer.setSize(window.innerWidth, window.innerHeight);
+					if (starUniforms) {
+						(starUniforms.uPixelRatio.value as number) = newPixelRatio;
+					}
 					updateStarGeometry();
 				}
 			}, 150);
