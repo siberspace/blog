@@ -250,12 +250,11 @@
 	<!-- First viewport: hero + flowers -->
 	<div class="landing__viewport">
 
-	<!-- WebGL Background — fixed but clipped to landing viewport via clip-path -->
+	<!-- WebGL Background — absolute within landing viewport, scrolls with page -->
 	<CosmicBackground 
 		stars={starPositions} 
 		washColor={washColor}
 		washImageUrl={featuredPost?.feature_image || ''}
-		fixed={true}
 	/>
 
 	<!-- Hero Section -->
@@ -502,7 +501,6 @@
 		display: flex;
 		flex-direction: column;
 		z-index: 3;
-		clip-path: inset(0);    /* Clip fixed-position children to this container */
 	}
 
 	/* ===== HERO SECTION ===== */
