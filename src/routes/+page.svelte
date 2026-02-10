@@ -497,7 +497,7 @@
 	.landing__viewport {
 		position: relative;
 		min-height: 100vh;      /* fallback */
-		min-height: 100dvh;     /* dynamic viewport height — respects mobile browser chrome */
+		min-height: 100svh;     /* small viewport height — stable, doesn't shift when mobile chrome hides */
 		display: flex;
 		flex-direction: column;
 		z-index: 3;

@@ -413,9 +413,17 @@
 		// Resize handler - update size and render immediately to prevent flashing
 		let resizeTimeout: number;
 		let justResized = false;
+		let lastWidth = window.innerWidth;
 		
 		const handleResize = () => {
 			if (!renderer || !starUniforms) return;
+			
+			const newWidth = window.innerWidth;
+			
+			// On mobile, ignore height-only changes (caused by browser chrome
+			// hiding/showing during scroll — resizing the canvas causes a jump)
+			if (isMobile && newWidth === lastWidth) return;
+			lastWidth = newWidth;
 			
 			// Update size and render immediately to prevent blank frame
 			renderer.setSize(window.innerWidth, window.innerHeight);
