@@ -5,7 +5,7 @@
 	}
 
 	let { 
-		href = '/',
+		href = '/printpress',
 		label = '← Back to index'
 	}: Props = $props();
 </script>
