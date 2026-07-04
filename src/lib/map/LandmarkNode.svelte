@@ -14,6 +14,7 @@
 	let { landmark, listMode = false, debug = false }: Props = $props();
 
 	const imageSrc = $derived(landmarkImageSrc[landmark.icon] ?? null);
+	const external = $derived(/^https?:\/\//.test(landmark.href));
 </script>
 
 {#snippet icon()}
@@ -33,7 +34,13 @@
 {/snippet}
 
 {#if listMode}
-	<a href={landmark.href} class="landmark landmark--list" aria-label={landmark.label}>
+	<a
+		href={landmark.href}
+		class="landmark landmark--list"
+		aria-label={landmark.label}
+		target={external ? '_blank' : undefined}
+		rel={external ? 'noopener noreferrer' : undefined}
+	>
 		<span class="landmark__icon">
 			{@render icon()}
 		</span>
@@ -46,6 +53,8 @@
 		class:landmark--debug={debug}
 		style="left: {landmark.left}%; top: {landmark.top}%; width: {landmark.width}%; height: {landmark.height}%;"
 		aria-label={landmark.label}
+		target={external ? '_blank' : undefined}
+		rel={external ? 'noopener noreferrer' : undefined}
 	>
 		<span class="landmark__tooltip" role="tooltip">{landmark.label}</span>
 	</a>

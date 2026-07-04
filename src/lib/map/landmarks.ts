@@ -16,7 +16,7 @@ export const landmarks: Landmark[] = [
 		id: 'reality-enjoyer',
 		label: 'reality enjoyer',
 		icon: 'reality-enjoyer',
-		href: '/reality-enjoyer',
+		href: 'https://stem.ffm.to/impossible',
 		...LANDMARK_HOTSPOTS['reality-enjoyer']
 	},
 	{
@@ -37,7 +37,7 @@ export const landmarks: Landmark[] = [
 		id: 'saudi-oil',
 		label: 'saudi oil',
 		icon: 'saudi-oil',
-		href: '/saudi-oil',
+		href: 'https://stem.ffm.to/hair-in-my-shower-drain',
 		...LANDMARK_HOTSPOTS['saudi-oil']
 	}
 ];
