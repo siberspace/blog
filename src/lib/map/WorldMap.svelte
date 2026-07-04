@@ -46,15 +46,18 @@
 			class="world-map__frame"
 			style="aspect-ratio: {MAP_NATURAL.w} / {MAP_NATURAL.h};"
 		>
-			<img
-				src="{mapBackgroundSrc}?v=6"
-				alt="Iris Falls archipelago at night"
+			<video
 				class="world-map__art"
 				width={MAP_NATURAL.w}
 				height={MAP_NATURAL.h}
-				decoding="async"
-				draggable="false"
-			/>
+				autoplay
+				muted
+				loop
+				playsinline
+				aria-label="Iris Falls archipelago at night"
+			>
+				<source src="{mapBackgroundSrc}?v=1" type="video/mp4" />
+			</video>
 			{#each landmarks as landmark (landmark.id)}
 				<LandmarkNode
 					{landmark}

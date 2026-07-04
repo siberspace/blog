@@ -1,10 +1,10 @@
 /**
  * Map artwork and debug flags.
  *
- * background.gif natural size: 720×1280 (animated).
+ * background.mp4 natural size: 720×1280 (looping, muted).
  * Set PUBLIC_MAP_DEBUG_HOTSPOTS=true or visit /?hotspots=1 to outline click regions.
  */
-export const mapBackgroundSrc = '/map/background.gif';
+export const mapBackgroundSrc = '/map/background.mp4';
 
 /** Intrinsic pixel size of the map art — single source of truth for aspect ratio. */
 export const MAP_NATURAL = { w: 720, h: 1280 } as const;

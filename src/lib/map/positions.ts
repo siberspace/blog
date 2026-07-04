@@ -1,5 +1,5 @@
 /**
- * Hotspot rectangles as % of background.gif natural size (720×1280).
+ * Hotspot rectangles as % of background.mp4 natural size (720×1280).
  *
  * Centers from the current flora art:
  *   reality enjoyer (silver sphere) ~20%, 37%
