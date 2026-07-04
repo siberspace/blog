@@ -1,14 +1,21 @@
 <script lang="ts">
 	import { landmarks } from './landmarks';
-	import MapBackground from './MapBackground.svelte';
 	import LandmarkNode from './LandmarkNode.svelte';
 </script>
 
 <div class="world-map">
-	<!-- Desktop / tablet: interactive overworld -->
+	<!-- Desktop / tablet: reference pixel-art map -->
 	<section class="world-map__stage" aria-label="Iris Falls world map">
-		<div class="world-map__canvas">
-			<MapBackground />
+		<div class="world-map__frame">
+			<img
+				src="/map/background.png"
+				alt="Iris Falls archipelago at night — printing press, town, observatory, and salamander"
+				class="world-map__art"
+				width="928"
+				height="1152"
+				decoding="async"
+				draggable="false"
+			/>
 			{#each landmarks as landmark (landmark.id)}
 				<LandmarkNode {landmark} />
 			{/each}
@@ -45,21 +52,31 @@
 		justify-content: center;
 		min-height: 100vh;
 		min-height: 100svh;
-		padding: 1.5rem;
-		gap: 1rem;
+		padding: 1rem;
+		gap: 0.75rem;
 	}
 
-	.world-map__canvas {
+	.world-map__frame {
 		position: relative;
-		width: min(100%, 960px);
-		aspect-ratio: 16 / 9;
-		border: 2px solid rgba(200, 200, 208, 0.25);
-		box-shadow:
-			0 0 40px rgba(10, 30, 48, 0.8),
-			inset 0 0 60px rgba(5, 5, 16, 0.4);
+		width: min(100%, 520px, calc(min(88vh, 88svh) * 928 / 1152));
+		aspect-ratio: 928 / 1152;
+		border: 2px solid #4a5a78;
 		overflow: hidden;
 		background: #050510;
+		box-shadow: 0 0 0 2px #050510;
+	}
+
+	.world-map__art {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		display: block;
+		object-fit: fill;
 		image-rendering: pixelated;
+		image-rendering: crisp-edges;
+		pointer-events: none;
+		user-select: none;
 	}
 
 	.world-map__hint {
@@ -67,9 +84,8 @@
 		font-size: 1.1rem;
 		letter-spacing: 0.12em;
 		text-transform: lowercase;
-		color: #a0a0b0;
+		color: #4a5a78;
 		margin: 0;
-		text-shadow: 0 0 8px rgba(200, 200, 208, 0.2);
 	}
 
 	.world-map__list {
@@ -90,20 +106,16 @@
 			min-height: 100svh;
 			padding: 2rem 1.25rem;
 			gap: 1.5rem;
+			background: #050510;
 		}
 
 		.world-map__list-title {
-			font-family: 'Caveat', cursive;
+			font-family: 'VT323', monospace;
 			font-size: 2rem;
-			font-weight: 600;
-			letter-spacing: 0.02em;
+			letter-spacing: 0.08em;
 			text-transform: lowercase;
-			color: #c8c8d0;
+			color: #d0d0d8;
 			margin: 0;
-			text-shadow:
-				-1px -1px 0 rgba(255, 255, 255, 0.9),
-				1px 1px 0 rgba(0, 0, 0, 0.5),
-				0 0 12px rgba(192, 192, 210, 0.4);
 		}
 
 		.world-map__list-items {
