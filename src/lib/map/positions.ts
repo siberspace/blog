@@ -7,6 +7,7 @@
  * Town is center (decorative only).
  */
 export const LANDMARK_HOTSPOTS = {
-	printpress: { x: 36, y: 50 },
+	/** Bottom-center island: chimney, awning light, twin tanks */
+	printpress: { x: 50, y: 75 },
 	observatory: { x: 78, y: 55 }
 } as const;
