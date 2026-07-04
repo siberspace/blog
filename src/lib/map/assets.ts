@@ -1,16 +1,18 @@
 /**
- * Drop-in asset paths for commissioned pixel art (hard edges, no anti-aliasing).
- * Set a string path to use a raster image; leave null for built-in pixel buffers.
+ * Map artwork and debug flags.
  *
- * The reference archipelago art lives at /map/background.png.
- * Swap landmark sprites via landmarkImageSrc when individual PNGs are ready.
+ * background.png natural size: 928×1152 (flora.ai commission).
+ * Set PUBLIC_MAP_DEBUG_HOTSPOTS=true or visit /?hotspots=1 to outline click regions.
  */
-export const mapBackgroundSrc: string | null = '/map/background.png';
+export const mapBackgroundSrc = '/map/background.png';
 
-/** Intrinsic size of background.png — drives frame aspect ratio. */
-export const mapBackgroundSize = { w: 928, h: 1152 } as const;
+/** Intrinsic pixel size of background.png — single source of truth for aspect ratio. */
+export const MAP_NATURAL = { w: 928, h: 1152 } as const;
 
 export const landmarkImageSrc: Record<string, string | null> = {
 	printpress: null,
 	observatory: null
 };
+
+/** Dev-only hotspot outlines. Off unless env or ?hotspots=1. */
+export const debugHotspotsEnv = import.meta.env.PUBLIC_MAP_DEBUG_HOTSPOTS === 'true';
