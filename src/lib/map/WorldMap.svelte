@@ -47,7 +47,7 @@
 			style="aspect-ratio: {MAP_NATURAL.w} / {MAP_NATURAL.h};"
 		>
 			<img
-				src="{mapBackgroundSrc}?v=4"
+				src="{mapBackgroundSrc}?v=6"
 				alt="Iris Falls archipelago at night"
 				class="world-map__art"
 				width={MAP_NATURAL.w}
