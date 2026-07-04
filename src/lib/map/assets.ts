@@ -11,7 +11,9 @@ export const MAP_NATURAL = { w: 571, h: 1024 } as const;
 
 export const landmarkImageSrc: Record<string, string | null> = {
 	printpress: null,
-	observatory: null
+	observatory: null,
+	'reality-enjoyer': null,
+	'saudi-oil': null
 };
 
 /** Dev-only hotspot outlines. Off unless env or ?hotspots=1. */

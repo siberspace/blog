@@ -20,7 +20,7 @@
 			style="aspect-ratio: {MAP_NATURAL.w} / {MAP_NATURAL.h};"
 		>
 			<img
-				src="{mapBackgroundSrc}?v=2"
+				src="{mapBackgroundSrc}?v=3"
 				alt="Iris Falls archipelago at night — printing press, town, observatory, and salamander"
 				class="world-map__art"
 				width={MAP_NATURAL.w}

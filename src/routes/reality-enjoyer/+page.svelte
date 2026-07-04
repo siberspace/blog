@@ -3,18 +3,18 @@
 </script>
 
 <svelte:head>
-	<title>iris falls observatory</title>
-	<meta name="description" content="iris falls observatory — coming soon." />
-	<meta property="og:title" content="iris falls observatory" />
-	<meta property="og:description" content="iris falls observatory — coming soon." />
-	<meta property="og:url" content="https://siberrr.space/observatory" />
+	<title>reality enjoyer | iris falls</title>
+	<meta name="description" content="reality enjoyer — coming soon." />
+	<meta property="og:title" content="reality enjoyer | iris falls" />
+	<meta property="og:description" content="reality enjoyer — coming soon." />
+	<meta property="og:url" content="https://siberrr.space/reality-enjoyer" />
 </svelte:head>
 
 <main class="placeholder">
 	<Header variant="landing" />
 	<div class="placeholder__body">
-		<h1 class="placeholder__title">iris falls observatory</h1>
-		<p class="placeholder__copy">under construction. look up.</p>
+		<h1 class="placeholder__title">reality enjoyer</h1>
+		<p class="placeholder__copy">under construction.</p>
 		<a href="/" class="placeholder__back">← back to map</a>
 	</div>
 </main>
