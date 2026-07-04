@@ -9,12 +9,41 @@
 		listMode?: boolean;
 		/** Draw visible hotspot outline (dev only) */
 		debug?: boolean;
+		/** Touch-primary UI: arm on first tap, navigate on second */
+		touchUi?: boolean;
+		/** This hotspot is armed (label visible, awaiting second tap) */
+		armed?: boolean;
+		onArm?: (id: string) => void;
+		onDisarm?: () => void;
 	}
 
-	let { landmark, listMode = false, debug = false }: Props = $props();
+	let {
+		landmark,
+		listMode = false,
+		debug = false,
+		touchUi = false,
+		armed = false,
+		onArm,
+		onDisarm
+	}: Props = $props();
 
 	const imageSrc = $derived(landmarkImageSrc[landmark.icon] ?? null);
 	const external = $derived(/^https?:\/\//.test(landmark.href));
+
+	function handleClick(e: MouseEvent) {
+		// Desktop / keyboard: leave default navigation alone
+		if (!touchUi) return;
+
+		// Touch: first tap arms (show label), second tap on same hotspot navigates
+		if (armed) {
+			onDisarm?.();
+			// allow default navigation
+			return;
+		}
+
+		e.preventDefault();
+		onArm?.(landmark.id);
+	}
 </script>
 
 {#snippet icon()}
@@ -51,10 +80,12 @@
 		href={landmark.href}
 		class="landmark landmark--map"
 		class:landmark--debug={debug}
+		class:landmark--armed={armed}
 		style="left: {landmark.left}%; top: {landmark.top}%; width: {landmark.width}%; height: {landmark.height}%;"
 		aria-label={landmark.label}
 		target={external ? '_blank' : undefined}
 		rel={external ? 'noopener noreferrer' : undefined}
+		onclick={handleClick}
 	>
 		<span class="landmark__tooltip" role="tooltip">{landmark.label}</span>
 	</a>
@@ -70,7 +101,7 @@
 		outline: none;
 	}
 
-	/* Percentage box relative to the shared image wrapper — no translate, no min-width */
+	/* Percentage box relative to the shared image wrapper */
 	.landmark--map {
 		position: absolute;
 		z-index: 2;
@@ -129,6 +160,7 @@
 		opacity: 0;
 		pointer-events: none;
 		image-rendering: pixelated;
+		z-index: 3;
 	}
 
 	.landmark__label-text {
@@ -140,18 +172,16 @@
 	}
 
 	.landmark--map:hover .landmark__tooltip,
-	.landmark--map:focus-visible .landmark__tooltip {
+	.landmark--map:focus-visible .landmark__tooltip,
+	.landmark--armed .landmark__tooltip {
 		opacity: 1;
 	}
 
 	.landmark--map:hover,
-	.landmark--map:focus-visible {
+	.landmark--map:focus-visible,
+	.landmark--armed {
 		outline: 2px solid #f0c030;
 		outline-offset: -2px;
-	}
-
-	.landmark--map:focus-visible {
-		outline: 2px solid #f0c030;
 	}
 
 	.landmark--list:hover,
