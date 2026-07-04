@@ -12,16 +12,15 @@
 <div class="world-map">
 	<section class="world-map__stage" aria-label="Iris Falls world map">
 		<!--
-			Fluid media frame: aspect-ratio from natural art size, width 100%.
-			Image + hotspots share this box so % rects track at every viewport size.
-			No list breakpoint — portrait art scales continuously on phone.
+			Image in normal flow sets the box size (width:100%; height:auto).
+			aspect-ratio reserves space before load. Hotspots are % of this same box.
 		-->
 		<div
-			class="media-frame media-frame--fill world-map__frame"
+			class="world-map__frame"
 			style="aspect-ratio: {MAP_NATURAL.w} / {MAP_NATURAL.h};"
 		>
 			<img
-				src={mapBackgroundSrc}
+				src="{mapBackgroundSrc}?v=2"
 				alt="Iris Falls archipelago at night — printing press, town, observatory, and salamander"
 				class="world-map__art"
 				width={MAP_NATURAL.w}
@@ -64,16 +63,21 @@
 	}
 
 	.world-map__frame {
-		/* Cap width on large screens; always fluid below that */
-		max-width: 520px;
+		position: relative;
+		width: min(100%, 420px);
+		flex-shrink: 0;
+		overflow: hidden;
 		border: 2px solid #4a5a78;
 		background: #050510;
 		box-shadow: 0 0 0 2px #050510;
 	}
 
 	.world-map__art {
-		image-rendering: pixelated;
-		image-rendering: crisp-edges;
+		display: block;
+		width: 100%;
+		height: auto;
+		vertical-align: top;
+		image-rendering: auto;
 		pointer-events: none;
 		user-select: none;
 	}
