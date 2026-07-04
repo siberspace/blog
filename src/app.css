@@ -110,3 +110,62 @@ a:hover {
 
 /* Note: Tag pill styles are now in the TagPill component */
 /* This section kept for backward compatibility if needed */
+
+/*
+ * Fluid media frames — use for any image/video that must resize without collapsing.
+ *
+ * Set aspect-ratio on the frame to the asset's natural width/height (inline style
+ * or a utility). Never put fixed px width/height on the media itself.
+ *
+ *   <div class="media-frame media-frame--fill" style="aspect-ratio: 16 / 9">
+ *     <img src="..." alt="..." />
+ *   </div>
+ *
+ * --fill: media absolutely fills the frame (overlays / hotspots share the box)
+ * --flow: media in normal flow, height:auto (simple responsive images)
+ */
+.media-frame {
+	position: relative;
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	/* aspect-ratio is set per instance from the asset's natural dimensions */
+}
+
+.media-frame--fill > img,
+.media-frame--fill > video {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: fill;
+}
+
+.media-frame--cover > img,
+.media-frame--cover > video {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.media-frame--contain > img,
+.media-frame--contain > video {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.media-frame--flow > img,
+.media-frame--flow > video {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+

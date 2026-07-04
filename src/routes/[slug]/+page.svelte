@@ -701,6 +701,7 @@
 		z-index: 1;
 	}
 
+	/* Fluid 16:9 embeds — no fixed px height */
 	.article-body :global(.kg-embed-card iframe) {
 		position: relative;
 		width: 100%;

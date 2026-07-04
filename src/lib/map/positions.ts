@@ -18,13 +18,14 @@ export type HotspotRect = {
 };
 
 /**
- * Pixel boxes (before padding), from background.png:
- *   print press porch light ~(223,749); building mass ~x 150–360, y 640–820
- *   observatory windows ~(720–780, 420–445); dome/tower ~x 650–830, y 300–520
+ * Pixel boxes from background.png (928×1152), then padded:
+ *   print press — porch light ~(223,749); building ~x 150–360, y 640–820
+ *   observatory — dome/telescope tower only (not central gabled houses);
+ *     window cluster ~(720–780, 420–446), tower sits further right than town
  */
 export const LANDMARK_HOTSPOTS: Record<string, HotspotRect> = {
 	// Industrial island: chimney, lit awning, twin tanks (lower-left of art)
 	printpress: { left: 15, top: 54, width: 26, height: 20 },
-	// Dome + telescope tower (upper-right of main cluster)
-	observatory: { left: 68, top: 25, width: 20, height: 20 }
+	// Round dome + telescope tower (right of the central town cluster)
+	observatory: { left: 74, top: 28, width: 14, height: 18 }
 };

@@ -10,7 +10,7 @@
 </script>
 
 <figure class="inline-photo" class:has-caption={caption || credit}>
-	<div class="photo-wrapper">
+	<div class="media-frame media-frame--flow photo-wrapper">
 		<img {src} {alt} />
 	</div>
 	{#if caption || credit}
